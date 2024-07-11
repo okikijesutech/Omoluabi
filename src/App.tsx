@@ -17,6 +17,7 @@ import {
   Signup,
   SlangLanding,
   SlangPage,
+  Register,
 } from "./pages";
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         </Route>
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
+        <Route path='/register' element={<Register />} />
         <Route path='*' element={<NotFoundPage />} />
       </>
     )

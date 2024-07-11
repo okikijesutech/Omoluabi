@@ -8,6 +8,7 @@ import LanguagePage from "./learnlanguage/learnlanguagepage/LanguagePage";
 import SlangLanding from "./learnmordernslang/learnslanglanding/SlangLanding";
 import HistoryLanding from "./learntribehistroy/historylanding/HistoryLanding";
 import LanguageLanding from "./learnlanguage/learnlanguagelanding/LanguageLanding";
+import Register from "./register/Register";
 
 export {
   HomePage,
@@ -20,4 +21,5 @@ export {
   HistoryPage,
   LanguagePage,
   LanguageLanding,
+  Register,
 };

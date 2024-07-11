@@ -100,3 +100,25 @@
   color: #49c0f8;
   text-decoration: none;
 }
+
+.terms1 {
+  color: #49c0f8;
+  margin-top: 20px;
+  text-align: left;
+}
+
+.terms1 a {
+  color: #49c0f8;
+  text-decoration: none;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove increment and decrement buttons in Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
