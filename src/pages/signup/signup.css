@@ -1,0 +1,20 @@
+h2 {
+  text-align: center;
+  color: #4b4b4b;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+.signupcontainer {
+  margin-top: 60px;
+  padding: 4% 10;
+}
+
+.languagesCardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-top: 40px;
+  padding: 0 22% 40px;
+}

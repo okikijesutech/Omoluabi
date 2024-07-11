@@ -1,0 +1,41 @@
+.languagecardcontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 250px;
+  gap: 30px;
+  padding: 30px 20px 20px;
+  border-radius: 10px;
+  border: 2px solid #cccccc;
+}
+
+.languagecardcontainer:hover {
+  opacity: 0.5;
+  background-color: #d3d3d3;
+  /* transform: scale(1.05); */
+}
+
+.languagecardimg {
+  width: 100%;
+  height: 0;
+  padding-bottom: 75%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.languagecardimg img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+}
+
+.languagecardtext {
+  text-align: center;
+}
