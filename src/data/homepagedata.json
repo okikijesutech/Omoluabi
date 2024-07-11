@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "image": "img1",
+    "title": "Dígbòórà. Ìgbàgbọ́. Ìṣẹ́lẹ̀tù.",
+    "content": "Learning with Duolingo is fun, and research shows that it works! With quick, bite-sized lessons, you’ll earn points and unlock new levels while gaining real-world communication skills."
+  },
+  {
+    "id": 2,
+    "image": "img2",
+    "title": "backed by science",
+    "content": "We use a combination of research-backed teaching methods and delightful content to create courses that effectively teach reading, writing, listening, and speaking skills!"
+  },
+  {
+    "id": 3,
+    "image": "img3",
+    "title": "stay motivated",
+    "content": "We make it easy to form a habit of language learning with game-like features, fun challenges, and reminders from our friendly mascot, Duo the owl."
+  },
+  {
+    "id": 4,
+    "image": "img4",
+    "title": "personalized learning",
+    "content": "Combining the best of AI and language science, lessons are tailored to help you learn at just the right level and pace."
+  }
+]

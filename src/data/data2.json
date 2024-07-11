@@ -1,0 +1,30 @@
+[
+  {
+    "id": 5,
+    "image": "img5",
+    "title": "Yoruba test",
+    "content": "Our convenient, fast, and affordable English test integrates the latest assessment science and AI — empowering anyone to accurately test their English where and when they’re at their best.",
+    "btnTitle": "CERTIFY YOUR YORUBA"
+  },
+  {
+    "id": 6,
+    "image": "img6",
+    "title": "for schools",
+    "content": "Teachers, we’re here to help you! Our free tools support your students as they learn languages through the Duolingo app, both in and out of the classroom.",
+    "btnTitle": "GET YOUR CLASS STARTED"
+  },
+  {
+    "id": 7,
+    "image": "img7",
+    "title": "abc",
+    "content": "From language to literacy! With fun phonics lessons and delightful stories, Duolingo ABC helps kids ages 3–8 learn to read and write — 100% free.",
+    "btnTitle": "LEARN MORE ABOUT ABC"
+  },
+  {
+    "id": 8,
+    "image": "img8",
+    "title": "math",
+    "content": "Our free, bite-sized approach — but for math! Fun lessons help students get ahead in their math classes, while adults can brain train to boost their mental math skills.",
+    "btnTitle": "GET BETTER AT MATH"
+  }
+]

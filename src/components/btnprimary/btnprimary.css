@@ -1,0 +1,10 @@
+.btn {
+  width: inherit;
+  padding: 8px 16px;
+  text-align: center;
+  border-radius: 12px;
+}
+
+.btn:hover {
+  cursor: pointer;
+}

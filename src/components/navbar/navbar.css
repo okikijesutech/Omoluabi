@@ -1,0 +1,26 @@
+.navbar {
+  position: fixed;
+  width: 80%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10%;
+}
+.navbardropdown {
+  display: flex;
+  align-items: center;
+  max-width: 200px;
+}
+
+.navbardropdown p {
+  margin-right: 20px;
+}
+
+.navbardropdown:hover {
+  cursor: pointer;
+}
+
+.navbarbtn {
+  width: 120px;
+}
