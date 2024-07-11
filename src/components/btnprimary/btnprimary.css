@@ -1,10 +1,23 @@
 .btn {
-  width: inherit;
-  padding: 8px 16px;
+  width: 100%;
+  padding: 10px 20px;
   text-align: center;
   border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: normal;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
 .btn:hover {
   cursor: pointer;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
 }

@@ -17,13 +17,17 @@ const Header = () => {
             textColor={"white"}
             shadow={"#006400"}
             hover={"#388E3C"}
+            bordercolor='green'
+            to='/login'
           />
           <BtnPrimary
             title={"Mo ti ní àkọwé tó tọ́"}
             bgcolor={"white"}
-            textColor={"blue"}
+            textColor={"#1cb0f6"}
             shadow={"#cccccc"}
             hover={"gray"}
+            bordercolor='#cccccc'
+            to='/signup'
           />
         </div>
       </div>

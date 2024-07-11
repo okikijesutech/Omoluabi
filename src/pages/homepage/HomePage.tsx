@@ -5,9 +5,9 @@ import "./homepage.css";
 
 const HomePage = () => {
   return (
-    <div>
+    <div className='conatiner'>
       <Header />
-      {items.map((item) => (
+      {items.map((item, index) => (
         <BodyContent
           key={item.id}
           title={item.title}
@@ -15,9 +15,11 @@ const HomePage = () => {
           content={item.content}
           allowBtton={false}
           btnTitle=''
+          reverse={index % 2 === 0}
+          link=''
         />
       ))}
-      {items2.map((item) => (
+      {items2.map((item, index) => (
         <BodyContent
           key={item.id}
           title={item.title}
@@ -25,6 +27,8 @@ const HomePage = () => {
           content={item.content}
           allowBtton={true}
           btnTitle={item.btnTitle}
+          reverse={index % 2 === 0}
+          link={item.link}
         />
       ))}
     </div>

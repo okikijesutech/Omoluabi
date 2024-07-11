@@ -4,7 +4,7 @@ import "./mainlayout.css";
 
 const MainLayout = () => {
   return (
-    <div>
+    <div className='main'>
       <NavBar />
       <Outlet />
       <Footer />

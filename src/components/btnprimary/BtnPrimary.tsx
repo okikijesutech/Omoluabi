@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./btnprimary.css";
 
 interface BtnPrimaryProps {
@@ -6,6 +7,8 @@ interface BtnPrimaryProps {
   bgcolor: string;
   shadow: string;
   hover: string;
+  bordercolor: string;
+  to: string;
 }
 
 const BtnPrimary: React.FC<BtnPrimaryProps> = ({
@@ -14,6 +17,8 @@ const BtnPrimary: React.FC<BtnPrimaryProps> = ({
   bgcolor,
   shadow,
   hover,
+  bordercolor,
+  to,
 }) => {
   const handleMouseOver = (event: React.MouseEvent<HTMLDivElement>) => {
     event.currentTarget.style.backgroundColor = hover;
@@ -22,18 +27,21 @@ const BtnPrimary: React.FC<BtnPrimaryProps> = ({
     event.currentTarget.style.backgroundColor = bgcolor;
   };
   return (
-    <div
-      className='btn'
-      style={{
-        backgroundColor: `${bgcolor}`,
-        color: `${textColor}`,
-        boxShadow: `0 8px 0 ${shadow}`,
-      }}
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
-    >
-      {title}
-    </div>
+    <Link to={to}>
+      <div
+        className='btn'
+        style={{
+          backgroundColor: `${bgcolor}`,
+          color: `${textColor}`,
+          boxShadow: `0 8px 0 ${shadow}`,
+          border: `2px solid ${bordercolor}`,
+        }}
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
+      >
+        {title}
+      </div>
+    </Link>
   );
 };
 
