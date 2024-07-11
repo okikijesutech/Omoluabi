@@ -18,7 +18,7 @@ const Header = () => {
             shadow={"#006400"}
             hover={"#388E3C"}
             bordercolor='green'
-            to='/login'
+            to='/signup'
           />
           <BtnPrimary
             title={"Mo ti ní àkọwé tó tọ́"}
@@ -27,7 +27,7 @@ const Header = () => {
             shadow={"#cccccc"}
             hover={"gray"}
             bordercolor='#cccccc'
-            to='/signup'
+            to='/login'
           />
         </div>
       </div>
