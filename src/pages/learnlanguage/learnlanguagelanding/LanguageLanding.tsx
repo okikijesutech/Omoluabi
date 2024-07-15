@@ -2,7 +2,7 @@ import "./languagelanding.css";
 
 const LanguageLanding = () => {
   return (
-    <div>
+    <div className='languagelandingcontainer'>
       <h1>Language Landing</h1>
     </div>
   );

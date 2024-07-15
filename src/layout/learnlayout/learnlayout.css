@@ -1,0 +1,12 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #131f24;
+}
+
+.vline {
+  width: 2px;
+  height: 100vh;
+  background-color: gray;
+  border: 1px solid gray;
+}

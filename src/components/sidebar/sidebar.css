@@ -1,0 +1,40 @@
+.sidebarcontainer {
+  flex: 1;
+  width: 100%;
+  max-width: 250px;
+  max-height: 100vh;
+  padding: 2.5% 1%;
+  overflow-y: hidden;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+}
+
+.lilink {
+  color: #dce6ec;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 25px;
+  margin-left: 20px;
+  margin-bottom: 30px;
+}
+
+ul {
+  margin: 30px 0;
+}
+
+li {
+  padding: 12px 20px;
+}
+.highlight {
+  background-color: #202f36;
+  border: 2px solid #49c0f8;
+  border-radius: 15px;
+}
+
+li:hover {
+  background-color: #202f36;
+  border-radius: 15px;
+}

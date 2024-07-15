@@ -2,5 +2,7 @@ import NavBar from "./navbar/NavBar";
 import Footer from "./footer/Footer";
 import BtnPrimary from "./btnprimary/BtnPrimary";
 import LanguageCard from "./languagecard/LanguageCard";
+import SideBar from "./sidebar/SideBar";
+import InfoBar from "./Infobar/InfoBar";
 
-export { NavBar, Footer, BtnPrimary, LanguageCard };
+export { NavBar, Footer, BtnPrimary, LanguageCard, SideBar, InfoBar };

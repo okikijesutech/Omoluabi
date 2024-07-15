@@ -5,7 +5,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import "./App.css";
-import { MainLayout } from "./layout";
+import { LearnLayout, MainLayout } from "./layout";
 import {
   HomePage,
   NotFoundPage,
@@ -26,10 +26,16 @@ function App() {
       <>
         <Route path='/' element={<MainLayout />}>
           <Route index element={<HomePage />} />
+        </Route>
+        <Route path='/' element={<LearnLayout />}>
           <Route path='/learnlanguage' element={<LanguageLanding />} />
           <Route path='/learnlanguage:id' element={<LanguagePage />} />
+        </Route>
+        <Route path='/' element={<MainLayout />}>
           <Route path='/learnmordernslang' element={<SlangLanding />} />
           <Route path='/learnmordernslang:id' element={<SlangPage />} />
+        </Route>
+        <Route path='/' element={<MainLayout />}>
           <Route path='/learnhistory' element={<HistoryLanding />} />
           <Route path='/learnhistory:id' element={<HistoryPage />} />
         </Route>
