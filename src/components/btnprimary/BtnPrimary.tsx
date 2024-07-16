@@ -9,6 +9,7 @@ interface BtnPrimaryProps {
   hover: string;
   bordercolor: string;
   to: string;
+  hoverbordercolor?: string;
 }
 
 const BtnPrimary: React.FC<BtnPrimaryProps> = ({
@@ -19,12 +20,17 @@ const BtnPrimary: React.FC<BtnPrimaryProps> = ({
   hover,
   bordercolor,
   to,
+  hoverbordercolor,
 }) => {
   const handleMouseOver = (event: React.MouseEvent<HTMLDivElement>) => {
     event.currentTarget.style.backgroundColor = hover;
+    if (hoverbordercolor) {
+      event.currentTarget.style.borderColor = hoverbordercolor;
+    }
   };
   const handleMouseOut = (event: React.MouseEvent<HTMLDivElement>) => {
     event.currentTarget.style.backgroundColor = bgcolor;
+    event.currentTarget.style.borderColor = bordercolor;
   };
   return (
     <Link to={to}>

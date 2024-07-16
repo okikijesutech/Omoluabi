@@ -2,6 +2,7 @@
   display: flex;
   min-height: 100vh;
   background-color: #131f24;
+  margin-left: 250px;
 }
 
 .vline {
@@ -9,4 +10,7 @@
   height: 100vh;
   background-color: gray;
   border: 1px solid gray;
+  position: fixed;
+  top: 0;
+  left: 250px;
 }

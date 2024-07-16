@@ -5,6 +5,11 @@
   max-height: 100vh;
   padding: 2.5% 1%;
   overflow-y: hidden;
+  position: fixed;
+  background-color: #131f24;
+  top: 0;
+  left: 0;
+  bottom: 0;
 }
 
 h1 {
@@ -27,6 +32,7 @@ ul {
 
 li {
   padding: 12px 20px;
+  margin-bottom: 10px;
 }
 .highlight {
   background-color: #202f36;
