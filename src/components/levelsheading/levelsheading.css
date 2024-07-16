@@ -1,0 +1,17 @@
+.levelsheading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 400px;
+}
+
+.levelsheading hr {
+  flex: 1;
+  border: 1px solid #fff;
+  margin: 0 10px;
+}
+
+.levelsheading p {
+  margin: 0;
+  padding: 0;
+}

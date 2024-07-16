@@ -1,3 +1,27 @@
 .languagelandingcontainer {
   flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.guidebookcontainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.newsectioncard {
+  border: 2px solid gray;
+  border-radius: 12px;
+  width: 525px;
+  margin: 20px auto;
+  padding: 10px;
+  color: white;
+}
+
+.newsectioncardbtn {
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
 }

@@ -1,0 +1,28 @@
+.guidebookcontainer {
+  position: fixed;
+  background-color: #58cc02;
+  border-radius: 15px;
+  width: 45%;
+  color: white;
+  padding: 2%;
+  left: 300px;
+  top: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.guidebookheading {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 24px;
+  color: antiquewhite;
+}
+
+.guidebookheading:hover {
+  color: white;
+}
