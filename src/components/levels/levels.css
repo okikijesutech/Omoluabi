@@ -12,21 +12,22 @@
 
 .levelscellwrapper {
   display: flex;
-  flex-wrap: wrap;
+  width: 450px;
   gap: 10px;
   justify-content: center;
-  max-height: 300px;
+  max-height: 500px;
   flex-direction: column;
+  margin-bottom: 20px;
 }
 
 .levelscell {
-  width: 75px;
-  max-width: 75px;
-  height: 100px;
-  max-height: 100px;
+  width: 50px;
+  max-width: 50px;
+  height: 50px;
+  max-height: 50px;
   border-radius: 100%;
-  background-color: green;
-  box-shadow: 0 10px 0 rgb(55, 144, 55);
+  background-color: #37464f;
+  box-shadow: 0 10px 0 #2c383f;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,14 +43,33 @@
 
 .levelsheading {
   display: flex;
-  justify-content: center;
   align-items: center;
-  max-width: 400px;
   color: #fff;
+  width: 100%;
 }
 
-.levelsheading hr {
+.levelsheading-text {
+  margin: 0 10px;
+}
+
+.horizontal-line {
   flex: 1;
   border: 1px solid #fff;
-  margin: 0 10px;
+}
+
+.levelscelldiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 400px;
+}
+
+.levelscellimg {
+  width: 300px;
+  height: 300px;
+}
+
+.levelscellimg img {
+  width: 100%;
+  height: 100%;
 }

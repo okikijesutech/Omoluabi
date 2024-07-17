@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
+import abc from "../../assets/images/abc.jpg";
 import "./levels.css";
 
 interface SectionContent {
@@ -18,60 +18,42 @@ interface LevelsProps {
 }
 
 const Levels: React.FC<LevelsProps> = ({ sections }) => {
-  const [sPatternSections, setSPatternSections] = useState<Section[]>([]);
-
-  useEffect(() => {
-    const rearrangeInSPattern = (sections: Section[]) => {
-      return sections.map((section) => {
-        const content = [...section.sectionContent];
-        const reorderedContent = [];
-
-        while (content.length) {
-          reorderedContent.push(content.shift()!);
-          if (content.length) {
-            reorderedContent.push(content.pop()!);
-          }
-        }
-
-        return { ...section, sectionContent: reorderedContent };
-      });
-    };
-
-    setSPatternSections(rearrangeInSPattern(sections));
-  }, [sections]);
+  const marginValues = [60, 35, 15, 35, 60];
 
   return (
     <div className='levelcontainer'>
       <div className='levelscellcontainer'>
-        {sPatternSections.map((section, index) => {
-          const sectionContent =
-            index % 2 === 0
-              ? [...section.sectionContent].reverse()
-              : section.sectionContent;
-
-          return (
-            <div key={section.id}>
-              <div>
-                {index !== 0 && (
-                  <div className='levelsheading'>
-                    <hr />
-                    {section.name}
-                    <hr />
-                  </div>
-                )}
-              </div>
-              <div>
-                <div className='levelscellwrapper'>
-                  {sectionContent.map((content) => (
-                    <div key={content.id} className='levelscell'>
-                      <FaStar color='white' size={48} />
-                    </div>
-                  ))}
+        {sections.map((section, index) => (
+          <div key={section.id}>
+            <div>
+              {index !== 0 && (
+                <div className='levelsheading'>
+                  <hr className='horizontal-line' />
+                  <span className='levelsheading-text'>{section.name}</span>
+                  <hr className='horizontal-line' />
                 </div>
+              )}
+            </div>
+            <div className='levelscelldiv'>
+              <div className='levelscellwrapper'>
+                {section.sectionContent.map((content, contentIndex) => (
+                  <div
+                    key={content.id}
+                    className='levelscell'
+                    style={{
+                      marginLeft: `${marginValues[contentIndex % 5]}px`,
+                    }}
+                  >
+                    <FaStar color='#52656d' size={36} />
+                  </div>
+                ))}
+              </div>
+              <div className='levelscellimg'>
+                <img src={abc} alt='' />
               </div>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
     </div>
   );

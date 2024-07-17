@@ -18,7 +18,7 @@ const LanguageLanding = () => {
   }, []);
 
   const getGuideBookContent = () => {
-    const index = Math.floor(scrollY / 500) % sectionsData.length;
+    const index = Math.floor(scrollY / 350) % sectionsData.length;
     return sectionsData[index];
   };
 
