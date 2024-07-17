@@ -33,6 +33,8 @@ ul {
 li {
   padding: 12px 20px;
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
 }
 .highlight {
   background-color: #202f36;

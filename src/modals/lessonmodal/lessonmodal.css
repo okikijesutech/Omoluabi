@@ -1,0 +1,85 @@
+.modalcontainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  background-color: #131f24;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  position: relative;
+}
+
+.modalheader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.modalheader h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.modalheader .close-btn {
+  cursor: pointer;
+  font-size: 24px;
+  color: #f1f7fb;
+}
+
+.modalcontent {
+  padding: 40px 0;
+}
+
+.modalcontent p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 24px;
+  color: #f1f7fb;
+}
+
+.toggle-btn {
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  background-color: #37464f;
+  border-radius: 20px;
+  position: relative;
+  cursor: pointer;
+}
+
+.toggle-btn::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 24px;
+  height: 24px;
+  background-color: #131f24;
+  border-radius: 5px;
+  border: 2px solid #37464f;
+  transition: transform 0.3s ease;
+  box-shadow: 1px 3px 0px #37464f;
+}
+
+.toggle-btn.active {
+  background-color: #49c0f8;
+}
+
+.toggle-btn.active::before {
+  transform: translateX(20px);
+  border: 2px solid #49c0f8;
+  box-shadow: 1px 3px 0px #49c0f8;
+}

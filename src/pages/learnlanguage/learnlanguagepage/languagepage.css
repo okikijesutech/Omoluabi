@@ -1,0 +1,62 @@
+.languagePageContainer {
+  background-color: #131f24;
+  height: 100vh;
+}
+
+.languagePageNavBar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-top: 40px;
+  width: 75%;
+  margin: auto;
+  color: #37464f;
+}
+.languagePageNavBar p {
+  color: #37464f;
+}
+
+.lives {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #ff4b4b;
+}
+
+.questiondisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.questiondisplay h4 {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 16px;
+  color: #ce82ff;
+}
+
+.questiondisplay p {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px;
+  color: #f1f7fb;
+}
+
+.optionsdisplay {
+  display: flex;
+  gap: 10px;
+  margin-top: 50px;
+}
+
+.ctaconatiner {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-top: 60px;
+}
+
+.ctabtncontainer {
+  width: 100px;
+}
