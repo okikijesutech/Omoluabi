@@ -21,3 +21,7 @@
 a {
   text-decoration: none;
 }
+
+.btn.disabled {
+  opacity: 0.5;
+}

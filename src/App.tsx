@@ -9,7 +9,6 @@ import { LearnLayout, MainLayout } from "./layout";
 import {
   HomePage,
   NotFoundPage,
-  LanguageLanding,
   Login,
   LanguagePage,
   HistoryLanding,
@@ -27,8 +26,12 @@ function App() {
         <Route path='/' element={<MainLayout />}>
           <Route index element={<HomePage />} />
         </Route>
-        <Route path='/' element={<LearnLayout />}>
-          <Route path='/learnlanguage' element={<LanguageLanding />} />
+        <Route path='/'>
+          <Route path='/learnlanguage' element={<LearnLayout />} />
+          <Route
+            path='/lesson/:unitId/:questionId'
+            element={<LanguagePage />}
+          />
         </Route>
         <Route path='/' element={<MainLayout />}>
           <Route path='/learnmordernslang' element={<SlangLanding />} />
@@ -38,7 +41,6 @@ function App() {
           <Route path='/learnhistory' element={<HistoryLanding />} />
           <Route path='/learnhistory:id' element={<HistoryPage />} />
         </Route>
-        <Route path='/lesson' element={<LanguagePage />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/register' element={<Register />} />

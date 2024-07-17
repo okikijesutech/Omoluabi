@@ -60,3 +60,13 @@
 .ctabtncontainer {
   width: 100px;
 }
+
+.correctNotification {
+  color: green;
+  display: flex;
+}
+
+.correctNotificationContainer {
+  background-color: #202f36;
+  height: 212px;
+}

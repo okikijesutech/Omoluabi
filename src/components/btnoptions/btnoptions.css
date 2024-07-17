@@ -13,7 +13,12 @@
 }
 
 .btnoptionsconatiner:hover {
-  background-color: #4a5c69;
+  background-color: #37464f;
+}
+
+.btnoptionsconatiner.selected {
+  border-color: #294856;
+  box-shadow: 0 6px 0px #294856;
 }
 
 .optionsImg {

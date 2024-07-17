@@ -1,4 +1,5 @@
 import { FaStar } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import abc from "../../assets/images/abc.jpg";
 import "./levels.css";
 
@@ -44,7 +45,9 @@ const Levels: React.FC<LevelsProps> = ({ sections }) => {
                       marginLeft: `${marginValues[contentIndex % 5]}px`,
                     }}
                   >
-                    <FaStar color='#52656d' size={36} />
+                    <Link to={`/lesson/${section.id}/${content.id}`}>
+                      <FaStar color='#52656d' size={36} />
+                    </Link>
                   </div>
                 ))}
               </div>
