@@ -18,6 +18,7 @@ import {
   SlangPage,
   Register,
 } from "./pages";
+import { QuizProvider } from "./context/QuizContext";
 
 function App() {
   const router = createBrowserRouter(
@@ -48,7 +49,11 @@ function App() {
       </>
     )
   );
-  return <RouterProvider router={router} />;
+  return (
+    <QuizProvider>
+      <RouterProvider router={router} />
+    </QuizProvider>
+  );
 }
 
 export default App;
