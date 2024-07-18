@@ -19,6 +19,7 @@ import {
   Register,
 } from "./pages";
 import { QuizProvider } from "./context/QuizContext";
+import { LifelineProvider } from "./context/LifelineContext";
 
 function App() {
   const router = createBrowserRouter(
@@ -51,7 +52,9 @@ function App() {
   );
   return (
     <QuizProvider>
-      <RouterProvider router={router} />
+      <LifelineProvider>
+        <RouterProvider router={router} />
+      </LifelineProvider>
     </QuizProvider>
   );
 }

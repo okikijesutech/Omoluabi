@@ -1,0 +1,24 @@
+.languagePageContainer {
+  background-color: #131f24;
+  height: 100vh;
+}
+
+.languagePageNavBar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-top: 40px;
+  width: 75%;
+  margin: auto;
+  color: #37464f;
+}
+.languagePageNavBar p {
+  color: #37464f;
+}
+
+.lives {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #ff4b4b;
+}

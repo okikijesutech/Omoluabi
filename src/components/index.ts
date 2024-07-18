@@ -8,6 +8,11 @@ import GuideBook from "./guidebook/GuideBook";
 import Levels from "./levels/Levels";
 import ProgressBar from "./progressbar/ProgressBar";
 import BtnOptions from "./btnoptions/BtnOptions";
+import Loader from "./loader/Loader";
+import LanguagePageNavBar from "./languagepagenavbar/LanguagePageNavBar";
+import LanguagePageNotification from "./languagepagenotification/LanguagePageNotification";
+import QuestionDisplay from "./questiondisplay/QuestionDisplay";
+import ControlButtons from "./controlbuttons/ControlButtons";
 
 export {
   NavBar,
@@ -20,4 +25,9 @@ export {
   Levels,
   ProgressBar,
   BtnOptions,
+  Loader,
+  LanguagePageNavBar,
+  LanguagePageNotification,
+  QuestionDisplay,
+  ControlButtons,
 };
