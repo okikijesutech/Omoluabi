@@ -21,15 +21,19 @@ const SideBar = () => {
         <li className={isLanguageLanding ? "highlight" : ""}>
           <FaHouse size={24} />
           <p>
-            <Link to={""} className='lilink'>
+            <Link to={"/learnlanguage"} className='lilink'>
               LEARN
             </Link>
           </p>
         </li>
-        <li>
+        <li
+          className={
+            location.pathname === "/learnlanguage/character" ? "highlight" : ""
+          }
+        >
           <RiCharacterRecognitionFill size={24} />
           <p>
-            <Link to={""} className='lilink'>
+            <Link to={"/learnlanguage/character"} className='lilink'>
               LETTERS
             </Link>
           </p>

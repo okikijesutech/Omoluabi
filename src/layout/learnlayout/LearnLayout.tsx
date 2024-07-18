@@ -1,5 +1,5 @@
-// import { Outlet } from "react-router-dom";
-import { LanguageLanding } from "../../pages";
+import { Outlet } from "react-router-dom";
+// import { LanguageLanding } from "../../pages";
 import { InfoBar, SideBar } from "../../components";
 import "./learnlayout.css";
 
@@ -8,8 +8,8 @@ const LearnLayout = () => {
     <div className='layout'>
       <SideBar />
       <div className='vline'></div>
-      {/* <Outlet /> */}
-      <LanguageLanding />
+      <Outlet />
+      {/* <LanguageLanding /> */}
       <InfoBar />
     </div>
   );

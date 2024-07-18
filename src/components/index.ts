@@ -13,6 +13,7 @@ import LanguagePageNavBar from "./languagepagenavbar/LanguagePageNavBar";
 import LanguagePageNotification from "./languagepagenotification/LanguagePageNotification";
 import QuestionDisplay from "./questiondisplay/QuestionDisplay";
 import ControlButtons from "./controlbuttons/ControlButtons";
+import BtnSound from "./btnsound/BtnSound";
 
 export {
   NavBar,
@@ -30,4 +31,5 @@ export {
   LanguagePageNotification,
   QuestionDisplay,
   ControlButtons,
+  BtnSound,
 };

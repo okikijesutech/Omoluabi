@@ -17,6 +17,8 @@ import {
   SlangLanding,
   SlangPage,
   Register,
+  LanguageLanding,
+  LearnLanguageChar,
 } from "./pages";
 import { QuizProvider } from "./context/QuizContext";
 import { LifelineProvider } from "./context/LifelineContext";
@@ -29,7 +31,13 @@ function App() {
           <Route index element={<HomePage />} />
         </Route>
         <Route path='/'>
-          <Route path='/learnlanguage' element={<LearnLayout />} />
+          <Route path='/learnlanguage' element={<LearnLayout />}>
+            <Route index element={<LanguageLanding />} />
+            <Route
+              path='/learnlanguage/character'
+              element={<LearnLanguageChar />}
+            />
+          </Route>
           <Route
             path='/lesson/:unitId/:questionId'
             element={<LanguagePage />}

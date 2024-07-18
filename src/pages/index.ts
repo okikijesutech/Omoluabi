@@ -9,6 +9,7 @@ import SlangLanding from "./learnmordernslang/learnslanglanding/SlangLanding";
 import HistoryLanding from "./learntribehistroy/historylanding/HistoryLanding";
 import LanguageLanding from "./learnlanguage/learnlanguagelanding/LanguageLanding";
 import Register from "./register/Register";
+import LearnLanguageChar from "./learnlanguage/learnlanguagechar/LearnLanguageChar";
 
 export {
   HomePage,
@@ -22,4 +23,5 @@ export {
   LanguagePage,
   LanguageLanding,
   Register,
+  LearnLanguageChar,
 };
