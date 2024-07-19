@@ -52,7 +52,7 @@ const InfoBar = () => {
             textColor='#1e2f25'
             bordercolor='#93d333'
             shadow='#79b933'
-            to=''
+            to='/register'
             hover='#7fb42a'
             hoverbordercolor='#7fb42a'
           />
@@ -64,7 +64,7 @@ const InfoBar = () => {
             textColor='#16272f'
             bordercolor='#49c0f8'
             shadow='#1899d6'
-            to=''
+            to='/login'
             hover='#38a7d6'
             hoverbordercolor='#38a7d6'
           />

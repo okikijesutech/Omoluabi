@@ -22,8 +22,6 @@ h1 {
   font-size: 15px;
   font-weight: 700;
   line-height: 25px;
-  margin-left: 20px;
-  margin-bottom: 30px;
 }
 
 ul {
@@ -36,6 +34,11 @@ li {
   display: flex;
   align-items: center;
 }
+
+p {
+  margin-left: 20px;
+}
+
 .highlight {
   background-color: #202f36;
   border: 2px solid #49c0f8;

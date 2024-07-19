@@ -19,6 +19,10 @@ import {
   Register,
   LanguageLanding,
   LearnLanguageChar,
+  LeaderBoard,
+  Quests,
+  Shop,
+  Profile,
 } from "./pages";
 import { QuizProvider } from "./context/QuizContext";
 import { LifelineProvider } from "./context/LifelineContext";
@@ -34,9 +38,16 @@ function App() {
           <Route path='/learnlanguage' element={<LearnLayout />}>
             <Route index element={<LanguageLanding />} />
             <Route
-              path='/learnlanguage/character'
+              path='/learnlanguage/literacy'
               element={<LearnLanguageChar />}
             />
+            <Route
+              path='/learnlanguage/leaderboard'
+              element={<LeaderBoard />}
+            />
+            <Route path='/learnlanguage/quests' element={<Quests />} />
+            <Route path='/learnlanguage/shop' element={<Shop />} />
+            <Route path='/learnlanguage/profile' element={<Profile />} />
           </Route>
           <Route
             path='/lesson/:unitId/:questionId'

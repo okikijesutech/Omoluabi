@@ -10,6 +10,10 @@ import HistoryLanding from "./learntribehistroy/historylanding/HistoryLanding";
 import LanguageLanding from "./learnlanguage/learnlanguagelanding/LanguageLanding";
 import Register from "./register/Register";
 import LearnLanguageChar from "./learnlanguage/learnlanguagechar/LearnLanguageChar";
+import LeaderBoard from "./learnlanguage/leaderboard/LeaderBoard";
+import Quests from "./learnlanguage/quests/Quests";
+import Shop from "./learnlanguage/shop/Shop";
+import Profile from "./learnlanguage/profile/Profile";
 
 export {
   HomePage,
@@ -24,4 +28,8 @@ export {
   LanguageLanding,
   Register,
   LearnLanguageChar,
+  LeaderBoard,
+  Quests,
+  Shop,
+  Profile,
 };
