@@ -1,4 +1,3 @@
-import React from "react";
 import { BtnSound } from "../../../components";
 import a from "../../../assets/sounds/a.mp3";
 import "./learnlanguagechar.css";

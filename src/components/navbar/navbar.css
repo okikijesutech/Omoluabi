@@ -60,7 +60,9 @@
 .navbardropdown:hover .dropdownmenu {
   display: grid;
 }
-
+.navbarlogo h1 {
+  color: black;
+}
 /* Media Queries */
 /* @media (max-width: 768px) {
   .navbar {

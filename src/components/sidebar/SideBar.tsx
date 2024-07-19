@@ -27,7 +27,9 @@ const SideBar = () => {
         <Link to={"/learnlanguage/literacy"} className='lilink'>
           <li
             className={
-              location.pathname === "/learnlanguage/literacy" ? "highlight" : ""
+              location.pathname.startsWith("/learnlanguage/literacy")
+                ? "highlight"
+                : ""
             }
           >
             <RiCharacterRecognitionFill size={24} />

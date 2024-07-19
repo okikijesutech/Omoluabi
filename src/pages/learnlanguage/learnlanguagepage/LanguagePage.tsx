@@ -27,7 +27,7 @@ const LanguagePage = () => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 3000);
   }, []);
 
   const handleModal = () => setModalOn(true);

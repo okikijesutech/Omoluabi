@@ -1,0 +1,23 @@
+.learnlanguagenumcontainer {
+  flex: 2;
+  gap: 30px;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: aliceblue;
+}
+
+.btnsoundcontainer {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.btnsoundcontainer > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

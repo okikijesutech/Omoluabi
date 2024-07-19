@@ -3,9 +3,10 @@ import {
   Route,
   RouterProvider,
   createRoutesFromElements,
+  Navigate,
 } from "react-router-dom";
 import "./App.css";
-import { LearnLayout, MainLayout } from "./layout";
+import { LearnLayout, LiteracyLayout, MainLayout } from "./layout";
 import {
   HomePage,
   NotFoundPage,
@@ -23,6 +24,7 @@ import {
   Quests,
   Shop,
   Profile,
+  LearnLanguageNum,
 } from "./pages";
 import { QuizProvider } from "./context/QuizContext";
 import { LifelineProvider } from "./context/LifelineContext";
@@ -37,10 +39,22 @@ function App() {
         <Route path='/'>
           <Route path='/learnlanguage' element={<LearnLayout />}>
             <Route index element={<LanguageLanding />} />
-            <Route
-              path='/learnlanguage/literacy'
-              element={<LearnLanguageChar />}
-            />
+            <Route path='/learnlanguage/literacy' element={<LiteracyLayout />}>
+              <Route
+                index
+                element={
+                  <Navigate to='/learnlanguage/literacy/alphabets' replace />
+                }
+              />
+              <Route
+                path='/learnlanguage/literacy/alphabets'
+                element={<LearnLanguageChar />}
+              />
+              <Route
+                path='/learnlanguage/literacy/numbers'
+                element={<LearnLanguageNum />}
+              />
+            </Route>
             <Route
               path='/learnlanguage/leaderboard'
               element={<LeaderBoard />}

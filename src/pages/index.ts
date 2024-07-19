@@ -14,6 +14,7 @@ import LeaderBoard from "./learnlanguage/leaderboard/LeaderBoard";
 import Quests from "./learnlanguage/quests/Quests";
 import Shop from "./learnlanguage/shop/Shop";
 import Profile from "./learnlanguage/profile/Profile";
+import LearnLanguageNum from "./learnlanguage/learnlanguagechar/LearnLanguageNum";
 
 export {
   HomePage,
@@ -28,6 +29,7 @@ export {
   LanguageLanding,
   Register,
   LearnLanguageChar,
+  LearnLanguageNum,
   LeaderBoard,
   Quests,
   Shop,
