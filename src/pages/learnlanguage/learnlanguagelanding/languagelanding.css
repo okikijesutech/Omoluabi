@@ -16,8 +16,12 @@
   border-radius: 12px;
   width: 525px;
   margin: 20px auto;
-  padding: 10px;
+  padding: 25px;
   color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .newsectioncardbtn {

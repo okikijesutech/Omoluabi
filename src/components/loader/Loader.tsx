@@ -1,19 +1,12 @@
 import { useEffect, useState } from "react";
 import Lottie from "react-lottie";
-// import animationData from "./path/to/your/lottie/file.json";
+import animationData from "../../assets/animation/loader.json";
 import "./loader.css";
 
 const Loader = () => {
   const [count, setCount] = useState(0);
-  const [animationData, setAnimationData] = useState<any>(null);
 
   useEffect(() => {
-    fetch(
-      "https://lottie.host/0bff0ab5-2148-4fec-9b53-da68f98a89e9/iqCfPd2Qen.json"
-    )
-      .then((response) => response.json())
-      .then((data) => setAnimationData(data));
-
     const interval = setInterval(() => {
       setCount((prevCount) => {
         if (prevCount < 100) {
@@ -23,7 +16,7 @@ const Loader = () => {
           return prevCount;
         }
       });
-    }, 50); // Adjust the speed of the counter here
+    }, 50);
 
     return () => clearInterval(interval);
   }, []);
@@ -41,7 +34,6 @@ const Loader = () => {
       {animationData && (
         <Lottie options={defaultOptions} height={400} width={400} />
       )}
-      {/* <div className='spinner'></div> */}
       <div className='counter'>{count}%</div>
     </div>
   );

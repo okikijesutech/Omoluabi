@@ -7,6 +7,7 @@ interface GuideBookProps {
   unit: string;
   unitname: string;
   unitcolor: string;
+  unitshadow: string;
 }
 
 const GuideBook: React.FC<GuideBookProps> = ({
@@ -14,24 +15,25 @@ const GuideBook: React.FC<GuideBookProps> = ({
   unit,
   unitname,
   unitcolor,
+  unitshadow,
 }) => {
   return (
     <div
       className='guidebookcontainer'
       style={{ backgroundColor: `${unitcolor}` }}
     >
-      <div>
+      <div className='guidebook-content'>
         <p className='guidebookheading'>
           <FaChevronLeft size={24} />
           section {section}, unit {unit}
         </p>
-        <p>{unitname}</p>
+        <p className='guidebook-unitname'>{unitname}</p>
       </div>
       <BtnPrimary
-        title='GUIDE BOOk'
+        title='GUIDE BOOK'
         bgcolor={unitcolor}
         bordercolor={unitcolor}
-        shadow='#46a302'
+        shadow={unitshadow}
         hover='#7fb42a'
         to=''
         textColor='white'

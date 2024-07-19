@@ -1,14 +1,22 @@
+/* guidebook.css */
 .guidebookcontainer {
   position: fixed;
   background-color: #58cc02;
   border-radius: 15px;
-  width: 45%;
+  width: 40%;
   color: white;
-  padding: 2%;
-  left: 300px;
+  padding: 20px;
+  left: 400px;
   top: 30px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+}
+
+.guidebook-content {
+  display: flex;
+  flex-direction: column;
+  margin-right: 200px; /* Add space between content and button */
 }
 
 .guidebookheading {
@@ -25,4 +33,11 @@
 
 .guidebookheading:hover {
   color: white;
+}
+
+.guidebook-unitname {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 28px;
+  color: #fff;
 }
