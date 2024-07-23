@@ -10,6 +10,14 @@
   top: 0;
   left: 0;
   bottom: 0;
+  z-index: 10;
+}
+
+p {
+  color: #dce6ec;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 25px;
 }
 
 h1 {
@@ -48,4 +56,42 @@ p {
 li:hover {
   background-color: #202f36;
   border-radius: 15px;
+}
+
+.more {
+  position: relative;
+}
+
+.moreContent {
+  display: flex;
+  align-items: center;
+}
+
+.moreOptions {
+  display: none;
+  position: fixed;
+  bottom: 12%;
+  left: 240px;
+  background-color: #131f24;
+  z-index: 50;
+  border-radius: 10px;
+  text-align: left;
+  width: 250px;
+  padding: 10px 0;
+  border: 2px solid #fff;
+  z-index: 11;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.more:hover .moreOptions {
+  display: block;
+}
+
+.moreOptions p {
+  margin: 5px 20px;
+  cursor: pointer;
+}
+
+.moreOptions hr {
+  margin: 10px 0;
 }

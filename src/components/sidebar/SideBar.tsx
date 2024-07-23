@@ -78,12 +78,19 @@ const SideBar = () => {
             <p>PROFILE</p>
           </li>
         </Link>
-        <Link to={""} className='lilink'>
-          <li>
+        <li className='more'>
+          <div className='moreContent'>
             <PiDotsThreeCircleFill size={24} />
             <p>MORE</p>
-          </li>
-        </Link>
+          </div>
+          <div className='moreOptions'>
+            <p>SCHOOLS</p>
+            <hr />
+            <p>SETTINGS</p>
+            <p>HELP</p>
+            <p>LOGOUT</p>
+          </div>
+        </li>
       </ul>
     </div>
   );
