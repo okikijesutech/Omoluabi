@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FaChevronDown } from "react-icons/fa";
 import BtnPrimary from "../btnprimary/BtnPrimary";
@@ -74,14 +73,13 @@ const NavBar = () => {
           <FaChevronDown />
           <div className='dropdownmenu'>
             {languages.map((language) => (
-              <Link
-                to={""}
+              <span
                 key={language.code}
                 onClick={() => changeLanguage(language.code)}
                 className='link'
               >
                 {language.name}
-              </Link>
+              </span>
             ))}
           </div>
         </div>

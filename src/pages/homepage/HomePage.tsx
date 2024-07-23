@@ -1,5 +1,4 @@
 import { BodyContent, Header } from "../../containers";
-import { SiYr } from "react-icons/si";
 import items from "../../data/homepagedata.json";
 import items2 from "../../data/data2.json";
 import "./homepage.css";
@@ -8,7 +7,6 @@ const HomePage = () => {
   return (
     <div className='conatiner'>
       <Header />
-      <SiYr size={64} />
       {items.map((item, index) => (
         <BodyContent
           key={item.id}
