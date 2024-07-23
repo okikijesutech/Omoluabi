@@ -10,6 +10,8 @@ interface LevelSectionProps {
   marginValues: number[];
   isEven: boolean;
   index: number;
+  levelBgColor: string;
+  levelShadowColor: string;
 }
 
 const LevelSection: React.FC<LevelSectionProps> = ({
@@ -17,6 +19,8 @@ const LevelSection: React.FC<LevelSectionProps> = ({
   marginValues,
   isEven,
   index,
+  levelBgColor,
+  levelShadowColor,
 }) => {
   return (
     <div className={`level-section ${isEven ? "even" : "odd"}`}>
@@ -32,6 +36,8 @@ const LevelSection: React.FC<LevelSectionProps> = ({
         sectionContent={section.sectionContent}
         marginValues={marginValues}
         isEven={isEven}
+        levelBgColor={levelBgColor}
+        levelShadowColor={levelShadowColor}
       />
     </div>
   );

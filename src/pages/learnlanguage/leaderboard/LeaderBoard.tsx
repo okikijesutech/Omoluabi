@@ -26,19 +26,23 @@ const tablesResult = [
 const LeaderBoard = () => {
   return (
     <div className='leaderboard-container'>
-      <h1>leaderboard</h1>
-      {tablesResult.map((table, index) => (
-        <table>
-          <tbody>
-            <td>{index + 1}.</td>
-            <td className='image-container'>
-              <img src={img} alt='' />
-            </td>
-            <td className='leaderboard-name'>{table.name}</td>
-            <td>{table.score}</td>
-          </tbody>
-        </table>
-      ))}
+      <div className='leaderboard-heading'>
+        <h1>leaderboard</h1>
+      </div>
+      <div className='leaderboard-content'>
+        {tablesResult.map((table, index) => (
+          <table>
+            <tbody>
+              <td>{index + 1}.</td>
+              <td className='image-container'>
+                <img src={img} alt='' />
+              </td>
+              <td className='leaderboard-name'>{table.name}</td>
+              <td>{table.score}</td>
+            </tbody>
+          </table>
+        ))}
+      </div>
     </div>
   );
 };

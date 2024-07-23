@@ -5,6 +5,8 @@ interface LevelsProps {
   sections: {
     id: number;
     name: string;
+    unitcolor: string;
+    unitshadow: string;
     sectionContent: { level: number; id: number }[];
   }[];
 }
@@ -25,6 +27,8 @@ const Levels: React.FC<LevelsProps> = ({ sections }) => {
             marginValues={marginValues}
             isEven={isEven}
             index={index}
+            levelBgColor={section.unitcolor}
+            levelShadowColor={section.unitshadow}
           />
         );
       })}

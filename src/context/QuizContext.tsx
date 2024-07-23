@@ -5,6 +5,7 @@ interface QuizState {
   totalCorrect: number;
   consecutiveCorrect: number;
   totalIncorrect: number;
+  answeredQuestions: boolean[];
 }
 
 type QuizAction =
@@ -17,6 +18,7 @@ const initialState: QuizState = {
   totalCorrect: 0,
   consecutiveCorrect: 0,
   totalIncorrect: 0,
+  answeredQuestions: [true, false, false, false, false],
 };
 
 const quizReducer = (state: QuizState, action: QuizAction): QuizState => {
@@ -27,6 +29,7 @@ const quizReducer = (state: QuizState, action: QuizAction): QuizState => {
         totalQuestions: state.totalQuestions + 1,
         totalCorrect: state.totalCorrect + 1,
         consecutiveCorrect: state.consecutiveCorrect + 1,
+        answeredQuestions: [...state.answeredQuestions, true],
       };
     case "ANSWER_INCORRECT":
       return {
@@ -34,6 +37,7 @@ const quizReducer = (state: QuizState, action: QuizAction): QuizState => {
         totalQuestions: state.totalQuestions + 1,
         totalIncorrect: state.totalIncorrect + 1,
         consecutiveCorrect: 0,
+        answeredQuestions: [...state.answeredQuestions, false],
       };
     case "RESET_QUIZ":
       return initialState;

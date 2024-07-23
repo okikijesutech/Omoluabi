@@ -4,8 +4,8 @@
   height: 80px;
   max-height: 80px;
   border-radius: 100%;
-  background-color: #37464f;
-  box-shadow: 0 8px 0 #2c383f;
+  background-color: #58cc02;
+  box-shadow: 0 8px 0 #46a302;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,8 +14,8 @@
   cursor: pointer;
 }
 
-.level-cell img {
-  color: white;
-  font-size: 14px;
-  margin-top: 5px;
+.level-cell.disabled {
+  cursor: default;
+  background-color: #37464f;
+  box-shadow: 0 8px 0 #2c383f;
 }

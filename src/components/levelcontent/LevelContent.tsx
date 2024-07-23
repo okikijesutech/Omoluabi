@@ -7,6 +7,8 @@ interface LevelContentProps {
   sectionContent: { level: number; id: number }[];
   marginValues: number[];
   isEven: boolean;
+  levelBgColor: string;
+  levelShadowColor: string;
 }
 
 const LevelContent: React.FC<LevelContentProps> = ({
@@ -14,6 +16,8 @@ const LevelContent: React.FC<LevelContentProps> = ({
   sectionContent,
   marginValues,
   isEven,
+  levelBgColor,
+  levelShadowColor,
 }) => {
   return (
     <div className={`level-content ${isEven ? "even" : "odd"}`}>
@@ -22,6 +26,8 @@ const LevelContent: React.FC<LevelContentProps> = ({
         sectionId={sectionId}
         sectionContent={sectionContent}
         marginValues={marginValues}
+        levelBgColor={levelBgColor}
+        levelShadowColor={levelShadowColor}
       />
     </div>
   );
