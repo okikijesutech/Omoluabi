@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { FaChevronDown } from "react-icons/fa";
 import BtnPrimary from "../btnprimary/BtnPrimary";
 import "./navbar.css";
@@ -8,6 +9,7 @@ const NavBar = () => {
   const [showContent, setShowContent] = useState(true);
   const [showButton, setShowButton] = useState(false);
   const [shadowBox, setShadowBox] = useState(false);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,6 +35,31 @@ const NavBar = () => {
     };
   }, []);
 
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+  const languages = [
+    { name: "Hausa", code: "ha" },
+    { name: "Yoruba", code: "yo" },
+    { name: "Igbo", code: "ig" },
+    { name: "Fulfulde (Fulani)", code: "ff" },
+    { name: "Kanuri", code: "kr" },
+    { name: "Ibibio", code: "ib" },
+    { name: "Tiv", code: "tv" },
+    { name: "Ijaw", code: "ij" },
+    { name: "Edo", code: "ee" },
+    { name: "Urhobo", code: "ur" },
+    { name: "Nupe", code: "nu" },
+    { name: "Gbagyi", code: "gb" },
+    { name: "Jukun", code: "ju" },
+    { name: "Idoma", code: "id" },
+    { name: "Igala", code: "ig" },
+    { name: "Berom", code: "be" },
+    { name: "Ebira", code: "eb" },
+    { name: "Anang", code: "an" },
+    { name: "Efik", code: "ef" },
+    { name: "Isoko", code: "is" },
+  ];
   return (
     <div
       className='navbar'
@@ -43,33 +70,17 @@ const NavBar = () => {
       </div>
       {showContent && (
         <div className='navbardropdown'>
-          <p>Yàn èdè kan</p>
+          <p>{t("selectLanguage")}</p>
           <FaChevronDown />
           <div className='dropdownmenu'>
-            {[
-              "Hausa",
-              "Yoruba",
-              "Igbo",
-              "Fulfulde (Fulani)",
-              "Kanuri",
-              "Ibibio",
-              "Tiv",
-              "Ijaw",
-              "Edo",
-              "Urhobo",
-              "Nupe",
-              "Gbagyi",
-              "Jukun",
-              "Idoma",
-              "Igala",
-              "Berom",
-              "Ebira",
-              "Anang",
-              "Efik",
-              "Isoko",
-            ].map((item) => (
-              <Link to={""} className='link'>
-                {item}
+            {languages.map((language) => (
+              <Link
+                to={""}
+                key={language.code}
+                onClick={() => changeLanguage(language.code)}
+                className='link'
+              >
+                {language.name}
               </Link>
             ))}
           </div>
@@ -78,7 +89,7 @@ const NavBar = () => {
       {showButton && (
         <div className='navbarbtn'>
           <BtnPrimary
-            title={"Bẹ̀rẹ̀ Síṣe"}
+            title={t("header.getStarted")}
             bgcolor={"green"}
             textColor={"white"}
             shadow={"#006400"}

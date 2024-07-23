@@ -4,6 +4,7 @@
   justify-content: space-between;
   padding: 0 10%;
   flex-wrap: wrap;
+  color: black;
 }
 
 .headerimage {
