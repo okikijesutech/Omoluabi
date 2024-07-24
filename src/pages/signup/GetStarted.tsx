@@ -1,5 +1,5 @@
 import { LanguageCard, NavBar } from "../../components";
-import "./signup.css";
+import "./getStarted.css";
 
 const languages = [
   {

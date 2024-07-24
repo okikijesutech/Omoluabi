@@ -1,5 +1,5 @@
 import Login from "./login/Login";
-import Signup from "./signup/Signup";
+import Signup from "./signup/GetStarted";
 import HomePage from "./homepage/HomePage";
 import NotFoundPage from "./notfoundpage/NotFoundPage";
 import SlangPage from "./learnmordernslang/learnslangpage/SlangPage";
