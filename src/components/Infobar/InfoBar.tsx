@@ -1,23 +1,49 @@
 import { Link } from "react-router-dom";
-import {
-  FaHeartCircleCheck,
-  FaFlagCheckered,
-  FaFire,
-  FaIceCream,
-  FaShield,
-} from "react-icons/fa6";
+import { FaHeartCircleCheck, FaFire, FaShield } from "react-icons/fa6";
+import { FaGem } from "react-icons/fa";
 import { SlEnergy } from "react-icons/sl";
 import "./infobar.css";
 import BtnPrimary from "../btnprimary/BtnPrimary";
+import { useLifeline } from "../../context/LifelineContext";
 
 const InfoBar = () => {
+  const { lives } = useLifeline();
   return (
     <div className='infobarContainer'>
       <div className='infobarnav'>
-        <FaFlagCheckered color='white' size={24} />
-        <FaIceCream color='blue' size={24} />
-        <FaFire color='red' size={24} />
-        <FaHeartCircleCheck color='red' size={24} />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignContent: "center",
+            color: "#ff9500",
+          }}
+        >
+          <FaFire size={24} />
+          <p style={{ color: "#ff9500" }}>0</p>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignContent: "center",
+            color: "#1cb0f6",
+          }}
+        >
+          <FaGem size={24} />
+          <p style={{ color: "#1cb0f6" }}>100</p>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignContent: "center",
+            color: "#ff4e4e",
+          }}
+        >
+          <FaHeartCircleCheck size={24} />
+          <p style={{ color: "#ff4e4e" }}>{lives}</p>
+        </div>
       </div>
       <div className='infobardiv'>
         <h4>Unlock Leaderboards!</h4>

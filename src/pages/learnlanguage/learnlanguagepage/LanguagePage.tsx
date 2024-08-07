@@ -54,7 +54,6 @@ const LanguagePage = () => {
           decreaseLife();
         }
       }
-    } else {
     }
   };
 

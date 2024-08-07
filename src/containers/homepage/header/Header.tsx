@@ -20,7 +20,7 @@ const Header = () => {
             shadow={"#006400"}
             hover={"#388E3C"}
             bordercolor='green'
-            to='/signup'
+            to='/learnlanguage'
           />
           <BtnPrimary
             title={t("header.alreadyHaveAccount")}
