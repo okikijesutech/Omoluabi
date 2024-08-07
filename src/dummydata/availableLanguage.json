@@ -1,0 +1,38 @@
+{
+  "Yoruba": [
+    {
+      "id": 1,
+      "section": "Basics",
+      "unit": "1",
+      "unitname": "Introduction",
+      "unitcolor": "#FFD700",
+      "unitshadow": "#FFA500",
+      "sectionContent": [
+        {
+          "id": 1,
+          "question": "What is 'Hello' in Yoruba?",
+          "options": ["Bawo", "Kedu"],
+          "correctAnswer": 0
+        }
+      ]
+    }
+  ],
+  "Hausa": [
+    {
+      "id": 1,
+      "section": "Basics",
+      "unit": "1",
+      "unitname": "Introduction",
+      "unitcolor": "#FFD700",
+      "unitshadow": "#FFA500",
+      "sectionContent": [
+        {
+          "id": 1,
+          "question": "What is 'Hello' in Hausa?",
+          "options": ["Sannu", "Kedu"],
+          "correctAnswer": 0
+        }
+      ]
+    }
+  ]
+}
