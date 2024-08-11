@@ -1,0 +1,47 @@
+.lessonCompleteContainer {
+  text-align: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.lessonCompleteContainer h1 {
+  font-size: 2.5rem;
+  color: #4caf50;
+}
+
+.lessonSummary {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.lessonSummary h2 {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.lessonSummary p {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+.lessonCompleteActions {
+  margin-top: 30px;
+}
+
+.lessonCompleteActions a {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.lessonCompleteActions a:hover {
+  background-color: #45a049;
+}

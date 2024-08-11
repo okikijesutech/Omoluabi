@@ -11,6 +11,7 @@ import {
 import sectionData from "../../../dummydata/sections.json";
 import { useLifeline } from "../../../context/LifelineContext";
 import "./languagepage.css";
+import LessonCompletePage from "../lessoncomplete/LessonCompletePage";
 
 const LanguagePage = () => {
   const [modalOn, setModalOn] = useState(false);
@@ -107,6 +108,7 @@ const LanguagePage = () => {
           checkAnswer={checkAnswer}
         />
       )}
+      {!hasNextQuestion && <LessonCompletePage />}
       {modalOn && <LessonModal onClose={closeModal} />}
     </div>
   );
