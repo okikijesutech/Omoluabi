@@ -28,6 +28,8 @@ import {
 } from "./pages";
 import { QuizProvider } from "./context/QuizContext";
 import { LifelineProvider } from "./context/LifelineContext";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const router = createBrowserRouter(
@@ -37,31 +39,19 @@ function App() {
           <Route index element={<HomePage />} />
         </Route>
         <Route path='/'>
-          <Route path='/learnlanguage' element={<LearnLayout />}>
-            <Route index element={<LanguageLanding />} />
-            <Route path='/learnlanguage/literacy' element={<LiteracyLayout />}>
-              <Route
-                index
-                element={
-                  <Navigate to='/learnlanguage/literacy/alphabets' replace />
-                }
-              />
-              <Route
-                path='/learnlanguage/literacy/alphabets'
-                element={<LearnLanguageChar />}
-              />
-              <Route
-                path='/learnlanguage/literacy/numbers'
-                element={<LearnLanguageNum />}
-              />
+          <Route path='/learnlanguage' element={<ProtectedRoute />}>
+            <Route element={<LearnLayout />}>
+              <Route index element={<LanguageLanding />} />
+              <Route path='literacy' element={<LiteracyLayout />}>
+                <Route index element={<Navigate to='alphabets' replace />} />
+                <Route path='alphabets' element={<LearnLanguageChar />} />
+                <Route path='numbers' element={<LearnLanguageNum />} />
+              </Route>
+              <Route path='leaderboard' element={<LeaderBoard />} />
+              <Route path='quests' element={<Quests />} />
+              <Route path='shop' element={<Shop />} />
+              <Route path='profile' element={<Profile />} />
             </Route>
-            <Route
-              path='/learnlanguage/leaderboard'
-              element={<LeaderBoard />}
-            />
-            <Route path='/learnlanguage/quests' element={<Quests />} />
-            <Route path='/learnlanguage/shop' element={<Shop />} />
-            <Route path='/learnlanguage/profile' element={<Profile />} />
           </Route>
           <Route
             path='/lesson/:unitId/:questionId'
@@ -83,12 +73,15 @@ function App() {
       </>
     )
   );
+
   return (
-    <QuizProvider>
-      <LifelineProvider>
-        <RouterProvider router={router} />
-      </LifelineProvider>
-    </QuizProvider>
+    <AuthProvider>
+      <QuizProvider>
+        <LifelineProvider>
+          <RouterProvider router={router} />
+        </LifelineProvider>
+      </QuizProvider>
+    </AuthProvider>
   );
 }
 

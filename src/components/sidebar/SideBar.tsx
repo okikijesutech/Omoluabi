@@ -1,16 +1,24 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaHouse } from "react-icons/fa6";
 import { GiChest, GiPoliceBadge } from "react-icons/gi";
 import { RiCharacterRecognitionFill } from "react-icons/ri";
 import { PiDotsThreeCircleFill } from "react-icons/pi";
 import { FaUser } from "react-icons/fa";
 import { CiShop } from "react-icons/ci";
+import { useAuth } from "../../context/AuthContext";
 import "./sidebar.css";
 
 const SideBar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const isLanguageLanding = location.pathname === "/learnlanguage";
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <div className='sidebarcontainer'>
@@ -88,7 +96,7 @@ const SideBar = () => {
             <hr />
             <p>SETTINGS</p>
             <p>HELP</p>
-            <p>LOGOUT</p>
+            <p onClick={handleLogout}>LOGOUT</p>
           </div>
         </li>
       </ul>

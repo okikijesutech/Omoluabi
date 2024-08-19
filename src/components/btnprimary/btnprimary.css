@@ -6,7 +6,8 @@
   font-size: 15px;
   font-weight: 700;
   line-height: normal;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease,
+    transform 0.2s ease;
   cursor: pointer;
 }
 
@@ -24,4 +25,10 @@ a {
 
 .btn.disabled {
   opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15); /* Reduces the shadow */
 }

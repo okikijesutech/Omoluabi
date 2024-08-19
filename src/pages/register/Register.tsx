@@ -1,9 +1,41 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaXmark } from "react-icons/fa6";
 import { BtnPrimary } from "../../components";
+import { signup } from "../../services/authService";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import "./register.css";
 
-const Login = () => {
+const Register = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [age, setAge] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await signup(email, password);
+      navigate("/learnlanguage");
+    } catch (error: any) {
+      setError(error?.message || "An error occurred during registration.");
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+
+    try {
+      await signInWithPopup(auth, provider);
+      navigate("/learnlanguage");
+    } catch (error: any) {
+      setError(error?.message || "An error occurred during Google Sign-In.");
+    }
+  };
+
   return (
     <div className='login'>
       <div className='top'>
@@ -23,8 +55,14 @@ const Login = () => {
       <div className='loginForm'>
         <h1>Create your profile</h1>
 
-        <form className='form'>
-          <input type='number' placeholder='Age' className='formInput' />
+        <form className='form' onSubmit={handleRegister}>
+          <input
+            type='number'
+            placeholder='Age'
+            value={age}
+            className='formInput'
+            onChange={(e) => setAge(e.target.value)}
+          />
           <p className='terms1'>
             Providing your age ensures you get the right Duolingo experience.
             For more details, please visit our
@@ -41,43 +79,48 @@ const Login = () => {
             placeholder='Name (optional)'
             className='formInput'
           />
-          <input type='email' placeholder='Email' className='formInput' />
-          <input type='password' placeholder='Password' className='formInput' />
-        </form>
-        <div className='btnloginconatiner'>
-          <BtnPrimary
-            title='CREATE ACCOUNT'
-            bgcolor='#49c0f8'
-            textColor='#131f24'
-            shadow='#1aa8eb'
-            hover='#50d3ff'
-            to='/dashboard'
-            bordercolor='#49c0f8'
+          <input
+            type='email'
+            placeholder='Email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className='formInput'
           />
-        </div>
+          <input
+            type='password'
+            placeholder='Password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className='formInput'
+          />
+          {error && <p className='error'>{error}</p>}
+          <button type='submit' className='formButton'>
+            CREATE ACCOUNT
+          </button>
+        </form>
+
         <div className='formOr'>
           <hr />
           <p>OR</p>
           <hr />
         </div>
-        <div className='btncontainer'>
-          <BtnPrimary
-            title='FACEBOOK'
-            bgcolor='#131f24'
-            textColor='#49c0f8'
-            shadow='#313f47'
-            hover=''
-            to='/facebook-login'
-            bordercolor='#313f47'
-          />
-        </div>
+        <BtnPrimary
+          title='Sign in with Google'
+          bgcolor='#131f24'
+          textColor='#49c0f8'
+          shadow='#313f47'
+          hover=''
+          bordercolor='#313f47'
+          onClick={handleGoogleSignIn}
+        />
+
         <p className='terms'>
-          By signing in to Duolingo, you agree to our Terms and
-          <a href='/privacy-policy'>Privacy Policy</a>.
+          By signing in to Omoluabi, you agree to our{" "}
+          <a href='/privacy-policy'>Terms and Privacy Policy</a>.
         </p>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Register;

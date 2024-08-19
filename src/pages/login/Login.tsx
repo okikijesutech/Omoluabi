@@ -1,9 +1,39 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaXmark } from "react-icons/fa6";
-import "./login.css";
 import { BtnPrimary } from "../../components";
+import { signin } from "../../services/authService";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import "./login.css";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await signin(email, password);
+      navigate("/learnlanguage", { replace: true });
+    } catch (error: any) {
+      setError(error?.message || "An error occurred during login.");
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+
+    try {
+      await signInWithPopup(auth, provider);
+      navigate("/learnlanguage");
+    } catch (error: any) {
+      setError(error?.message || "An error occurred during Google Sign-In.");
+    }
+  };
+
   return (
     <div className='login'>
       <div className='top'>
@@ -23,25 +53,25 @@ const Login = () => {
       <div className='loginForm'>
         <h1>Log in</h1>
 
-        <form className='form'>
+        <form className='form' onSubmit={handleLogin}>
           <input
             type='text'
             placeholder='Email or username'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className='formInput'
           />
-          <input type='password' placeholder='Password' className='formInput' />
-        </form>
-        <div className='btnloginconatiner'>
-          <BtnPrimary
-            title='LOG IN'
-            bgcolor='#49c0f8'
-            textColor='#131f24'
-            shadow='#1aa8eb'
-            hover='#50d3ff'
-            to='/dashboard'
-            bordercolor='#49c0f8'
+          <input
+            type='password'
+            placeholder='Password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className='formInput'
           />
-        </div>
+          {error && <p className='error'>{error}</p>}
+          <button type='submit'>Login</button>
+        </form>
+
         <div className='formOr'>
           <hr />
           <p>OR</p>
@@ -58,18 +88,18 @@ const Login = () => {
             bordercolor='#313f47'
           />
           <BtnPrimary
-            title='GOOGLE'
+            title='Sign in with Google'
             bgcolor='#131f24'
             textColor='#49c0f8'
             shadow='#313f47'
             hover=''
-            to='/google-login'
             bordercolor='#313f47'
+            onClick={handleGoogleSignIn}
           />
         </div>
         <p className='terms'>
-          By signing in to Duolingo, you agree to our Terms and
-          <a href='/privacy-policy'>Privacy Policy</a>.
+          By signing in to Omoluabi, you agree to our{" "}
+          <a href='/privacy-policy'>Terms and Privacy Policy</a>.
         </p>
       </div>
     </div>
