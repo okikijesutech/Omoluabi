@@ -69,7 +69,7 @@ const InfoBar = () => {
           </div>
         </div>
       </div>
-      <div className='infobardiv'>
+      {/* <div className='infobardiv'>
         <h4>Create a profile to save your progress</h4>
         <div className='infobarprofilebtnconatiner'>
           <BtnPrimary
@@ -95,7 +95,7 @@ const InfoBar = () => {
             hoverbordercolor='#38a7d6'
           />
         </div>
-      </div>
+      </div> */}
       <div className='infobarsocials'>
         <Link to={""} className='infobarsocialslink'>
           ABOUT

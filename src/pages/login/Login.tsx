@@ -4,6 +4,7 @@ import { FaXmark } from "react-icons/fa6";
 import { BtnPrimary } from "../../components";
 import { signin } from "../../services/authService";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useAuth } from "../../context/AuthContext";
 import "./login.css";
 
 const Login = () => {
@@ -11,11 +12,13 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await signin(email, password);
+      login();
       navigate("/learnlanguage", { replace: true });
     } catch (error: any) {
       setError(error?.message || "An error occurred during login.");
@@ -28,6 +31,7 @@ const Login = () => {
 
     try {
       await signInWithPopup(auth, provider);
+      login();
       navigate("/learnlanguage");
     } catch (error: any) {
       setError(error?.message || "An error occurred during Google Sign-In.");
@@ -69,7 +73,9 @@ const Login = () => {
             className='formInput'
           />
           {error && <p className='error'>{error}</p>}
-          <button type='submit'>Login</button>
+          <button type='submit' className='btn'>
+            Login
+          </button>
         </form>
 
         <div className='formOr'>
@@ -77,26 +83,17 @@ const Login = () => {
           <p>OR</p>
           <hr />
         </div>
-        <div className='btncontainer'>
-          <BtnPrimary
-            title='FACEBOOK'
-            bgcolor='#131f24'
-            textColor='#49c0f8'
-            shadow='#313f47'
-            hover=''
-            to='/facebook-login'
-            bordercolor='#313f47'
-          />
-          <BtnPrimary
-            title='Sign in with Google'
-            bgcolor='#131f24'
-            textColor='#49c0f8'
-            shadow='#313f47'
-            hover=''
-            bordercolor='#313f47'
-            onClick={handleGoogleSignIn}
-          />
-        </div>
+
+        <BtnPrimary
+          title='Sign in with Google'
+          bgcolor='#131f24'
+          textColor='#49c0f8'
+          shadow='#313f47'
+          hover=''
+          bordercolor='#313f47'
+          onClick={handleGoogleSignIn}
+        />
+
         <p className='terms'>
           By signing in to Omoluabi, you agree to our{" "}
           <a href='/privacy-policy'>Terms and Privacy Policy</a>.

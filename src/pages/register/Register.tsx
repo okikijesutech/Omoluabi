@@ -3,7 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaXmark } from "react-icons/fa6";
 import { BtnPrimary } from "../../components";
 import { signup } from "../../services/authService";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  updateProfile,
+} from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
+import { useAuth } from "../../context/AuthContext";
 import "./register.css";
 
 const Register = () => {
@@ -11,13 +19,27 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [age, setAge] = useState("");
+  const [name, setName] = useState("");
 
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await signup(email, password);
+      const userCredential = await signup(email, password);
+      const user = userCredential.user;
+      if (name) {
+        await updateProfile(user, { displayName: name });
+      }
+
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        age,
+        name: name || user.displayName,
+        uid: user.uid,
+      });
+      login();
       navigate("/learnlanguage");
     } catch (error: any) {
       setError(error?.message || "An error occurred during registration.");
@@ -29,7 +51,15 @@ const Register = () => {
     const provider = new GoogleAuthProvider();
 
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        age: "",
+        name: user.displayName || "",
+        uid: user.uid,
+      });
+      login();
       navigate("/learnlanguage");
     } catch (error: any) {
       setError(error?.message || "An error occurred during Google Sign-In.");
@@ -64,7 +94,7 @@ const Register = () => {
             onChange={(e) => setAge(e.target.value)}
           />
           <p className='terms1'>
-            Providing your age ensures you get the right Duolingo experience.
+            Providing your age ensures you get the right Omoluabi experience.
             For more details, please visit our
             <a
               href='/privacy-policy'
@@ -78,6 +108,7 @@ const Register = () => {
             type='text'
             placeholder='Name (optional)'
             className='formInput'
+            onChange={(e) => setName(e.target.value)}
           />
           <input
             type='email'
@@ -94,7 +125,7 @@ const Register = () => {
             className='formInput'
           />
           {error && <p className='error'>{error}</p>}
-          <button type='submit' className='formButton'>
+          <button type='submit' className='btn'>
             CREATE ACCOUNT
           </button>
         </form>

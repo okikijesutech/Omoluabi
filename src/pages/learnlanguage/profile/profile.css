@@ -1,3 +1,111 @@
 .profilecontainer {
   flex: 2;
+  padding: 20px 10px 20px 100px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.profileHeader {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.displayImageContainer {
+  width: 100%;
+  max-width: 150px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.displayImageContainer img {
+  width: 100%;
+  height: auto;
+}
+
+h2 {
+  margin: 10px 0;
+  font-size: 24px;
+}
+
+p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.statsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.statsTab {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 8px;
+  border: 2px solid #37464f;
+  transition: background-color 0.3s ease;
+}
+
+.statsTab svg {
+  margin-right: 15px;
+  color: #ff6b6b;
+}
+
+.statsTab div {
+  display: flex;
+  flex-direction: column;
+}
+
+.statsTab p:first-child {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.statsTab p:last-child {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.achievementContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.achievementTab {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 8px;
+  border: 2px solid #37464f;
+  transition: background-color 0.3s ease;
+}
+
+.achievementTab svg {
+  margin-right: 15px;
+  color: #ffa726;
+}
+
+.achievementTab div {
+  display: flex;
+  flex-direction: column;
+}
+
+.achievementTab p:first-child {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.achievementTab p:last-child {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
 }
