@@ -4,6 +4,8 @@ import { FaXmark } from "react-icons/fa6";
 import { BtnPrimary } from "../../components";
 import { signin } from "../../services/authService";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 import { useAuth } from "../../context/AuthContext";
 import "./login.css";
 
@@ -14,11 +16,26 @@ const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  const createUserDocumentIfNotExists = async (user: any) => {
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+    if (!userDoc.exists()) {
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        age: "",
+        name: user.displayName || "",
+        uid: user.uid,
+        lives: 5,
+        lastDepleted: null,
+      });
+    }
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await signin(email, password);
-      login();
+      const userCredential = await signin(email, password);
+      const user = userCredential.user;
+      login(user);
       navigate("/learnlanguage", { replace: true });
     } catch (error: any) {
       setError(error?.message || "An error occurred during login.");
@@ -30,8 +47,10 @@ const Login = () => {
     const provider = new GoogleAuthProvider();
 
     try {
-      await signInWithPopup(auth, provider);
-      login();
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      await createUserDocumentIfNotExists(user);
+      login(user);
       navigate("/learnlanguage");
     } catch (error: any) {
       setError(error?.message || "An error occurred during Google Sign-In.");

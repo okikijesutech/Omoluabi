@@ -16,7 +16,7 @@
 .guidebook-content {
   display: flex;
   flex-direction: column;
-  margin-right: 200px; /* Add space between content and button */
+  width: 600px;
 }
 
 .guidebookheading {
@@ -40,4 +40,8 @@
   font-weight: 700;
   line-height: 28px;
   color: #fff;
+}
+
+.guidebookButtonContainer {
+  width: 250px;
 }

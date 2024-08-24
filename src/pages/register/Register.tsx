@@ -38,8 +38,10 @@ const Register = () => {
         age,
         name: name || user.displayName,
         uid: user.uid,
+        lives: 5,
+        lastDepleted: null,
       });
-      login();
+      login(user);
       navigate("/learnlanguage");
     } catch (error: any) {
       setError(error?.message || "An error occurred during registration.");
@@ -58,8 +60,10 @@ const Register = () => {
         age: "",
         name: user.displayName || "",
         uid: user.uid,
+        lives: 5,
+        lastDepleted: null,
       });
-      login();
+      login(user);
       navigate("/learnlanguage");
     } catch (error: any) {
       setError(error?.message || "An error occurred during Google Sign-In.");

@@ -11,7 +11,8 @@ import {
 import sectionData from "../../../dummydata/sections.json";
 import { useLifeline } from "../../../context/LifelineContext";
 import "./languagepage.css";
-import LessonCompletePage from "../lessoncomplete/LessonCompletePage";
+import ZeroLivesModal from "../../../modals/zerolives/ZeroLivesModal";
+import LessonCompletePage from "../../../modals/lessoncompletemodal/LessonCompletePage";
 
 const LanguagePage = () => {
   const [modalOn, setModalOn] = useState(false);
@@ -57,6 +58,10 @@ const LanguagePage = () => {
       }
     }
   };
+
+  if (lives <= 0) {
+    return <ZeroLivesModal />;
+  }
 
   const section = sectionData.find((sec) => sec.id === Number(unitId));
   const question = section?.sectionContent.find(

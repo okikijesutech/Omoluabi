@@ -29,15 +29,17 @@ const GuideBook: React.FC<GuideBookProps> = ({
         </p>
         <p className='guidebook-unitname'>{unitname}</p>
       </div>
-      <BtnPrimary
-        title='GUIDE BOOK'
-        bgcolor={unitcolor}
-        bordercolor={unitcolor}
-        shadow={unitshadow}
-        hover='#7fb42a'
-        to=''
-        textColor='white'
-      />
+      <div className='guidebookButtonContainer'>
+        <BtnPrimary
+          title='GUIDE BOOK'
+          bgcolor={unitcolor}
+          bordercolor={unitshadow}
+          shadow={unitshadow}
+          hover='#7fb42a'
+          to=''
+          textColor='white'
+        />
+      </div>
     </div>
   );
 };
