@@ -13,6 +13,7 @@ import { useLifeline } from "../../../context/LifelineContext";
 import "./languagepage.css";
 import ZeroLivesModal from "../../../modals/zerolives/ZeroLivesModal";
 import LessonCompletePage from "../../../modals/lessoncompletemodal/LessonCompletePage";
+import QuestionDisplay2 from "../../../components/questiondisplay2/QuestionDisplay2";
 
 const LanguagePage = () => {
   const [modalOn, setModalOn] = useState(false);
@@ -85,6 +86,7 @@ const LanguagePage = () => {
     ? section?.sectionContent[questionIndex + 1]?.id.toString()
     : null;
 
+  const questionType = "Identify";
   if (loading) {
     return <Loader />;
   }
@@ -92,11 +94,19 @@ const LanguagePage = () => {
   return (
     <div className='languagePageContainer'>
       <LanguagePageNavBar onSettingsClick={handleModal} />
-      <QuestionDisplay
-        question={question}
-        selectedOption={selectedOption}
-        setSelectedOption={setSelectedOption}
-      />
+      {questionType === " " ? (
+        <QuestionDisplay
+          question={question}
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+        />
+      ) : (
+        <QuestionDisplay2
+          question={question}
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+        />
+      )}
       {hasAnswered ? (
         <LanguagePageNotification
           answerCorrect={answerCorrect}

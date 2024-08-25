@@ -1,0 +1,10 @@
+.btnContainer {
+  background-color: inherit;
+  color: #37464f;
+  border: 2px solid #37464f;
+  box-shadow: 0.5px 3px 0 #37464f;
+}
+
+p {
+  font-size: 2px;
+}

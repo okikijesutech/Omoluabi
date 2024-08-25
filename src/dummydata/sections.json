@@ -11,7 +11,7 @@
       {
         "id": 1,
         "question": "What is a common Japanese dish made of vinegared rice?",
-        "questiontype": "",
+        "questiontype": "identify",
         "level": 1,
         "options": [
           {
@@ -40,7 +40,7 @@
       {
         "id": 2,
         "question": "Which of these is a traditional Italian food?",
-        "questiontype": "",
+        "questiontype": "identify",
         "level": 1,
         "options": [
           {
@@ -69,7 +69,7 @@
       {
         "id": 3,
         "question": "Which of these is a beverage?",
-        "questiontype": "",
+        "questiontype": "sentence",
         "level": 1,
         "options": [
           {
@@ -98,7 +98,7 @@
       {
         "id": 4,
         "question": "What is a popular Mexican food?",
-        "questiontype": "",
+        "questiontype": "sentence",
         "level": 1,
         "options": [
           {
@@ -127,7 +127,7 @@
       {
         "id": 5,
         "question": "Which of these is a type of pasta?",
-        "questiontype": "",
+        "questiontype": "identify",
         "level": 1,
         "options": [
           {
@@ -167,7 +167,7 @@
       {
         "id": 1,
         "question": "What is the main ingredient in guacamole?",
-        "questiontype": "",
+        "questiontype": "sentence",
         "level": 1,
         "options": [
           {
@@ -196,7 +196,7 @@
       {
         "id": 2,
         "question": "Which of these is used in baking bread?",
-        "questiontype": "",
+        "questiontype": "identify",
         "level": 1,
         "options": [
           {
@@ -225,7 +225,7 @@
       {
         "id": 3,
         "question": "What is a common herb used in Italian cooking?",
-        "questiontype": "",
+        "questiontype": "pronounciation",
         "level": 1,
         "options": [
           {
@@ -254,7 +254,7 @@
       {
         "id": 4,
         "question": "Which of these is a cooking method?",
-        "questiontype": "",
+        "questiontype": "identify",
         "level": 1,
         "options": [
           {
@@ -283,7 +283,7 @@
       {
         "id": 5,
         "question": "What is used to thicken sauces?",
-        "questiontype": "",
+        "questiontype": "pronounciation",
         "level": 1,
         "options": [
           {
@@ -323,7 +323,7 @@
       {
         "id": 1,
         "question": "How do you ask for directions in English?",
-        "questiontype": "",
+        "questiontype": "sentence",
         "level": 1,
         "options": [
           {
@@ -352,7 +352,7 @@
       {
         "id": 2,
         "question": "What phrase would you use to order food in a restaurant?",
-        "questiontype": "",
+        "questiontype": "identify",
         "level": 1,
         "options": [
           {
@@ -381,7 +381,7 @@
       {
         "id": 3,
         "question": "How do you ask for the bill in a restaurant?",
-        "questiontype": "",
+        "questiontype": "sentence",
         "level": 1,
         "options": [
           {
@@ -410,7 +410,7 @@
       {
         "id": 4,
         "question": "Which phrase means you need medical assistance?",
-        "questiontype": "",
+        "questiontype": "identify",
         "level": 1,
         "options": [
           {
@@ -439,7 +439,7 @@
       {
         "id": 5,
         "question": "What phrase do you use to find a restroom?",
-        "questiontype": "",
+        "questiontype": "sentence",
         "level": 1,
         "options": [
           {
@@ -479,7 +479,7 @@
       {
         "id": 1,
         "question": "What is a common Japanese dish made of vinegared rice?",
-        "questiontype": "",
+        "questiontype": "identify",
         "level": 1,
         "options": [
           {
@@ -508,7 +508,7 @@
       {
         "id": 2,
         "question": "Which of these is a traditional Italian food?",
-        "questiontype": "",
+        "questiontype": "pronounciation",
         "level": 1,
         "options": [
           {
@@ -537,7 +537,7 @@
       {
         "id": 3,
         "question": "Which of these is a beverage?",
-        "questiontype": "",
+        "questiontype": "identify",
         "level": 1,
         "options": [
           {
@@ -566,7 +566,7 @@
       {
         "id": 4,
         "question": "What is a popular Mexican food?",
-        "questiontype": "",
+        "questiontype": "pronounciation",
         "level": 1,
         "options": [
           {
@@ -595,7 +595,7 @@
       {
         "id": 5,
         "question": "Which of these is a type of pasta?",
-        "questiontype": "",
+        "questiontype": "sentence",
         "level": 1,
         "options": [
           {
@@ -635,7 +635,7 @@
       {
         "id": 1,
         "question": "What is the main ingredient in guacamole?",
-        "questiontype": "",
+        "questiontype": "sentence",
         "level": 1,
         "options": [
           {
@@ -664,7 +664,7 @@
       {
         "id": 2,
         "question": "Which of these is used in baking bread?",
-        "questiontype": "",
+        "questiontype": "sentence",
         "level": 1,
         "options": [
           {
@@ -693,7 +693,7 @@
       {
         "id": 3,
         "question": "What is a common herb used in Italian cooking?",
-        "questiontype": "",
+        "questiontype": "identify",
         "level": 1,
         "options": [
           {
@@ -722,7 +722,7 @@
       {
         "id": 4,
         "question": "Which of these is a cooking method?",
-        "questiontype": "",
+        "questiontype": "pronounciation",
         "level": 1,
         "options": [
           {
@@ -751,7 +751,7 @@
       {
         "id": 5,
         "question": "What is used to thicken sauces?",
-        "questiontype": "",
+        "questiontype": "sentence",
         "level": 1,
         "options": [
           {
@@ -791,7 +791,7 @@
       {
         "id": 1,
         "question": "How do you ask for directions in English?",
-        "questiontype": "",
+        "questiontype": "identify",
         "level": 1,
         "options": [
           {
@@ -820,7 +820,7 @@
       {
         "id": 2,
         "question": "What phrase would you use to order food in a restaurant?",
-        "questiontype": "",
+        "questiontype": "identify",
         "level": 1,
         "options": [
           {
@@ -849,7 +849,7 @@
       {
         "id": 3,
         "question": "How do you ask for the bill in a restaurant?",
-        "questiontype": "",
+        "questiontype": "pronounciation",
         "level": 1,
         "options": [
           {
@@ -878,7 +878,7 @@
       {
         "id": 4,
         "question": "Which phrase means you need medical assistance?",
-        "questiontype": "",
+        "questiontype": "pronounciation",
         "level": 1,
         "options": [
           {
@@ -907,7 +907,7 @@
       {
         "id": 5,
         "question": "What phrase do you use to find a restroom?",
-        "questiontype": "",
+        "questiontype": "pronounciation",
         "level": 1,
         "options": [
           {

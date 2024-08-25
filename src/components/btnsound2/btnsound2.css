@@ -1,0 +1,11 @@
+.btnSoundContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #49c0f8;
+  border-radius: 18px;
+  border: 1px solid #1899d6;
+  box-shadow: 0 6px 0 #1899d6;
+}
