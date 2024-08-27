@@ -1,9 +1,13 @@
 import "./btnwords.css";
 
-const BtnWords = () => {
+interface BtnWordsProps {
+  option: string;
+}
+
+const BtnWords: React.FC<BtnWordsProps> = ({ option }) => {
   return (
     <button className='btnContainer'>
-      <p>{} hello</p>
+      <p className='p'>{option}</p>
     </button>
   );
 };

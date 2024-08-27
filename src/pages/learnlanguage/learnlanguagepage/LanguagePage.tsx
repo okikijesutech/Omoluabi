@@ -5,6 +5,9 @@ import { LessonModal } from "../../../modals";
 import {
   LanguagePageNavBar,
   QuestionDisplay,
+  QuestionDisplay2,
+  QuestionDisplay3,
+  QuestionDisplay4,
   LanguagePageNotification,
   ControlButtons,
 } from "../../../components";
@@ -13,7 +16,6 @@ import { useLifeline } from "../../../context/LifelineContext";
 import "./languagepage.css";
 import ZeroLivesModal from "../../../modals/zerolives/ZeroLivesModal";
 import LessonCompletePage from "../../../modals/lessoncompletemodal/LessonCompletePage";
-import QuestionDisplay2 from "../../../components/questiondisplay2/QuestionDisplay2";
 
 const LanguagePage = () => {
   const [modalOn, setModalOn] = useState(false);
@@ -76,6 +78,8 @@ const LanguagePage = () => {
     return <div>Question not found</div>;
   }
 
+  const questionType = question?.questiontype;
+
   const questionIndex = section?.sectionContent.findIndex(
     (q) => q.id === Number(questionId)
   );
@@ -86,27 +90,45 @@ const LanguagePage = () => {
     ? section?.sectionContent[questionIndex + 1]?.id.toString()
     : null;
 
-  const questionType = "Identify";
   if (loading) {
     return <Loader />;
   }
 
+  const renderQuestionDisplay = () => {
+    switch (questionType) {
+      case "identify":
+        return (
+          <QuestionDisplay
+            question={question}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+          />
+        );
+      case "pronounciation":
+        return (
+          <QuestionDisplay2
+            question={question}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+          />
+        );
+      case "sentence":
+        return (
+          <QuestionDisplay3
+            question={question}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+          />
+        );
+      default:
+        return <div>Unsupported question type</div>;
+    }
+  };
+
   return (
     <div className='languagePageContainer'>
       <LanguagePageNavBar onSettingsClick={handleModal} />
-      {questionType === " " ? (
-        <QuestionDisplay
-          question={question}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-        />
-      ) : (
-        <QuestionDisplay2
-          question={question}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-        />
-      )}
+      {renderQuestionDisplay()}
       {hasAnswered ? (
         <LanguagePageNotification
           answerCorrect={answerCorrect}

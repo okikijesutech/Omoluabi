@@ -2,7 +2,7 @@ import React from "react";
 import BtnOptions from "../btnoptions/BtnOptions";
 import { IoSparkles } from "react-icons/io5";
 import img from "../../assets/images/water-bottle.png";
-import "./questiondisplay.css";
+import "./questiondisplay4.css";
 
 interface Option {
   img: string;

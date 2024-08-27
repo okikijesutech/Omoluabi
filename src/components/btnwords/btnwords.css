@@ -6,8 +6,9 @@
   box-shadow: 0.5px 3px 0 #37464f;
 }
 
-p {
-  font-size: 2px;
+.btnContainer.p {
+  font-size: 12px;
+  color: #37464f;
 }
 
 .btnContainer:active {

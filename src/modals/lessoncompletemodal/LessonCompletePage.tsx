@@ -14,8 +14,7 @@ const LessonCompletePage = () => {
       </div>
       <div className='lessonCompleteActions'>
         <Link to='/review'>Review Lesson</Link>
-        <Link to='/next-lesson'>Next Lesson</Link>
-        <Link to='/dashboard'>Back to Dashboard</Link>
+        <Link to='/learnlanguage'>Back to Dashboard</Link>
       </div>
     </div>
   );

@@ -1,8 +1,7 @@
-import React from "react";
-import BtnOptions from "../btnoptions/BtnOptions";
+import { useState, useEffect } from "react";
 import { IoSparkles } from "react-icons/io5";
-import img from "../../assets/images/water-bottle.png";
-import "./questiondisplay.css";
+import "./questiondisplay3.css";
+import BtnWords from "../btnwords/BtnWords";
 
 interface Option {
   img: string;
@@ -23,9 +22,28 @@ interface QuestionDisplayProps {
 
 const QuestionDisplay: React.FC<QuestionDisplayProps> = ({
   question,
-  selectedOption,
   setSelectedOption,
 }) => {
+  const [selected, setSelected] = useState<Option | null>(null);
+  const [isAboveHr, setIsAboveHr] = useState<boolean>(false);
+  const handleOptionClick = (option: Option) => {
+    setSelected(option);
+    setIsAboveHr(true);
+    setSelectedOption(option.number);
+  };
+
+  const handleReturnClick = () => {
+    setIsAboveHr(false);
+    setSelected(null);
+    setSelectedOption(null);
+  };
+
+  useEffect(() => {
+    setSelected(null);
+    setIsAboveHr(false);
+    setSelectedOption(null);
+  }, [question.id, setSelectedOption]);
+
   return (
     <div className='questiondisplay'>
       <div>
@@ -35,18 +53,23 @@ const QuestionDisplay: React.FC<QuestionDisplayProps> = ({
         </h4>
         <p>{question.question}</p>
       </div>
+      <hr className='displayHr' />
+      {selected && isAboveHr && (
+        <div className='selectedOption' onClick={handleReturnClick}>
+          <BtnWords option={selected.answer} />
+        </div>
+      )}
+      <hr className='displayHr' />
       <div className='optionsdisplay'>
         {question.options.map((option) => (
           <div
             key={option.number}
-            onClick={() => setSelectedOption(option.number)}
+            onClick={() => handleOptionClick(option)}
+            className={`optionItem ${
+              selected && selected.number === option.number ? "hidden" : ""
+            }`}
           >
-            <BtnOptions
-              img={img}
-              answer={option.answer}
-              number={option.number}
-              isSelected={selectedOption === option.number}
-            />
+            <BtnWords option={option.answer} />
           </div>
         ))}
       </div>

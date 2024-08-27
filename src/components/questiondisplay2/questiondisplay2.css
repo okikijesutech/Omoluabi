@@ -50,3 +50,34 @@ hr {
   width: 70%;
   margin: 70px 0px 10px;
 }
+
+.questiondisplay p {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px;
+  color: #f1f7fb;
+}
+
+.selectedOption {
+  position: relative;
+  animation: moveUp 0.5s forwards;
+  top: -20px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+@keyframes moveUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.optionsdisplay.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
