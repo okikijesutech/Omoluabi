@@ -9,3 +9,8 @@
   border: 1px solid #1899d6;
   box-shadow: 0 6px 0 #1899d6;
 }
+
+.btnSoundContainer:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px 0 #1899d6;
+}

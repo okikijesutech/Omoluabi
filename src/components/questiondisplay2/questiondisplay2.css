@@ -23,7 +23,6 @@
 .optionsdisplay {
   display: flex;
   gap: 10px;
-  margin-top: 50px;
 }
 
 .soundButtonsContainer {
@@ -43,5 +42,11 @@
 }
 
 hr {
-  border: 2px solid #37464f;
+  border: none;
+  border-top: 2px solid #37464f;
+}
+
+.displayHr {
+  width: 70%;
+  margin: 70px 0px 10px;
 }
