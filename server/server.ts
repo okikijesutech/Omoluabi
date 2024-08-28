@@ -22,11 +22,15 @@ app.post("/api/generate-text", async (req: Request, res: Response) => {
       max_tokens: 100,
       temperature: 0.7,
     });
-    res.json({ text: response.choices[0].message?.content?.trim() }); // Adjust to match the response format of the new model
+    res.json({ text: response.choices[0].message?.content?.trim() });
   } catch (error) {
-    console.error("Error generating text:", error); // Add logging for debugging
+    console.error("Error generating text:", error);
     res.status(500).json({ error: "Failed to fetch the meaning" });
   }
+});
+
+app.get("/api/ping", (req: Request, res: Response) => {
+  res.send("Server is up!");
 });
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 5000;

@@ -1,64 +1,32 @@
-// import { useState } from "react";
-// // import { fetchNameMeaning } from "../../../services/api";
-// // import  {generateText}  from "@google/generative-ai";
-// import "./quests.css";
-
-// const NameMeaning = () => {
-//   const [name, setName] = useState("");
-//   const [meaning, setMeaning] = useState("");
-//   const [loading, setLoading] = useState(false);
-
-//   const generateText = async ({
-//     prompt,
-//   }: {
-//     prompt: string;
-//   }): Promise<{ text: string }> => {
-//     return { text: "This is a mocked meaning for the name." }; // Mocked for development
-//   };
-
-//   const handleFetchMeaning = async () => {
-//     try {
-//       setLoading(true);
-//       const prompt = `Translate the Yoruba name "${name}" to English and provide its meaning.`;
-//       const response = await generateText({ prompt });
-//       const translatedMeaning = response.text.trim();
-//       setMeaning(translatedMeaning);
-//       // const result = await fetchNameMeaning(name);
-//       // setMeaning(result);
-//     } catch (e) {
-//       setMeaning("Unable to fetch at this time");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <div className='questscontainer'>
-//       <input
-//         type='text'
-//         value={name}
-//         onChange={(e) => setName(e.target.value)}
-//         placeholder='Enter Yoruba Name'
-//       />
-//       <button onClick={handleFetchMeaning}>
-//         {loading ? <p>Loading meaning ...</p> : <p>Get Meaning</p>}
-//       </button>
-//       <p style={{ color: "red" }}>{meaning}</p>
-
-//       {meaning && <p>Meaning: {meaning}</p>}
-//     </div>
-//   );
-// };
-
-// export default NameMeaning;
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ServiceUnavailable } from "../../../components";
 import "./quests.css";
 
 const NameMeaning = () => {
   const [name, setName] = useState("");
   const [meaning, setMeaning] = useState("");
   const [loading, setLoading] = useState(false);
+  const [serverAvailability, setServerAvailability] = useState(true);
+
+  const checkServerAvailability = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/ping", {
+        method: "GET",
+      });
+
+      if (response.ok) {
+        setServerAvailability(true);
+      } else {
+        setServerAvailability(false);
+      }
+    } catch (error) {
+      setServerAvailability(false);
+    }
+  };
+
+  useEffect(() => {
+    checkServerAvailability();
+  }, []);
 
   const handleFetchMeaning = async () => {
     if (!name.trim()) return;
@@ -86,24 +54,27 @@ const NameMeaning = () => {
 
   return (
     <div className='questscontainer'>
-      <input
-        type='text'
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder='Enter Yoruba Name'
-        disabled={loading}
-      />
-      <button onClick={handleFetchMeaning} disabled={loading}>
-        {loading ? <Spinner /> : <p>Get Meaning</p>}
-      </button>
-      <p style={{ color: "red" }}>{meaning}</p>
+      <div className='namemeaningcontainer'>
+        <h3>Get the meaningof your name</h3>
+        <input
+          type='text'
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder='Enter Yoruba Name'
+          disabled={loading}
+        />
+        <button onClick={handleFetchMeaning} disabled={loading}>
+          {loading ? <Spinner /> : <p>Get Meaning</p>}
+        </button>
+        <p style={{ color: "red" }}>{meaning}</p>
 
-      {meaning && <p>Meaning: {meaning}</p>}
+        {meaning && <p>Meaning: {meaning}</p>}
+        {!serverAvailability && <ServiceUnavailable />}
+      </div>
     </div>
   );
 };
 
-// Spinner Component
 const Spinner = () => (
   <div className='spinner'>
     <div className='double-bounce1'></div>

@@ -17,6 +17,7 @@ import QuestionDisplay3 from "./questiondisplay3/QuestionDisplay3";
 import QuestionDisplay4 from "./questiondisplay4/QuestionDisplay4";
 import ControlButtons from "./controlbuttons/ControlButtons";
 import BtnSound from "./btnsound/BtnSound";
+import ServiceUnavailable from "./serviceunavailable/ServiceUnavailable";
 
 export {
   NavBar,
@@ -38,4 +39,5 @@ export {
   QuestionDisplay4,
   ControlButtons,
   BtnSound,
+  ServiceUnavailable,
 };

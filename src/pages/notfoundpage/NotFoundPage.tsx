@@ -13,6 +13,7 @@ const NotFoundPage = () => {
   return (
     <div className='not-found-container'>
       <h1>Page Not Found</h1>
+      <p>What are you looking for?</p>
       <p className='redirect-message'>
         You will be redirected to the home page shortly.
       </p>

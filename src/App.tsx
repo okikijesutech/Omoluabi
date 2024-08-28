@@ -12,11 +12,7 @@ import {
   NotFoundPage,
   Login,
   LanguagePage,
-  HistoryLanding,
-  HistoryPage,
   Signup,
-  SlangLanding,
-  SlangPage,
   Register,
   LanguageLanding,
   LearnLanguageChar,
@@ -57,14 +53,6 @@ function App() {
             path='/lesson/:unitId/:questionId'
             element={<LanguagePage />}
           />
-        </Route>
-        <Route path='/' element={<MainLayout />}>
-          <Route path='/learnmordernslang' element={<SlangLanding />} />
-          <Route path='/learnmordernslang:id' element={<SlangPage />} />
-        </Route>
-        <Route path='/' element={<MainLayout />}>
-          <Route path='/learnhistory' element={<HistoryLanding />} />
-          <Route path='/learnhistory:id' element={<HistoryPage />} />
         </Route>
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
