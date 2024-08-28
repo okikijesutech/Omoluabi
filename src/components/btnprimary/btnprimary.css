@@ -30,4 +30,5 @@ a {
 
 .btn:active {
   transform: translateY(4px);
+  box-shadow: 0 2px 0;
 }

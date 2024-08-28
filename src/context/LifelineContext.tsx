@@ -72,7 +72,7 @@ export const LifelineProvider: React.FC<LifelineProviderProps> = ({
       setLives((prevLives) => prevLives - 1);
       if (lives - 1 === 0) {
         setLastDepleted(new Date());
-        await updateDoc(doc(db, "user", auth.currentUser?.uid || ""), {
+        await updateDoc(doc(db, "users", auth.currentUser?.uid || ""), {
           lives: lives - 1,
           lastDepleted: new Date(),
         });

@@ -934,5 +934,161 @@
         "correctAnswer": "1"
       }
     ]
+  },
+  {
+    "section": "3",
+    "unit": "3",
+    "unitname": "Journey",
+    "unitcolor": "#3498db",
+    "unitshadow": "#256ba1",
+    "id": 3,
+    "name": "Travel phrases",
+    "sectionContent": [
+      {
+        "id": 1,
+        "question": "How do you ask for directions in English?",
+        "questiontype": "identify",
+        "level": 1,
+        "options": [
+          {
+            "img": "",
+            "answer": "Can you help me?",
+            "number": 1
+          },
+          {
+            "img": "",
+            "answer": "I need a doctor.",
+            "number": 2
+          },
+          {
+            "img": "",
+            "answer": "How much is this?",
+            "number": 3
+          },
+          {
+            "img": "",
+            "answer": "Where is the station?",
+            "number": 4
+          }
+        ],
+        "correctAnswer": "1"
+      },
+      {
+        "id": 2,
+        "question": "What phrase would you use to order food in a restaurant?",
+        "questiontype": "identify",
+        "level": 1,
+        "options": [
+          {
+            "img": "",
+            "answer": "I would like to order.",
+            "number": 1
+          },
+          {
+            "img": "",
+            "answer": "Can you help me?",
+            "number": 2
+          },
+          {
+            "img": "",
+            "answer": "Where is the restroom?",
+            "number": 3
+          },
+          {
+            "img": "",
+            "answer": "I need a doctor.",
+            "number": 4
+          }
+        ],
+        "correctAnswer": "1"
+      },
+      {
+        "id": 3,
+        "question": "How do you ask for the bill in a restaurant?",
+        "questiontype": "pronounciation",
+        "level": 1,
+        "options": [
+          {
+            "img": "",
+            "answer": "Can I get the bill, please?",
+            "number": 1
+          },
+          {
+            "img": "",
+            "answer": "I would like to order.",
+            "number": 2
+          },
+          {
+            "img": "",
+            "answer": "Where is the station?",
+            "number": 3
+          },
+          {
+            "img": "",
+            "answer": "Can you help me?",
+            "number": 4
+          }
+        ],
+        "correctAnswer": "1"
+      },
+      {
+        "id": 4,
+        "question": "Which phrase means you need medical assistance?",
+        "questiontype": "pronounciation",
+        "level": 1,
+        "options": [
+          {
+            "img": "",
+            "answer": "I need a doctor.",
+            "number": 1
+          },
+          {
+            "img": "",
+            "answer": "Where is the restroom?",
+            "number": 2
+          },
+          {
+            "img": "",
+            "answer": "How much is this?",
+            "number": 3
+          },
+          {
+            "img": "",
+            "answer": "Can I get the bill, please?",
+            "number": 4
+          }
+        ],
+        "correctAnswer": "1"
+      },
+      {
+        "id": 5,
+        "question": "What phrase do you use to find a restroom?",
+        "questiontype": "pronounciation",
+        "level": 1,
+        "options": [
+          {
+            "img": "",
+            "answer": "Where is the restroom?",
+            "number": 1
+          },
+          {
+            "img": "",
+            "answer": "I need a doctor.",
+            "number": 2
+          },
+          {
+            "img": "",
+            "answer": "Can you help me?",
+            "number": 3
+          },
+          {
+            "img": "",
+            "answer": "I would like to order.",
+            "number": 4
+          }
+        ],
+        "correctAnswer": "1"
+      }
+    ]
   }
 ]

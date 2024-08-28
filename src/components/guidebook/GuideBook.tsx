@@ -35,7 +35,7 @@ const GuideBook: React.FC<GuideBookProps> = ({
           bgcolor={unitcolor}
           bordercolor={unitshadow}
           shadow={unitshadow}
-          hover='#7fb42a'
+          hover={unitcolor}
           to=''
           textColor='white'
         />
