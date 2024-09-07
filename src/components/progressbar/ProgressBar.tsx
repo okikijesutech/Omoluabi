@@ -1,11 +1,20 @@
 import { useQuiz } from "../../context/QuizContext";
 import "./progressbar.css";
 
-const ProgressBar: React.FC = () => {
-  const { state } = useQuiz();
-  const totalQuestions = 5; // Assume total number of questions for this example
+interface ProgressBarProps {
+  totalQuestions: number;
+}
 
-  const progressPercentage = (state.totalQuestions / totalQuestions) * 100;
+const ProgressBar: React.FC<ProgressBarProps> = ({ totalQuestions }) => {
+  const { state } = useQuiz();
+
+  console.log("Answered Questions:", state.answeredQuestions);
+
+  const answeredCount = state.answeredQuestions.filter(
+    (answered) => answered
+  ).length;
+
+  const progressPercentage = (answeredCount / totalQuestions) * 100;
 
   return (
     <div className='progressBar'>

@@ -40,6 +40,8 @@ const Register = () => {
         uid: user.uid,
         lives: 5,
         lastDepleted: null,
+        streak: 1,
+        lastPlayed: new Date(),
       });
       login(user);
       navigate("/learnlanguage");
@@ -62,6 +64,8 @@ const Register = () => {
         uid: user.uid,
         lives: 5,
         lastDepleted: null,
+        streak: 1,
+        lastPlayed: new Date(),
       });
       login(user);
       navigate("/learnlanguage");

@@ -83,6 +83,10 @@ const LanguageLanding = () => {
       sectionContent: section.sectionContent || [],
     })) || [];
 
+  if (sections.length === 0 || currentSectionData.length === 0) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className='languagelandingcontainer'>
       <div className='guidebookcontainer'>

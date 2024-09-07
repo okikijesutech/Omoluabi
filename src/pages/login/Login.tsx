@@ -26,6 +26,8 @@ const Login = () => {
         uid: user.uid,
         lives: 5,
         lastDepleted: null,
+        streak: 1,
+        lastPlayed: new Date(),
       });
     }
   };

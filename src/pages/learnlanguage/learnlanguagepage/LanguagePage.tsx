@@ -7,7 +7,6 @@ import {
   QuestionDisplay,
   QuestionDisplay2,
   QuestionDisplay3,
-  QuestionDisplay4,
   LanguagePageNotification,
   ControlButtons,
 } from "../../../components";
@@ -67,6 +66,7 @@ const LanguagePage = () => {
   }
 
   const section = sectionData.find((sec) => sec.id === Number(unitId));
+  const totalQuestions = section?.sectionContent.length || 0;
   const question = section?.sectionContent.find(
     (q) => q.id === Number(questionId)
   );
@@ -127,7 +127,10 @@ const LanguagePage = () => {
 
   return (
     <div className='languagePageContainer'>
-      <LanguagePageNavBar onSettingsClick={handleModal} />
+      <LanguagePageNavBar
+        onSettingsClick={handleModal}
+        totalQuestions={totalQuestions}
+      />
       {renderQuestionDisplay()}
       {hasAnswered ? (
         <LanguagePageNotification

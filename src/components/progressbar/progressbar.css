@@ -10,5 +10,6 @@
 .progressBarInner {
   height: 100%;
   background-color: #93d333;
+  border-radius: 8px;
   transition: width 0.3s ease-in-out;
 }

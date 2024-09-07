@@ -3,11 +3,10 @@ import { FaHeartCircleCheck, FaFire, FaShield } from "react-icons/fa6";
 import { FaGem } from "react-icons/fa";
 import { SlEnergy } from "react-icons/sl";
 import "./infobar.css";
-import BtnPrimary from "../btnprimary/BtnPrimary";
 import { useLifeline } from "../../context/LifelineContext";
 
 const InfoBar = () => {
-  const { lives } = useLifeline();
+  const { lives, streak } = useLifeline();
   return (
     <div className='infobarContainer'>
       <div className='infobarnav'>
@@ -20,7 +19,7 @@ const InfoBar = () => {
           }}
         >
           <FaFire size={24} />
-          <p style={{ color: "#ff9500" }}>0</p>
+          <p style={{ color: "#ff9500" }}>{streak}</p>
         </div>
         <div
           style={{
@@ -69,33 +68,6 @@ const InfoBar = () => {
           </div>
         </div>
       </div>
-      {/* <div className='infobardiv'>
-        <h4>Create a profile to save your progress</h4>
-        <div className='infobarprofilebtnconatiner'>
-          <BtnPrimary
-            title='CREATE A PROFILE'
-            bgcolor='#93d333'
-            textColor='#1e2f25'
-            bordercolor='#93d333'
-            shadow='#79b933'
-            to='/register'
-            hover='#7fb42a'
-            hoverbordercolor='#7fb42a'
-          />
-        </div>
-        <div>
-          <BtnPrimary
-            title='SIGN IN'
-            bgcolor='#49c0f8'
-            textColor='#16272f'
-            bordercolor='#49c0f8'
-            shadow='#1899d6'
-            to='/login'
-            hover='#38a7d6'
-            hoverbordercolor='#38a7d6'
-          />
-        </div>
-      </div> */}
       <div className='infobarsocials'>
         <Link to={""} className='infobarsocialslink'>
           ABOUT
