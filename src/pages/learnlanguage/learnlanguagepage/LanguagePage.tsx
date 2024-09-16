@@ -130,6 +130,7 @@ const LanguagePage = () => {
       <LanguagePageNavBar
         onSettingsClick={handleModal}
         totalQuestions={totalQuestions}
+        sectionContent={section.sectionContent}
       />
       {renderQuestionDisplay()}
       {hasAnswered ? (

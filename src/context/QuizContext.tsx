@@ -18,7 +18,7 @@ const initialState: QuizState = {
   totalCorrect: 0,
   consecutiveCorrect: 0,
   totalIncorrect: 0,
-  answeredQuestions: Array(5).fill(false),
+  answeredQuestions: [true, false, false, false, false],
 };
 
 const quizReducer = (state: QuizState, action: QuizAction): QuizState => {
@@ -29,9 +29,7 @@ const quizReducer = (state: QuizState, action: QuizAction): QuizState => {
         totalQuestions: state.totalQuestions + 1,
         totalCorrect: state.totalCorrect + 1,
         consecutiveCorrect: state.consecutiveCorrect + 1,
-        answeredQuestions: state.answeredQuestions.map((answered, index) =>
-          index === state.totalQuestions ? true : answered
-        ),
+        answeredQuestions: [...state.answeredQuestions, true],
       };
     case "ANSWER_INCORRECT":
       return {
@@ -39,15 +37,10 @@ const quizReducer = (state: QuizState, action: QuizAction): QuizState => {
         totalQuestions: state.totalQuestions + 1,
         totalIncorrect: state.totalIncorrect + 1,
         consecutiveCorrect: 0,
-        answeredQuestions: state.answeredQuestions.map((answered, index) =>
-          index === state.totalQuestions ? true : answered
-        ),
+        answeredQuestions: [...state.answeredQuestions, false],
       };
     case "RESET_QUIZ":
-      return {
-        ...initialState,
-        answeredQuestions: Array(state.totalQuestions).fill(false),
-      };
+      return initialState;
     default:
       return state;
   }

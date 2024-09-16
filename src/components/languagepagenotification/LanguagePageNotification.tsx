@@ -1,3 +1,4 @@
+import { useQuiz } from "../../context/QuizContext";
 import { Link } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
@@ -19,6 +20,17 @@ const LanguagePageNotification: React.FC<NotificationProps> = ({
   nextQuestionId,
   handleContinue,
 }) => {
+  const { state, dispatch } = useQuiz();
+
+  const handleAnswerSubmit = () => {
+    const unitIndex = Number(unitId);
+    if (answerCorrect && state.answeredQuestions[unitIndex]) {
+      dispatch({ type: "ANSWER_CORRECT" });
+    } else {
+      dispatch({ type: "ANSWER_INCORRECT" });
+    }
+    handleContinue();
+  };
   return (
     <div className='ctaconatiner correctNotificationContainer'>
       <div className='correctNotification'>
@@ -55,7 +67,7 @@ const LanguagePageNotification: React.FC<NotificationProps> = ({
             shadow={answerCorrect ? "#79b933" : "#d848483"}
             hover={answerCorrect ? "#79b933" : "#d84848"}
             textColor='#131f24'
-            onClick={handleContinue}
+            onClick={handleAnswerSubmit}
           />
         )}
       </div>

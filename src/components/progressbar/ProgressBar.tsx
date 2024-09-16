@@ -2,25 +2,26 @@ import { useQuiz } from "../../context/QuizContext";
 import "./progressbar.css";
 
 interface ProgressBarProps {
-  totalQuestions: number;
+  sectionContent: { id: number; question: string; correctAnswer: string }[];
 }
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ totalQuestions }) => {
+const ProgressBar: React.FC<ProgressBarProps> = ({ sectionContent }) => {
   const { state } = useQuiz();
 
-  console.log("Answered Questions:", state.answeredQuestions);
-
-  const answeredCount = state.answeredQuestions.filter(
-    (answered) => answered
+  // Filter the questions answered in this specific section
+  const answeredCount = sectionContent.filter(
+    (_, index) => state.answeredQuestions[index]
   ).length;
 
-  const progressPercentage = (answeredCount / totalQuestions) * 100;
+  // Calculate progress based on the number of questions in the sectionContent
+  const progressPercentage = (answeredCount / sectionContent.length) * 100;
 
   return (
     <div className='progressBar'>
       <div
         className='progressBarInner'
-        style={{ width: `${progressPercentage}%` }}
+        // style={{ width: `${progressPercentage}%` }}
+        style={{ width: `0` }}
       ></div>
     </div>
   );

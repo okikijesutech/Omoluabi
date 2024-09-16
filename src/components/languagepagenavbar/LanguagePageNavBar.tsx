@@ -8,11 +8,13 @@ import "./languagepagenavbar.css";
 interface LanguagePageNavBarProps {
   onSettingsClick: () => void;
   totalQuestions: number;
+  sectionContent: { level: number; id: number }[];
 }
 
 const LanguagePageNavBar: React.FC<LanguagePageNavBarProps> = ({
   onSettingsClick,
   totalQuestions,
+  sectionContent,
 }) => {
   const { lives } = useLifeline();
   return (
@@ -27,7 +29,10 @@ const LanguagePageNavBar: React.FC<LanguagePageNavBarProps> = ({
         onClick={onSettingsClick}
         style={{ cursor: "pointer" }}
       />
-      <ProgressBar totalQuestions={totalQuestions} />
+      <ProgressBar
+        totalQuestions={totalQuestions}
+        sectionContent={sectionContent}
+      />
       <div className='lives'>
         <FaHeart size={24} /> {lives}
       </div>
