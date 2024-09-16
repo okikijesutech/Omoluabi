@@ -6,7 +6,7 @@ interface BtnSound2Props {
   sound: string;
 }
 
-const BtnSound2: React.FC<BtnSound2Props> = ({ sound, rate }) => {
+const BtnSound2: React.FC<BtnSound2Props> = ({ sound, rate = 1 }) => {
   const playSound = () => {
     const audio = new Audio(sound);
     audio.playbackRate = rate;

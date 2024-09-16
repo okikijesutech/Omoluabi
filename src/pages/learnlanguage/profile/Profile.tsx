@@ -56,7 +56,10 @@ const Profile = () => {
       const creationTime = user.metadata.creationTime;
       if (creationTime) {
         const date = new Date(creationTime);
-        const options = { year: "numeric", month: "long" };
+        const options: Intl.DateTimeFormatOptions = {
+          year: "numeric",
+          month: "long",
+        };
         setDateJoined(date.toLocaleDateString(undefined, options));
       } else {
         setDateJoined("Unknown date");
