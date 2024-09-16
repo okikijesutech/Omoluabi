@@ -1,5 +1,5 @@
 import img from "../../../assets/images/ArewaKnot.webp";
-import "./leaderBoard.css";
+import "./leaderboard.css";
 const tablesResult = [
   {
     name: "Linda",
