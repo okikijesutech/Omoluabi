@@ -1,19 +1,28 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaHouse } from "react-icons/fa6";
-import { GiChest, GiPoliceBadge } from "react-icons/gi";
-import { RiCharacterRecognitionFill } from "react-icons/ri";
 import { PiDotsThreeCircleFill } from "react-icons/pi";
-import { FaUser } from "react-icons/fa";
-import { CiShop } from "react-icons/ci";
 import { useAuth } from "../../context/AuthContext";
-import "./sidebar.css";
+import { SIDEBAR_LINKS, NavLink } from "../../constants/navigationData";
+import "./SideBar.css";
+
+const SideBarItem = ({ link }: { link: NavLink }) => {
+  const location = useLocation();
+  const isActive = link.matchType === "exact" 
+    ? location.pathname === link.to 
+    : location.pathname.startsWith(link.to);
+
+  return (
+    <Link to={link.to} className='lilink'>
+      <li className={isActive ? "highlight" : ""}>
+        <link.icon size={24} />
+        <p>{link.label}</p>
+      </li>
+    </Link>
+  );
+};
 
 const SideBar = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const { logout } = useAuth();
-
-  const isLanguageLanding = location.pathname === "/learnlanguage";
 
   const handleLogout = () => {
     logout();
@@ -26,66 +35,10 @@ const SideBar = () => {
         <h1>Ọmọlúàbí</h1>
       </div>
       <ul>
-        <Link to={"/learnlanguage"} className='lilink'>
-          <li className={isLanguageLanding ? "highlight" : ""}>
-            <FaHouse size={24} />
-            <p>LEARN</p>
-          </li>
-        </Link>
-        <Link to={"/learnlanguage/literacy"} className='lilink'>
-          <li
-            className={
-              location.pathname.startsWith("/learnlanguage/literacy")
-                ? "highlight"
-                : ""
-            }
-          >
-            <RiCharacterRecognitionFill size={24} />
-            <p>LITERACY</p>
-          </li>
-        </Link>
-        <Link to={"/learnlanguage/leaderboard"} className='lilink'>
-          <li
-            className={
-              location.pathname === "/learnlanguage/leaderboard"
-                ? "highlight"
-                : ""
-            }
-          >
-            <GiPoliceBadge size={24} />
-            <p>LEADERSBOARD</p>
-          </li>
-        </Link>
-        <Link to={"/learnlanguage/quests"} className='lilink'>
-          <li
-            className={
-              location.pathname === "/learnlanguage/quests" ? "highlight" : ""
-            }
-          >
-            <GiChest size={24} />
-            <p>QUESTS</p>
-          </li>
-        </Link>
-        <Link to={"/learnlanguage/shop"} className='lilink'>
-          <li
-            className={
-              location.pathname === "/learnlanguage/shop" ? "highlight" : ""
-            }
-          >
-            <CiShop size={24} />
-            <p>SHOP</p>
-          </li>
-        </Link>
-        <Link to={"/learnlanguage/profile"} className='lilink'>
-          <li
-            className={
-              location.pathname === "/learnlanguage/profile" ? "highlight" : ""
-            }
-          >
-            <FaUser size={24} />
-            <p>PROFILE</p>
-          </li>
-        </Link>
+        {SIDEBAR_LINKS.map(link => (
+          <SideBarItem key={link.to} link={link} />
+        ))}
+        
         <li className='more'>
           <div className='moreContent'>
             <PiDotsThreeCircleFill size={24} />

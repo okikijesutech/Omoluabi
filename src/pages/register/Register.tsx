@@ -12,7 +12,7 @@ import {
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { useAuth } from "../../context/AuthContext";
-import "./register.css";
+import "./Register.css";
 
 const Register = () => {
   const [email, setEmail] = useState("");

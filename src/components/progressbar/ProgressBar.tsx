@@ -1,5 +1,5 @@
 import { useQuiz } from "../../context/QuizContext";
-import "./progressbar.css";
+import "./ProgressBar.css";
 
 interface ProgressBarProps {
   totalQuestions: number;

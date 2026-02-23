@@ -1,16 +1,15 @@
 import { Outlet } from "react-router-dom";
-import { InfoBar, SideBar } from "../../components";
-import "./learnlayout.css";
+import { SideBar, InfoBar } from "../../components";
+import "./LearnLayout.css";
 
-const LearnLayout = () => {
+export const LearnLayout = () => {
   return (
-    <div className='layout'>
+    <div className='learnLayout'>
       <SideBar />
-      <div className='vline'></div>
-      <Outlet />
+      <div className='learnContent'>
+        <Outlet />
+      </div>
       <InfoBar />
     </div>
   );
 };
-
-export default LearnLayout;

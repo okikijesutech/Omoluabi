@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { FaHeartCircleCheck, FaFire, FaShield } from "react-icons/fa6";
 import { FaGem } from "react-icons/fa";
 import { SlEnergy } from "react-icons/sl";
-import "./infobar.css";
+import "./InfoBar.css";
 import { useLifeline } from "../../context/LifelineContext";
 
 const InfoBar = () => {

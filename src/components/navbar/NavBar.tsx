@@ -1,8 +1,30 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { FaChevronDown } from "react-icons/fa";
-import BtnPrimary from "../btnprimary/BtnPrimary";
-import "./navbar.css";
+import BtnPrimary from "../BtnPrimary/BtnPrimary";
+import { LANGUAGES } from "../../constants/navigationData";
+import "./NavBar.css";
+
+const LanguageDropdown = ({ onLanguageChange }: { onLanguageChange: (code: string) => void }) => {
+  const { t } = useTranslation();
+  return (
+    <div className='navbardropdown'>
+      <p>{t("selectLanguage")}</p>
+      <FaChevronDown />
+      <div className='dropdownmenu'>
+        {LANGUAGES.map((language) => (
+          <span
+            key={language.code}
+            onClick={() => onLanguageChange(language.code)}
+            className='link'
+          >
+            {language.name}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const NavBar = () => {
   const [showContent, setShowContent] = useState(true);
@@ -13,52 +35,19 @@ const NavBar = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      if (scrollPosition > 300) {
-        setShowButton(true);
-        setShowContent(false);
-      } else {
-        setShowContent(true);
-        setShowButton(false);
-      }
-
-      if (scrollPosition > 150) {
-        setShadowBox(true);
-      } else {
-        setShadowBox(false);
-      }
+      setShowButton(scrollPosition > 300);
+      setShowContent(scrollPosition <= 300);
+      setShadowBox(scrollPosition > 150);
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
-  const languages = [
-    { name: "Hausa", code: "ha" },
-    { name: "Yoruba", code: "yo" },
-    { name: "Igbo", code: "ig" },
-    { name: "Fulfulde (Fulani)", code: "ff" },
-    { name: "Kanuri", code: "kr" },
-    { name: "Ibibio", code: "ib" },
-    { name: "Tiv", code: "tv" },
-    { name: "Ijaw", code: "ij" },
-    { name: "Edo", code: "ee" },
-    { name: "Urhobo", code: "ur" },
-    { name: "Nupe", code: "nu" },
-    { name: "Gbagyi", code: "gb" },
-    { name: "Jukun", code: "ju" },
-    { name: "Idoma", code: "id" },
-    { name: "Igala", code: "ig" },
-    { name: "Berom", code: "be" },
-    { name: "Ebira", code: "eb" },
-    { name: "Anang", code: "an" },
-    { name: "Efik", code: "ef" },
-    { name: "Isoko", code: "is" },
-  ];
+
   return (
     <div
       className='navbar'
@@ -67,23 +56,9 @@ const NavBar = () => {
       <div className='navbarlogo'>
         <h1>Ọmọlúàbí</h1>
       </div>
-      {showContent && (
-        <div className='navbardropdown'>
-          <p>{t("selectLanguage")}</p>
-          <FaChevronDown />
-          <div className='dropdownmenu'>
-            {languages.map((language) => (
-              <span
-                key={language.code}
-                onClick={() => changeLanguage(language.code)}
-                className='link'
-              >
-                {language.name}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
+      
+      {showContent && <LanguageDropdown onLanguageChange={changeLanguage} />}
+      
       {showButton && (
         <div className='navbarbtn'>
           <BtnPrimary

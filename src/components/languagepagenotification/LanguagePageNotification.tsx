@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
 import { MdOutlineFlag } from "react-icons/md";
-import BtnPrimary from "../btnprimary/BtnPrimary";
+import BtnPrimary from "../BtnPrimary/BtnPrimary";
 import "./languagepagenotification.css";
 
 interface NotificationProps {

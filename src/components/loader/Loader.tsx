@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Lottie from "react-lottie";
 import animationData from "../../assets/animation/loader.json";
-import "./loader.css";
+import "./Loader.css";
 
 const Loader = () => {
   const [count, setCount] = useState(0);

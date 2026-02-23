@@ -5,7 +5,7 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import { auth, db } from "../firebaseConfig";
+import { auth, db, isFirebaseConfigured } from "../firebaseConfig";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useAuth } from "./AuthContext";
 
@@ -42,7 +42,7 @@ export const LifelineProvider: React.FC<LifelineProviderProps> = ({
   const [lastPlayed, setLastPlayed] = useState<Date | null>(null);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && isFirebaseConfigured) {
       const loadLifeLIne = async () => {
         const userDoc = await getDoc(
           doc(db, "users", auth.currentUser?.uid || "")
@@ -61,7 +61,7 @@ export const LifelineProvider: React.FC<LifelineProviderProps> = ({
 
   useEffect(() => {
     const checkAndResetLives = async () => {
-      if (lives < 5 && lastDepleted) {
+      if (lives < 5 && lastDepleted && isFirebaseConfigured) {
         const timeSinceDepletion = Date.now() - lastDepleted.getTime();
         if (timeSinceDepletion >= 24 * 60 * 60 * 1000) {
           setLives(initialLives);
@@ -78,6 +78,7 @@ export const LifelineProvider: React.FC<LifelineProviderProps> = ({
   const decreaseLife = async () => {
     if (lives > 0) {
       setLives((prevLives) => prevLives - 1);
+      if (!isFirebaseConfigured) return;
       if (lives - 1 === 0) {
         setLastDepleted(new Date());
         await updateDoc(doc(db, "users", auth.currentUser?.uid || ""), {
@@ -95,6 +96,8 @@ export const LifelineProvider: React.FC<LifelineProviderProps> = ({
   const updateStreak = async () => {
     const today = new Date();
     const oneDayInMs = 24 * 60 * 60 * 1000;
+
+    if (!isFirebaseConfigured) return;
 
     if (lastPlayed) {
       const timeDifference = today.getTime() - lastPlayed.getTime();

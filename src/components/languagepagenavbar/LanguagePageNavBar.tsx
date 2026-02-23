@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import ProgressBar from "../progressbar/ProgressBar";
+import ProgressBar from "../ProgressBar/ProgressBar";
 import { FaCog, FaHeart } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
 import { useLifeline } from "../../context/LifelineContext";
-import "./languagepagenavbar.css";
+import "./LanguagePageNavBar.css";
 
 interface LanguagePageNavBarProps {
   onSettingsClick: () => void;

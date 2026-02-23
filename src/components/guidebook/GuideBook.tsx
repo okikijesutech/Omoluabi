@@ -1,6 +1,6 @@
 import { FaChevronLeft } from "react-icons/fa6";
-import BtnPrimary from "../btnprimary/BtnPrimary";
-import "./guidebook.css";
+import BtnPrimary from "../BtnPrimary/BtnPrimary";
+import "./GuideBook.css";
 
 interface GuideBookProps {
   section: string;

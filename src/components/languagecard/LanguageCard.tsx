@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import imagesMap from "../../imagesMap";
-import "./languagecard.css";
+import "./LanguageCard.css";
 
 interface LanguageCardProps {
   image: string;

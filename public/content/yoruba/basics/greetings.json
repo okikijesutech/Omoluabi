@@ -1,0 +1,25 @@
+{
+  "id": "yor_greetings_1",
+  "title": "Greetings",
+  "language": "Yoruba",
+  "questions": [
+    {
+      "type": "multiple-choice",
+      "sentence": "How do you say 'Good morning' in Yoruba?",
+      "options": ["Ẹ n lẹ", "Ẹ kú àárọ̀", "Ẹ káàbọ̀", "O dà bọ̀"],
+      "correctAnswer": "Ẹ kú àárọ̀"
+    },
+    {
+      "type": "translate",
+      "sentence": "Ẹ kú àárọ̀",
+      "translation": "Good morning",
+      "correctAnswer": "Good morning"
+    },
+    {
+      "type": "multiple-choice",
+      "sentence": "What is 'Welcome' in Yoruba?",
+      "options": ["Ẹ káàbọ̀", "Ẹ n lẹ", "Ẹ kú alẹ́", "O dà ábọ̀"],
+      "correctAnswer": "Ẹ káàbọ̀"
+    }
+  ]
+}

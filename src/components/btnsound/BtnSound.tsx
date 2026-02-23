@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./btnsound.css";
+import "./BtnSound.css";
 
 interface BtnSoundProps {
   sound: string;

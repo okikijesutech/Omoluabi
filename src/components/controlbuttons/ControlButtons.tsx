@@ -1,8 +1,8 @@
-import BtnPrimary from "../btnprimary/BtnPrimary";
-import "./controlbutton.css";
+import BtnPrimary from "../BtnPrimary/BtnPrimary";
+import "./ControlButtons.css";
 
 interface ControlButtonsProps {
-  selectedOption: number | null;
+  selectedOption: string | number | null;
   unitId: string;
   nextQuestionId: string | null;
   checkAnswer: () => void;

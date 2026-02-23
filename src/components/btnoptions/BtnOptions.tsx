@@ -1,4 +1,4 @@
-import "./btnoptions.css";
+import "./BtnOptions.css";
 
 interface BtnOptionsProps {
   img?: string;

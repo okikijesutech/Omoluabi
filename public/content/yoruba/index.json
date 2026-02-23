@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1,
+    "section": "Section 1",
+    "unit": "Unit 1",
+    "unitname": "Basics",
+    "unitcolor": "#58cc02",
+    "unitshadow": "#46a302",
+    "sectionContent": [
+      { "level": 1, "id": 101, "category": "basics", "lessonId": "greetings" }
+    ]
+  }
+]

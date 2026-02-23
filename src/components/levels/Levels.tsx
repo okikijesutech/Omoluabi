@@ -1,5 +1,6 @@
-import LevelSection from "../levelsection/LevelSection";
-import "./levels.css";
+import React from "react";
+import LevelSection from "../LevelSection/LevelSection";
+import "./Levels.css";
 
 interface LevelsProps {
   sections: {
@@ -27,8 +28,6 @@ const Levels: React.FC<LevelsProps> = ({ sections }) => {
             marginValues={marginValues}
             isEven={isEven}
             index={index}
-            levelBgColor={section.unitcolor}
-            levelShadowColor={section.unitshadow}
           />
         );
       })}

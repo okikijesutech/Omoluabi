@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./btnprimary.css";
+import "./BtnPrimary.css";
 
 interface BtnPrimaryProps {
   title: string;
