@@ -1,0 +1,18 @@
+.btnsound {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 5px;
+  border: 2px solid #37464f;
+  box-shadow: 0 4px 0 #37464f;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.btnsound p {
+  margin: 0;
+  color: aliceblue;
+  text-align: center;
+}

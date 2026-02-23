@@ -1,8 +1,6 @@
 import {
   createBrowserRouter,
-  Route,
   RouterProvider,
-  createRoutesFromElements,
   Navigate,
 } from "react-router-dom";
 import "./App.css";
@@ -25,42 +23,54 @@ import {
 import { QuizProvider } from "./context/QuizContext";
 import { LifelineProvider } from "./context/LifelineContext";
 import { AuthProvider } from "./context/AuthContext";
-import ProtectedRoute from "./components/ProtectedRoute";
+import { ProtectedRoute } from "./components";
 
 function App() {
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <>
-        <Route path='/' element={<MainLayout />}>
-          <Route index element={<HomePage />} />
-        </Route>
-        <Route path='/'>
-          <Route path='/learnlanguage' element={<ProtectedRoute />}>
-            <Route element={<LearnLayout />}>
-              <Route index element={<LanguageLanding />} />
-              <Route path='literacy' element={<LiteracyLayout />}>
-                <Route index element={<Navigate to='alphabets' replace />} />
-                <Route path='alphabets' element={<LearnLanguageChar />} />
-                <Route path='numbers' element={<LearnLanguageNum />} />
-              </Route>
-              <Route path='leaderboard' element={<LeaderBoard />} />
-              <Route path='quests' element={<Quests />} />
-              <Route path='shop' element={<Shop />} />
-              <Route path='profile' element={<Profile />} />
-            </Route>
-          </Route>
-          <Route
-            path='/lesson/:unitId/:questionId'
-            element={<LanguagePage />}
-          />
-        </Route>
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='*' element={<NotFoundPage />} />
-      </>
-    )
-  );
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <MainLayout />,
+      children: [{ index: true, element: <HomePage /> }],
+    },
+    {
+      path: "/",
+      children: [
+        {
+          path: "learnlanguage",
+          element: <ProtectedRoute />,
+          children: [
+            {
+              element: <LearnLayout />,
+              children: [
+                { index: true, element: <LanguageLanding /> },
+                {
+                  path: "literacy",
+                  element: <LiteracyLayout />,
+                  children: [
+                    { index: true, element: <Navigate to='alphabets' replace /> },
+                    { path: "alphabets", element: <LearnLanguageChar /> },
+                    { path: "numbers", element: <LearnLanguageNum /> },
+                  ],
+                },
+                { path: "leaderboard", element: <LeaderBoard /> },
+                { path: "quests", element: <Quests /> },
+                { path: "shop", element: <Shop /> },
+                { path: "profile", element: <Profile /> },
+              ],
+            },
+          ],
+        },
+        {
+          path: "lesson/:unitId/:questionId",
+          element: <LanguagePage />,
+        },
+      ],
+    },
+    { path: "/login", element: <Login /> },
+    { path: "/signup", element: <Signup /> },
+    { path: "/register", element: <Register /> },
+    { path: "*", element: <NotFoundPage /> },
+  ]);
 
   return (
     <AuthProvider>

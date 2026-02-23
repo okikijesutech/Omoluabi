@@ -1,23 +1,22 @@
-import NavBar from "./navbar/NavBar";
-import Footer from "./footer/Footer";
-import BtnPrimary from "./btnprimary/BtnPrimary";
-import LanguageCard from "./languagecard/LanguageCard";
-import SideBar from "./sidebar/SideBar";
-import InfoBar from "./Infobar/InfoBar";
-import GuideBook from "./guidebook/GuideBook";
-import Levels from "./levels/Levels";
-import ProgressBar from "./progressbar/ProgressBar";
-import BtnOptions from "./btnoptions/BtnOptions";
-import Loader from "./loader/Loader";
-import LanguagePageNavBar from "./languagepagenavbar/LanguagePageNavBar";
-import LanguagePageNotification from "./languagepagenotification/LanguagePageNotification";
-import QuestionDisplay from "./questiondisplay/QuestionDisplay";
-import QuestionDisplay2 from "./questiondisplay2/QuestionDisplay2";
-import QuestionDisplay3 from "./questiondisplay3/QuestionDisplay3";
-import QuestionDisplay4 from "./questiondisplay4/QuestionDisplay4";
-import ControlButtons from "./controlbuttons/ControlButtons";
-import BtnSound from "./btnsound/BtnSound";
-import ServiceUnavailable from "./serviceunavailable/ServiceUnavailable";
+import NavBar from "./NavBar/NavBar";
+import Footer from "./Footer/Footer";
+import BtnPrimary from "./BtnPrimary/BtnPrimary";
+import LanguageCard from "./LanguageCard/LanguageCard";
+import SideBar from "./SideBar/SideBar";
+import InfoBar from "./InfoBar/InfoBar";
+import GuideBook from "./GuideBook/GuideBook";
+import Levels from "./Levels/Levels";
+import ProgressBar from "./ProgressBar/ProgressBar";
+import BtnOptions from "./BtnOptions/BtnOptions";
+import Loader from "./Loader/Loader";
+import LanguagePageNavBar from "./LanguagePageNavBar/LanguagePageNavBar";
+import LanguagePageNotification from "./LanguagePageNotification/LanguagePageNotification";
+import QuestionDisplay from "./QuestionDisplay/QuestionDisplay";
+import ControlButtons from "./ControlButtons/ControlButtons";
+import BtnSound from "./BtnSound/BtnSound";
+import ServiceUnavailable from "./ServiceUnavailable/ServiceUnavailable";
+import Exercise from "./Exercise/Exercise";
+import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
 
 export {
   NavBar,
@@ -34,10 +33,9 @@ export {
   LanguagePageNavBar,
   LanguagePageNotification,
   QuestionDisplay,
-  QuestionDisplay2,
-  QuestionDisplay3,
-  QuestionDisplay4,
   ControlButtons,
   BtnSound,
   ServiceUnavailable,
+  Exercise,
+  ProtectedRoute,
 };

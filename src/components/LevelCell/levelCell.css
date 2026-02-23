@@ -1,0 +1,21 @@
+.level-cell {
+  width: 80px;
+  max-width: 80px;
+  height: 80px;
+  max-height: 80px;
+  border-radius: 100%;
+  background-color: #58cc02;
+  box-shadow: 0 8px 0 #46a302;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.level-cell.disabled {
+  cursor: default;
+  background-color: #37464f;
+  box-shadow: 0 8px 0 #2c383f;
+}

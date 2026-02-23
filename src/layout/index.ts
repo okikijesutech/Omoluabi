@@ -1,5 +1,5 @@
-import MainLayout from "./mainlayout/MainLayout";
-import LearnLayout from "./learnlayout/LearnLayout";
-import LiteracyLayout from "./literacylayout/LiteracyLayout";
+import { MainLayout } from "./MainLayout/MainLayout";
+import { LearnLayout } from "./LearnLayout/LearnLayout";
+import { LiteracyLayout } from "./LiteracyLayout/LiteracyLayout";
 
 export { MainLayout, LearnLayout, LiteracyLayout };

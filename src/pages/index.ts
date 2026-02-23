@@ -1,29 +1,29 @@
-import Login from "./login/Login";
-import Signup from "./signup/GetStarted";
-import HomePage from "./homepage/HomePage";
-import NotFoundPage from "./notfoundpage/NotFoundPage";
-import LanguagePage from "./learnlanguage/learnlanguagepage/LanguagePage";
-import LanguageLanding from "./learnlanguage/learnlanguagelanding/LanguageLanding";
-import Register from "./register/Register";
-import LearnLanguageChar from "./learnlanguage/learnlanguagechar/LearnLanguageChar";
-import LeaderBoard from "./learnlanguage/leaderboard/LeaderBoard";
-import Quests from "./learnlanguage/quests/Quests";
-import Shop from "./learnlanguage/shop/Shop";
-import Profile from "./learnlanguage/profile/Profile";
-import LearnLanguageNum from "./learnlanguage/learnlanguagechar/LearnLanguageNum";
+import HomePage from "./HomePage/HomePage";
+import Login from "./Login/Login";
+import Register from "./Register/Register";
+import NotFoundPage from "./NotFoundPage/NotFoundPage";
+import Signup from "./Signup/Signup";
+import LanguageLanding from "./LearnLanguage/LearnLanguageLanding/LanguageLanding";
+import LanguagePage from "./LearnLanguage/LanguagePage/LanguagePage";
+import LearnLanguageChar from "./LearnLanguage/LearnLanguageChar/LearnLanguageChar";
+import LeaderBoard from "./LearnLanguage/LeaderBoard/LeaderBoard";
+import Quests from "./LearnLanguage/Quests/Quests";
+import Shop from "./LearnLanguage/Shop/Shop";
+import Profile from "./LearnLanguage/Profile/Profile";
+import LearnLanguageNum from "./LearnLanguage/LearnLanguageChar/LearnLanguageNum";
 
 export {
   HomePage,
-  NotFoundPage,
   Login,
-  Signup,
-  LanguagePage,
-  LanguageLanding,
   Register,
+  NotFoundPage,
+  Signup,
+  LanguageLanding,
+  LanguagePage,
   LearnLanguageChar,
-  LearnLanguageNum,
   LeaderBoard,
   Quests,
   Shop,
   Profile,
+  LearnLanguageNum,
 };

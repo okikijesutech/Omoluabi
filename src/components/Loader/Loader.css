@@ -1,0 +1,20 @@
+.loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #131f24;
+  color: #fff; /* Text color for the counter */
+}
+
+.counter {
+  margin-top: 20px;
+  font-size: 24px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

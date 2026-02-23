@@ -1,0 +1,103 @@
+.infobarContainer {
+  flex: 1;
+  color: White;
+  width: 100%;
+  max-width: 500px;
+  padding: 5% 5% 5% 2%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  max-height: 120vh;
+  overflow-y: auto;
+}
+
+.infobarnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.infobardiv {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5%;
+  border-radius: 15px;
+  border: 2px solid #37464f;
+}
+
+.leaderboardcontent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.leaderboardcontent p {
+  color: #dce6ec;
+  padding-left: 50px;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 25px;
+}
+
+.infobarlink {
+  color: #49c0f8;
+  line-height: 18px;
+  font-weight: 700;
+  font-size: 15px;
+  padding-right: 25px;
+  padding-bottom: 5px;
+}
+
+.energydiv {
+  display: flex;
+}
+
+.energy {
+  padding-left: 30px;
+}
+
+.energy p {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 24px;
+  color: #37464f;
+}
+
+.energybar {
+  background-color: #37464f;
+  text-align: center;
+  padding: 2px 0;
+  height: 20px;
+  width: 275px;
+  border-radius: 15px;
+}
+
+.infobarprofilebtnconatiner {
+  margin-bottom: 20px;
+}
+
+.infobarsocials {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.infobarsocialslink {
+  color: #4f626a;
+  line-height: 16px;
+  font-weight: 700;
+  font-size: 13px;
+  padding-right: 25px;
+  padding-top: 5px;
+  padding-bottom: 15px;
+}
+
+.infobarsocialslink:hover {
+  color: #49c0f8;
+}
