@@ -5,7 +5,8 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
@@ -28,9 +29,14 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  // Temporarily default to authenticated for development/suspension
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  const [user, setUser] = useState<any>({
+    uid: "guest-user",
+    displayName: "Guest User",
+    email: "guest@omoluabi.io",
+  });
+  const [loading, setLoading] = useState(false);
 
   const login = (userData: any) => {
     setIsAuthenticated(true);
@@ -42,7 +48,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   useEffect(() => {
-    const auth = getAuth();
+    // If Firebase isn't configured, stop loading and return
+    if (!auth || Object.keys(auth).length === 0) {
+      setLoading(false);
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         login(user);

@@ -13,7 +13,14 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const analytics = getAnalytics(app);
-export const db = getFirestore(app);
+// Check if API key exists to prevent initialization crash
+export const isFirebaseConfigured = !!firebaseConfig.apiKey;
+
+if (!isFirebaseConfigured) {
+  console.warn("Firebase configuration is missing. Authentication and database features will be disabled. Please check your .env file.");
+}
+
+const app = isFirebaseConfigured ? initializeApp(firebaseConfig) : ({} as any);
+export const auth = isFirebaseConfigured ? getAuth(app) : ({} as any);
+export const analytics = isFirebaseConfigured && firebaseConfig.measurementId ? getAnalytics(app) : ({} as any);
+export const db = isFirebaseConfigured ? getFirestore(app) : ({} as any);
