@@ -1,0 +1,49 @@
+.ctacontainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-top: 40px;
+  padding-bottom: 20px;
+  border-top: 2px solid #37464f;
+  background-color: #131f24;
+}
+
+.ctabtncontainer {
+  width: 150px;
+}
+
+.correctNotification {
+  color: #58cc02;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.correctNotificationContainer {
+  background-color: #202f36;
+  padding: 20px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .ctacontainer {
+    padding-top: 20px;
+    padding-bottom: 15px;
+  }
+  
+  .ctabtncontainer {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .correctNotificationContainer {
+    height: auto;
+    padding: 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+}

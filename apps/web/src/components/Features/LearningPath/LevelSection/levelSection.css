@@ -1,0 +1,80 @@
+.level-section {
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.levels-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.levels-heading-text {
+  font-weight: 800;
+  color: #afafaf;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.horizontal-line {
+  flex: 1;
+  border: none;
+  border-top: 2px solid #e5e5e5;
+  max-width: 150px;
+}
+
+.level-content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.level-cells {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 40px 0;
+}
+
+.level-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  min-height: 120px; /* Ensure enough space for characters */
+}
+
+/* Character spacing to avoid overlap with nodes */
+.level-row .level-img {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.level-row .level-img.floating-left {
+  left: 20px;
+}
+
+.level-row .level-img.floating-right {
+  right: 20px;
+}
+
+@media (max-width: 768px) {
+  .level-section {
+    margin-bottom: 20px;
+  }
+  
+  .levels-heading {
+    margin-bottom: 20px;
+  }
+}

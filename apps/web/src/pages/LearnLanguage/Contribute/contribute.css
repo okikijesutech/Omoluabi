@@ -1,0 +1,87 @@
+.contribute-container {
+  padding: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+  color: #3c3c3c;
+}
+
+.contribute-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #008751;
+}
+
+.contribution-form, .ai-assistant {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-top: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e5e5e5;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  border-color: #008751;
+  outline: none;
+}
+
+button {
+  background: #008751;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  transition: transform 0.1s, background 0.2s;
+}
+
+button:hover {
+  background: #006b40;
+}
+
+button:active {
+  transform: translateY(2px);
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.secondary-btn {
+  background: #1cb0f6;
+}
+
+.secondary-btn:hover {
+  background: #1899d6;
+}
+
+.form-message {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  text-align: center;
+}

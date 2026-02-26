@@ -1,9 +1,0 @@
-.level-cells {
-  display: flex;
-  width: 450px;
-  gap: 10px;
-  justify-content: center;
-  max-height: 500px;
-  flex-direction: column;
-  margin-bottom: 20px;
-}

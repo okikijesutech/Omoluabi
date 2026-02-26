@@ -1,0 +1,32 @@
+{
+  "header": {
+    "title": "Ọmọlúàbí",
+    "subtitle": "The free, fun, and effective way to learn African languages.",
+    "getStarted": "GET STARTED",
+    "alreadyHaveAccount": "I ALREADY HAVE AN ACCOUNT",
+    "selectLanguage": "Site language: English"
+  },
+  "features": {
+    "gamified": {
+      "title": "Gamified Learning",
+      "desc": "Bite-sized lessons, lives, and rewards to keep you motivated."
+    },
+    "opensource": {
+      "title": "Open-Source Content",
+      "desc": "All learning material is community-driven and freely accessible."
+    },
+    "modern": {
+      "title": "Modern Tech",
+      "desc": "Built with the latest technologies for a smooth learning experience."
+    }
+  },
+  "mission": {
+    "title": "Our Mission",
+    "desc": "Ọmọlúàbí is dedicated to preserving and teaching African languages, starting with Yoruba. We believe that language is the soul of culture, and by making it accessible to everyone, we ensure its survival for future generations."
+  },
+  "community": {
+    "title": "Join the Community",
+    "desc": "Whether you're a developer, native speaker, or language enthusiast, you can contribute to Ọmọlúàbí.",
+    "cta": "CONTRIBUTE ON GITHUB"
+  }
+}

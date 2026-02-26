@@ -1,0 +1,29 @@
+.path-line-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.path-line {
+  fill: none;
+  stroke: #e5e5e5;
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* stroke-dasharray: 0 20;  Optional: dashed look */
+}
+
+.path-line-completed {
+  stroke: var(--primary-green, #008751);
+  transition: stroke-dashoffset 1s ease-in-out;
+}
+
+@media (max-width: 480px) {
+  .path-line {
+    stroke-width: 8;
+  }
+}

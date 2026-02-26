@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Language {
+  id            String   @id @default(uuid())
+  code          String   @unique // e.g., "yo", "en"
+  name          String
+  sourceCourses Course[] @relation("SourceLanguage")
+  targetCourses Course[] @relation("TargetLanguage")
+}
+
+model Course {
+  id               String   @id @default(uuid())
+  title            String
+  description      String?
+  sourceLanguageId String
+  targetLanguageId String
+  sourceLanguage   Language @relation("SourceLanguage", fields: [sourceLanguageId], references: [id])
+  targetLanguage   Language @relation("TargetLanguage", fields: [targetLanguageId], references: [id])
+  units            Unit[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Unit {
+  id        String   @id @default(uuid())
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id])
+  title     String
+  order     Int
+  lessons   Lesson[]
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Lesson {
+  id        String            @id @default(uuid())
+  unitId    String
+  unit      Unit              @relation(fields: [unitId], references: [id])
+  title     String
+  order     Int
+  difficulty String // Enum: beginner, intermediate, advanced
+  revisions ContentRevision[]
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+}
+
+model ContentRevision {
+  id        String         @id @default(uuid())
+  lessonId  String
+  lesson    Lesson         @relation(fields: [lessonId], references: [id])
+  data      Json // The actual content (exercises, cards, etc.)
+  authorId  String
+  status    RevisionStatus @default(DRAFT)
+  version   Int            @default(1)
+  logs      ModerationLog[]
+  createdAt DateTime       @default(now())
+}
+
+enum RevisionStatus {
+  DRAFT
+  PENDING
+  PUBLISHED
+  ARCHIVED
+}
+
+model ModerationLog {
+  id         String          @id @default(uuid())
+  revisionId String
+  revision   ContentRevision @relation(fields: [revisionId], references: [id])
+  moderatorId String
+  comment    String?
+  action     ModerationAction
+  createdAt  DateTime        @default(now())
+}
+
+enum ModerationAction {
+  APPROVE
+  REJECT
+  REQUEST_CHANGES
+}

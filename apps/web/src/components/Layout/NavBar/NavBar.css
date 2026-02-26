@@ -1,0 +1,144 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 10%;
+  z-index: 1000;
+  height: 72px;
+}
+
+.navbarlogo h1 {
+  font-size: 1.5rem;
+  color: var(--primary-green, #58cc02); /* Brand green */
+}
+
+.nav-content-desktop {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbardropdown {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  padding: 10px;
+}
+
+.navbardropdown p {
+  margin-right: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #777;
+}
+
+.dropdownmenu {
+  position: absolute;
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  right: 0;
+  top: 100%;
+  background-color: white;
+  padding: 15px;
+  border: 2px solid #e5e5e5;
+  border-radius: 12px;
+  width: 250px;
+  box-shadow: 0 4px 0 #e5e5e5;
+}
+
+.link {
+  color: #1cb0f6;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  text-align: center;
+}
+
+.link:hover {
+  background-color: #f7f7f7;
+  border-color: #e5e5e5;
+}
+
+.navbardropdown:hover .dropdownmenu {
+  display: grid;
+}
+
+.navbarbtn {
+  width: 180px;
+}
+
+/* Mobile Hamburger & Overlay */
+.hamburger-menu {
+  cursor: pointer;
+  color: #afafaf;
+  padding: 5px;
+}
+
+.mobile-overlay {
+  position: fixed;
+  top: 72px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 72px);
+  background-color: white;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 20px;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mobile-languages h3 {
+  margin-bottom: 20px;
+  color: #4b4b4b;
+  font-size: 1.2rem;
+}
+
+.language-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.language-btn {
+  padding: 15px;
+  border: 2px solid #e5e5e5;
+  border-radius: 15px;
+  background: white;
+  font-weight: 700;
+  color: #777;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.language-btn.active {
+  border-color: #84d8ff;
+  background-color: #ddf4ff;
+  color: #1899d6;
+}
+
+.mobile-cta {
+  margin-top: auto;
+  padding-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px 20px;
+  }
+}
