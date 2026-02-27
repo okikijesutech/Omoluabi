@@ -4,6 +4,6 @@
   "private": true,
   "main": "src/index.ts",
   "dependencies": {
-    "@omoluabi/shared-types": "*"
+    "@omoluabi/types": "*"
   }
 }

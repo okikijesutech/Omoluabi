@@ -1,44 +1,34 @@
 {
-  "name": "omoluabi",
+  "name": "@omoluabi/web",
+  "version": "0.1.0",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.17.0",
+    "next": "16.1.6",
+    "react": "^19",
+    "react-dom": "^19",
     "axios": "^1.7.4",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "firebase": "^10.12.5",
     "i18next": "^23.12.2",
-    "lottie-web": "^5.12.2",
-    "openai": "^4.56.0",
-    "prop-types": "^15.8.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
     "react-i18next": "^15.0.0",
     "react-icons": "^5.2.1",
-    "react-lottie": "^1.2.4",
-    "react-router-dom": "^6.24.1"
+    "lucide-react": "^0.439.0",
+    "framer-motion": "^11.5.4",
+    "@omoluabi/types": "*",
+    "@omoluabi/utils": "*"
   },
   "devDependencies": {
-    "@types/i18next": "^12.1.0",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "@types/react-lottie": "^1.2.10",
-    "@typescript-eslint/eslint-plugin": "^7.13.1",
-    "@typescript-eslint/parser": "^7.13.1",
-    "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-react-refresh": "^0.4.7",
-    "typescript": "^5.7.3",
-    "vite": "^6.1.1"
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }

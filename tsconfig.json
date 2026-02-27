@@ -3,9 +3,14 @@
   "references": [
     { "path": "./apps/web" },
     { "path": "./apps/api" },
-    { "path": "./packages/shared-types" },
+    { "path": "./packages/types" },
+    { "path": "./packages/config" },
+    { "path": "./packages/utils" },
+    { "path": "./packages/database" },
     { "path": "./packages/core-engine" },
     { "path": "./packages/content-system" },
-    { "path": "./packages/verification-engine" }
+    { "path": "./packages/gamification" },
+    { "path": "./packages/verification-engine" },
+    { "path": "./packages/character-engine" }
   ]
 }

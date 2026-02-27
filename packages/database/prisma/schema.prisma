@@ -8,81 +8,165 @@ datasource db {
 }
 
 model Language {
-  id            String   @id @default(uuid())
-  code          String   @unique // e.g., "yo", "en"
+  id            String         @id @default(uuid())
+  code          String         @unique // e.g., "yo", "en"
   name          String
-  sourceCourses Course[] @relation("SourceLanguage")
-  targetCourses Course[] @relation("TargetLanguage")
+  sourcePairs   LanguagePair[] @relation("SourceLanguage")
+  targetPairs   LanguagePair[] @relation("TargetLanguage")
 }
 
-model Course {
-  id               String   @id @default(uuid())
-  title            String
-  description      String?
+model LanguagePair {
+  id               String       @id @default(uuid())
   sourceLanguageId String
   targetLanguageId String
-  sourceLanguage   Language @relation("SourceLanguage", fields: [sourceLanguageId], references: [id])
-  targetLanguage   Language @relation("TargetLanguage", fields: [targetLanguageId], references: [id])
-  units            Unit[]
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  sourceLanguage   Language     @relation("SourceLanguage", fields: [sourceLanguageId], references: [id])
+  targetLanguage   Language     @relation("TargetLanguage", fields: [targetLanguageId], references: [id])
+  curriculums      Curriculum[]
+
+  @@unique([sourceLanguageId, targetLanguageId])
 }
 
-model Unit {
-  id        String   @id @default(uuid())
-  courseId  String
-  course    Course   @relation(fields: [courseId], references: [id])
-  title     String
-  order     Int
-  lessons   Lesson[]
-  metadata  Json?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Curriculum {
+  id             String             @id @default(uuid())
+  languagePairId String
+  languagePair   LanguagePair       @relation(fields: [languagePairId], references: [id])
+  title          String
+  description    String?
+  modules        CurriculumModule[]
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  deletedAt      DateTime?
+
+  @@index([languagePairId])
+}
+
+model CurriculumModule {
+  id           String     @id @default(uuid())
+  curriculumId String
+  curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
+  title        String
+  order        Int
+  lessons      Lesson[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deletedAt      DateTime?
+
+  @@index([curriculumId])
 }
 
 model Lesson {
+  id         String            @id @default(uuid())
+  moduleId   String
+  module     CurriculumModule  @relation(fields: [moduleId], references: [id])
+  title      String
+  order      Int
+  difficulty Difficulty        @default(BEGINNER)
+  exercises  Exercise[]
+  revisions  ContentRevision[]
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+  deletedAt      DateTime?
+
+  @@index([moduleId])
+}
+
+model Exercise {
   id        String            @id @default(uuid())
-  unitId    String
-  unit      Unit              @relation(fields: [unitId], references: [id])
-  title     String
-  order     Int
-  difficulty String // Enum: beginner, intermediate, advanced
+  lessonId  String
+  lesson    Lesson            @relation(fields: [lessonId], references: [id])
+  type      ExerciseType
+  data      Json // Structured exercise content
   revisions ContentRevision[]
   createdAt DateTime          @default(now())
   updatedAt DateTime          @updatedAt
+  deletedAt      DateTime?
+
+  @@index([lessonId])
+}
+
+model User {
+  id        String            @id @default(uuid())
+  email     String            @unique
+  password  String
+  name      String
+  role      UserRole          @default(LEARNER)
+  revisions ContentRevision[]
+  logs      ModerationLog[]
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  deletedAt      DateTime?
+
+  @@index([email])
 }
 
 model ContentRevision {
-  id        String         @id @default(uuid())
-  lessonId  String
-  lesson    Lesson         @relation(fields: [lessonId], references: [id])
-  data      Json // The actual content (exercises, cards, etc.)
-  authorId  String
-  status    RevisionStatus @default(DRAFT)
-  version   Int            @default(1)
-  logs      ModerationLog[]
-  createdAt DateTime       @default(now())
-}
+  id              String         @id @default(uuid())
+  lessonId        String?
+  lesson          Lesson?        @relation(fields: [lessonId], references: [id])
+  exerciseId      String?
+  exercise        Exercise?      @relation(fields: [exerciseId], references: [id])
+  isOfficial      Boolean        @default(false)
+  createdBy       String // User ID
+  author          User           @relation(fields: [createdBy], references: [id])
+  parentContentId String? // ID of the revision this was forked from
+  versionNumber   Int            @default(1)
+  status          RevisionStatus @default(DRAFT)
+  data            Json // The actual content state at this revision
+  logs            ModerationLog[]
+  createdAt       DateTime       @default(now())
+  deletedAt      DateTime?
 
-enum RevisionStatus {
-  DRAFT
-  PENDING
-  PUBLISHED
-  ARCHIVED
+  @@index([lessonId])
+  @@index([exerciseId])
+  @@index([createdBy])
+  @@index([status])
 }
 
 model ModerationLog {
-  id         String          @id @default(uuid())
-  revisionId String
-  revision   ContentRevision @relation(fields: [revisionId], references: [id])
+  id          String          @id @default(uuid())
+  revisionId  String
+  revision    ContentRevision @relation(fields: [revisionId], references: [id])
   moderatorId String
-  comment    String?
-  action     ModerationAction
-  createdAt  DateTime        @default(now())
+  moderator   User            @relation(fields: [moderatorId], references: [id])
+  comment     String?
+  action      ModerationAction
+  createdAt   DateTime        @default(now())
+
+  @@index([revisionId])
+  @@index([moderatorId])
 }
 
 enum ModerationAction {
   APPROVE
   REJECT
   REQUEST_CHANGES
+}
+
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum ExerciseType {
+  MULTIPLE_CHOICE
+  TRANSLATE
+  MATCH
+  LISTEN
+  AUDIO
+  IDENTIFY
+}
+
+enum UserRole {
+  LEARNER
+  CONTRIBUTOR
+  REVIEWER
+  ADMIN
+}
+
+enum RevisionStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
 }

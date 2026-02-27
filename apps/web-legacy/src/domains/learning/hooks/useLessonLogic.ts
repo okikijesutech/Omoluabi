@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { Lesson, LearningEngine } from "@omoluabi/shared-types";
+import { Lesson, Exercise } from '@omoluabi/types';
 // Note: if LearningEngine is in core-engine, we should import it from there.
 // For now, I'll keep it as @omoluabi/shared-types if it's there or update to @omoluabi/core-engine.
 import { useLifeline } from "@domains/gamification/context/LifelineContext";

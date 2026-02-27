@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Lesson } from "@omoluabi/shared-types";
+import { Lesson } from '@omoluabi/types';
 
 export const useContent = <T = Lesson>(path: string) => {
   const [content, setContent] = useState<T | null>(null);

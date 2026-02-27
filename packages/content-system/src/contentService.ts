@@ -1,4 +1,4 @@
-import { Lesson } from "@omoluabi/shared-types";
+import { Lesson } from "@omoluabi/types";
 import { communityLessons } from "../../infrastructure/database/inMemoryStore";
 
 export class ContentService {

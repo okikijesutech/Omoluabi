@@ -1,4 +1,4 @@
-import { Exercise, UserProgress } from "@omoluabi/shared-types";
+import { Exercise, UserProgress } from "@omoluabi/types";
 
 export class LearningEngine {
   private static INITIAL_LIVES = 5;
