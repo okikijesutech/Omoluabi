@@ -15,10 +15,10 @@ export default function LeaderboardPage() {
   return (
     <div className="flex flex-col gap-8 items-center pb-24 max-w-2xl mx-auto">
       <div className="text-center w-full py-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2 mt-4 text-brand-primary">Emerald League</h1>
+        <h1 className="text-3xl font-bold text-slate-900 mb-2 mt-4 text-brand-terracotta">Emerald League</h1>
         <p className="text-slate-600 font-medium pb-4">Top 3 advance to the Amethyst League.</p>
         <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden mb-6">
-           <div className="bg-brand-primary h-full w-[40%]" />
+           <div className="bg-brand-gold h-full w-[40%]" />
         </div>
         <p className="text-sm text-slate-500">2 days, 14 hours remaining</p>
       </div>
@@ -28,7 +28,7 @@ export default function LeaderboardPage() {
           <div
             key={user.rank}
             className={`flex flex-row items-center justify-between p-4 rounded-xl transition-colors ${
-              user.isCurrentUser ? "bg-orange-50 ring-2 ring-brand-primary/50 -mx-2 px-6 shadow-sm z-10" : "hover:bg-slate-50"
+              user.isCurrentUser ? "bg-orange-50 ring-2 ring-brand-terracotta/50 -mx-2 px-6 shadow-sm z-10" : "hover:bg-slate-50"
             }`}
           >
             <div className="flex items-center gap-4">
@@ -47,8 +47,8 @@ export default function LeaderboardPage() {
                 )}
               </div>
               <div className="flex flex-col">
-                 <span className="font-bold text-lg">{user.name}</span>
-                 {user.isCurrentUser && <span className="text-xs text-brand-primary font-bold">YOU</span>}
+                 <span className="font-bold text-lg text-brand-indigo">{user.name}</span>
+                 {user.isCurrentUser && <span className="text-xs text-brand-terracotta font-bold">YOU</span>}
               </div>
             </div>
 

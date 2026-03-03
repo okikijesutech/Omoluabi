@@ -15,13 +15,13 @@ export default function LearnPage() {
   return (
     <div className="flex flex-col gap-8 items-center pb-24">
       {/* Unit Header */}
-      <Card className="w-full max-w-xl bg-brand-primary border-none shadow-md overflow-hidden">
+      <Card className="w-full max-w-xl bg-brand-indigo border-none shadow-md overflow-hidden">
         <div className="flex justify-between items-center p-6 text-white">
           <div>
-            <h2 className="text-xl font-bold opacity-90 text-orange-100">Unit 1</h2>
+            <h2 className="text-xl font-bold opacity-90 text-indigo-200">Unit 1</h2>
             <h1 className="text-3xl font-extrabold tracking-tight">Form Foundation</h1>
           </div>
-          <Button variant="outline" className="border-orange-300 text-orange-900 bg-orange-50 hover:bg-white">
+          <Button variant="outline" className="border-indigo-400 text-brand-indigo bg-indigo-50 hover:bg-white border-b-4 hover:-translate-y-0.5 mt-0">
             Guidebook
           </Button>
         </div>
