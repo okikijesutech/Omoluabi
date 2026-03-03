@@ -1,29 +1,23 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, UseGuards } from '@nestjs/common';
 import { LanguageService } from './language.service';
-import { CreateLanguageDto } from './dto/create-language.dto';
-import { CreateLanguagePairDto } from './dto/create-language-pair.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+import { Role } from '@prisma/client';
 
-@Controller('languages')
+@Controller('language')
 export class LanguageController {
   constructor(private readonly languageService: LanguageService) {}
 
   @Post()
-  create(@Body() createLanguageDto: CreateLanguageDto) {
-    return this.languageService.createLanguage(createLanguageDto);
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.FOUNDER)
+  create(@Body() dto: any) {
+    return this.languageService.createLanguage(dto);
   }
 
   @Get()
   findAll() {
     return this.languageService.findAllLanguages();
-  }
-
-  @Post('pairs')
-  createPair(@Body() createLanguagePairDto: CreateLanguagePairDto) {
-    return this.languageService.createLanguagePair(createLanguagePairDto);
-  }
-
-  @Get('pairs')
-  findAllPairs() {
-    return this.languageService.findAllLanguagePairs();
   }
 }
