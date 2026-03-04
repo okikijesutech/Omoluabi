@@ -1,18 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-emerald: #059669;
-  --color-brand-amber: #d97706;
-  --color-background-default: #fafafa;
+  /* Omoluabi Brand Identity */
+  --color-brand-indigo: #1e1b4b; /* Deep Indigo (Heritage) */
+  --color-brand-earth: #78350f; /* Warm Earth Brown (Grounded Preservation) */
+  --color-brand-cream: #fdfbf7; /* Soft Cream (Learning Space) */
+  --color-brand-gold: #d97706; /* Muted Gold Accent (Dignity) */
+  
+  /* State Colors */
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+  --color-warning: #eab308;
+
+  /* Backgrounds */
+  --color-background-default: var(--color-brand-cream);
   --color-surface: #ffffff;
+  
+  /* Typography */
+  --font-sans: var(--font-inter), "system-ui", "sans-serif";
+  --font-serif: var(--font-lora), "Georgia", "serif";
 }
 
 @layer base {
   body {
     background-color: var(--color-background-default);
-    color: #18181b; /* zinc-900 */
-    line-height: 1.8;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    color: var(--color-brand-indigo);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    line-height: 1.75;
   }
 }
