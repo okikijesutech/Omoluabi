@@ -6,9 +6,9 @@ import { CreateContributionDto } from './dto/create-contribution.dto';
 export class ContributionsController {
   constructor(private readonly contributionsService: ContributionsService) {}
 
-  @Post()
-  create(@Body() createContributionDto: CreateContributionDto) {
-    return this.contributionsService.create(createContributionDto);
+  @Post('submit')
+  submitContribution(@Body() createContributionDto: CreateContributionDto) {
+    return this.contributionsService.submitContribution(createContributionDto);
   }
 
   @Get('pending')

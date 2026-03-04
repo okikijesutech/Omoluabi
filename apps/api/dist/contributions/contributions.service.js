@@ -34,9 +34,9 @@ let ContributionsService = class ContributionsService {
                 status: client_1.ContributionStatus.PENDING,
                 content: dto.content,
                 comment: dto.comment,
-                author: { connect: { id: dto.authorId } },
+                authorId: dto.authorId,
                 ...(dto.knowledgeUnitId && {
-                    knowledgeUnit: { connect: { id: dto.knowledgeUnitId } },
+                    knowledgeUnitId: dto.knowledgeUnitId,
                 }),
             },
         });

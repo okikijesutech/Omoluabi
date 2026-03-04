@@ -1,37 +1,39 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateContributionDto } from './dto/create-contribution.dto';
-import { ContributionStatus } from '@prisma/client';
+import { ContributionStatus, ContributionType } from '@prisma/client';
 
 @Injectable()
 export class ContributionsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreateContributionDto) {
-    if (dto.type !== 'CREATE' && !dto.knowledgeUnitId) {
-      throw new BadRequestException('knowledgeUnitId is required for EDIT and DIALECT_VARIATION types');
+  async submitContribution(dto: CreateContributionDto) {
+    // 1. Validate dialect presence
+    if (!dto.dialectTag) {
+      throw new BadRequestException('Dialect must be specified');
     }
 
-    if (dto.type === 'CREATE') {
-      // Validate that the new knowledge unit has dialect info if required by rules
-      const content: any = dto.content;
-      if (!content.dialectId) {
-        throw new BadRequestException('A strictly protected system requires new knowledge to be contextualized by a dialect');
-      }
+    // 2. Prevent overwrite attempts for DIALECT_VARIATION
+    if (dto.type === ContributionType.DIALECT_VARIATION) {
+      this.ensureNoOverwrite(dto);
     }
 
+    // 3. Create contribution record
     return this.prisma.contribution.create({
       data: {
+        authorId: dto.authorId,
         type: dto.type,
+        content: dto.payload,
         status: ContributionStatus.PENDING,
-        content: dto.content,
-        comment: dto.comment,
-        author: { connect: { id: dto.authorId } },
-        ...(dto.knowledgeUnitId && {
-          knowledgeUnit: { connect: { id: dto.knowledgeUnitId } },
-        }),
+        ...(dto.knowledgeUnitId && { knowledgeUnitId: dto.knowledgeUnitId }),
       },
     });
+  }
+
+  private ensureNoOverwrite(dto: CreateContributionDto) {
+    if (dto.type === ContributionType.DIALECT_VARIATION && dto.payload && dto.payload.targetVariationId) {
+      throw new BadRequestException('Dialect variations cannot overwrite existing ones');
+    }
   }
 
   async findAllPending() {

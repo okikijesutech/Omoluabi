@@ -6,8 +6,13 @@ import { CreateReviewDto } from './dto/create-review.dto';
 export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}
 
-  @Post()
-  create(@Body() createReviewDto: CreateReviewDto) {
-    return this.reviewsService.createReview(createReviewDto);
+  @Post('submit')
+  reviewContribution(@Body() createReviewDto: CreateReviewDto) {
+    return this.reviewsService.reviewContribution(
+      createReviewDto.reviewerId,
+      createReviewDto.contributionId,
+      createReviewDto.approved ? 'APPROVE' : 'REJECT',
+      createReviewDto.comment
+    );
   }
 }
