@@ -1,13 +1,14 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
-import { JwtService } from '@nestjs/jwt';
+import { signJwt } from './jwt.util';
 import * as bcrypt from 'bcrypt';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key-change-me';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private jwtService: JwtService,
   ) {}
 
   async validateUser(email: string, pass: string): Promise<any> {
@@ -22,11 +23,11 @@ export class AuthService {
   async login(user: any) {
     const payload = { email: user.email, sub: user.id, role: user.role };
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: signJwt(payload, JWT_SECRET),
       user: {
         id: user.id,
         email: user.email,
-        name: user.name,
+        username: user.username,
         role: user.role,
       }
     };
