@@ -1,25 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-indigo: #1A237E; /* Adire Indigo */
-  --color-brand-terracotta: #D84315; /* Earth Terracotta */
-  --color-brand-gold: #FBC02D; /* Mustard Gold */
-  --color-brand-eggshell: #F5F5F5; /* Eggshell White */
-  
-  --color-success: #22c55e;
-  --color-error: #ef4444;
-  --color-warning: #eab308;
-
-  --color-background-default: var(--color-brand-eggshell);
+  --color-brand-emerald: #059669;
+  --color-brand-amber: #d97706;
+  --color-background-default: #fafafa;
   --color-surface: #ffffff;
-  
-  --font-sans: "Inter", "system-ui", "sans-serif";
 }
 
 @layer base {
   body {
     background-color: var(--color-background-default);
-    color: var(--color-brand-indigo);
-    line-height: 1.75;
+    color: #18181b; /* zinc-900 */
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }

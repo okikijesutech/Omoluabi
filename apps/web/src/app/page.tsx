@@ -1,63 +1,59 @@
-import Image from "next/image";
+import Link from "next/link";
+import { BookOpen, Library, Map } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="flex min-h-screen flex-col items-center pt-24 pb-12 px-6 sm:px-12 bg-zinc-50 dark:bg-zinc-950 font-sans">
+      <main className="flex w-full max-w-4xl flex-col items-center text-center gap-12">
+        <div className="space-y-6">
+          <h1 className="text-5xl font-serif tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-7xl font-bold">
+            Ọmọlúàbí Archive
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="mx-auto max-w-2xl text-xl leading-relaxed text-zinc-600 dark:text-zinc-400">
+            A preservation engine that teaches through preservation. 
+            Discover the profound knowledge, dialectical richness, and philosophical worldview of the Yorùbá people.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        <div className="grid w-full gap-6 sm:grid-cols-3 mt-8">
+          <Link 
+            href="/explore/words" 
+            className="group flex flex-col items-center gap-4 rounded-2xl border border-zinc-200 bg-white p-8 transition-all hover:border-emerald-300 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-emerald-700/50"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <div className="rounded-full bg-emerald-50 p-4 text-emerald-700 group-hover:scale-110 transition-transform dark:bg-emerald-950/30 dark:text-emerald-500">
+              <BookOpen className="h-8 w-8" />
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">Vocabulary</h3>
+              <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">The foundational words of the culture.</p>
+            </div>
+          </Link>
+
+          <Link 
+            href="/explore/proverbs" 
+            className="group flex flex-col items-center gap-4 rounded-2xl border border-zinc-200 bg-white p-8 transition-all hover:border-amber-300 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-amber-700/50"
           >
-            Documentation
-          </a>
+            <div className="rounded-full bg-amber-50 p-4 text-amber-700 group-hover:scale-110 transition-transform dark:bg-amber-950/30 dark:text-amber-500">
+              <Library className="h-8 w-8" />
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">Òwe (Proverbs)</h3>
+              <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">The horses of speech and wisdom.</p>
+            </div>
+          </Link>
+
+          <Link 
+            href="/learn" 
+            className="group flex flex-col items-center gap-4 rounded-2xl border border-zinc-200 bg-white p-8 transition-all hover:border-indigo-300 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-indigo-700/50"
+          >
+            <div className="rounded-full bg-indigo-50 p-4 text-indigo-700 group-hover:scale-110 transition-transform dark:bg-indigo-950/30 dark:text-indigo-500">
+              <Map className="h-8 w-8" />
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">Thematic Path</h3>
+              <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">Structured progression of knowledge.</p>
+            </div>
+          </Link>
         </div>
       </main>
     </div>
