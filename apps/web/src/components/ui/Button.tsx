@@ -2,9 +2,10 @@ import * as React from "react";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "danger" | "ghost" | "outline";
+  variant?: "primary" | "secondary" | "danger" | "ghost" | "outline" | "minimal";
   size?: "sm" | "md" | "lg" | "icon";
   isLoading?: boolean;
+  asChild?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -14,6 +15,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       variant = "primary",
       size = "md",
       isLoading,
+      asChild = false,
       children,
       disabled,
       ...props
@@ -21,19 +23,21 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      "inline-flex items-center justify-center rounded-xl font-bold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none active:scale-95";
+      "inline-flex items-center justify-center rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98]";
 
     const variants = {
       primary:
-        "bg-brand-terracotta text-white hover:opacity-90 focus:ring-brand-terracotta shadow-sm hover:shadow-md border-b-4 border-black/20 active:border-b-0 active:translate-y-1",
+        "bg-brand-earth text-white hover:bg-brand-earth/90 focus:ring-brand-earth shadow-sm",
       secondary:
-        "bg-brand-indigo text-white hover:opacity-90 focus:ring-brand-indigo shadow-sm hover:shadow-md border-b-4 border-black/20 active:border-b-0 active:translate-y-1",
+        "bg-brand-indigo text-white hover:bg-brand-indigo/90 focus:ring-brand-indigo shadow-sm",
       danger:
-        "bg-error text-white hover:bg-red-600 focus:ring-error shadow-sm shadow-red-200 border-b-4 border-red-700 active:border-b-0 active:translate-y-1",
+        "bg-error text-white hover:bg-red-600 focus:ring-error shadow-sm",
       outline:
-        "border-2 border-slate-200 bg-white hover:bg-slate-50 text-brand-indigo focus:ring-slate-200 border-b-4 active:border-b-2 active:translate-y-0.5",
+        "border border-brand-indigo/20 bg-transparent hover:bg-brand-indigo/5 text-brand-indigo focus:ring-brand-indigo/20",
       ghost:
-        "bg-transparent hover:bg-slate-100 text-brand-indigo focus:ring-slate-200",
+        "bg-transparent hover:bg-brand-indigo/5 text-brand-indigo focus:ring-brand-indigo/20",
+      minimal:
+        "bg-transparent text-brand-indigo/70 hover:text-brand-indigo hover:bg-brand-indigo/5 underline-offset-4 hover:underline",
     };
 
     const sizes = {
@@ -43,9 +47,22 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       icon: "h-11 w-11",
     };
 
+    const combinedClassName = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
+
+    if (asChild && React.isValidElement(children)) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const child = children as React.ReactElement<any>;
+      // eslint-disable-next-line react-hooks/refs
+      return React.cloneElement(child, {
+        ...props,
+        className: `${combinedClassName} ${child.props.className || ""}`,
+        ref,
+      });
+    }
+
     return (
       <button
-        className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+        className={combinedClassName}
         ref={ref}
         disabled={disabled || isLoading}
         {...props}

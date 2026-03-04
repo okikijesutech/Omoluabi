@@ -1,107 +1,57 @@
-import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { YorubaText } from "@/components/ui/YorubaText";
+"use client";
 
-const EyeIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
-);
+import { PageTitle, BodyText } from "@/components/typography";
+import { PageContainer } from "@/components/layout";
+import { ContributionForm } from "@/components/contribution/ContributionForm";
+import { OmoluabiLogo } from "@/components/ui/Logo";
+import Link from "next/link";
 
-const CheckIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-);
-
-const XIcon = () => (
-   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-);
-
-export default function ContributeDashboard() {
-  const pendingReviews = [
-    { id: "REV-101", pair: "EN -> YR", type: "Translation", content: "\"The boy is running\" -> \"Ọmọkùnrin náà ń sáré\"", accuracy: 95, status: "pending" },
-    { id: "REV-102", pair: "YR -> EN", type: "Audio", content: "Ẹ káàárọ (Voice recording)", accuracy: null, status: "pending" },
-    { id: "REV-103", pair: "EN -> YR", type: "Exercise", content: "Family Match Items", accuracy: 88, status: "pending" },
-  ];
-
+export default function ContributePage() {
   return (
-    <div className="flex flex-col gap-8 max-w-5xl mx-auto">
-      <div className="flex justify-between items-end">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Contributor Dashboard</h1>
-          <p className="text-slate-500 text-lg">Manage lesson content and review community proposals.</p>
-        </div>
-        <Button variant="primary">
-          + New Proposal
-        </Button>
-      </div>
+    <div className="min-h-screen bg-bg-primary pb-32 selection:bg-brand-accent/20">
       
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="p-6">
-          <h3 className="font-semibold text-slate-500 mb-2">My Proposals</h3>
-          <p className="text-4xl font-extrabold text-slate-800">3</p>
-        </Card>
-        <Card className="p-6 ring-2 ring-brand-terracotta/20">
-          <h3 className="font-semibold text-slate-500 mb-2">Tokens Earned</h3>
-          <p className="text-4xl font-extrabold text-brand-terracotta">1,250 <span className="text-lg">TKN</span></p>
-        </Card>
-        <Card className="p-6">
-          <h3 className="font-semibold text-slate-500 mb-2">Global Accuracy</h3>
-          <p className="text-4xl font-extrabold text-success">94.2%</p>
-        </Card>
-      </div>
+      {/* 🏛 INSTITUTIONAL HEADER */}
+      <nav className="border-b border-text-primary/10 bg-white/70 backdrop-blur-xl sticky top-0 z-50 py-5 transition-all outline-none">
+        <PageContainer size="lg" className="flex items-center justify-between">
+          <Link href="/" className="group outline-none">
+            <OmoluabiLogo horizontal className="group-hover:opacity-80 transition-opacity" />
+          </Link>
+          <div className="flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-text-secondary/50">
+            <Link href="/learn" className="hover:text-brand-primary transition-colors">Learn</Link>
+            <Link href="/contribute" className="text-brand-primary border-b border-brand-primary pb-1">Contribute</Link>
+            <Link href="/governance" className="hover:text-brand-primary transition-colors">Governance</Link>
+          </div>
+        </PageContainer>
+      </nav>
 
-      {/* Pending Reviews Table */}
-      <h2 className="text-2xl font-bold text-slate-800 mt-4">Needs Review</h2>
-      <Card className="overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-slate-50 border-b border-slate-200">
-                <th className="p-4 font-semibold text-slate-600 text-sm">ID</th>
-                <th className="p-4 font-semibold text-slate-600 text-sm">Language Pair</th>
-                <th className="p-4 font-semibold text-slate-600 text-sm">Type</th>
-                <th className="p-4 font-semibold text-slate-600 text-sm">Content Snippet</th>
-                <th className="p-4 font-semibold text-slate-600 text-sm">Confidence</th>
-                <th className="p-4 font-semibold text-slate-600 text-sm text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {pendingReviews.map((review) => (
-                <tr key={review.id} className="hover:bg-slate-50 text-sm">
-                  <td className="p-4 font-mono text-xs text-slate-500">{review.id}</td>
-                  <td className="p-4 font-bold text-slate-700">{review.pair}</td>
-                  <td className="p-4"><Badge variant="default">{review.type}</Badge></td>
-                  <td className="p-4 text-slate-600 max-w-[200px] truncate">
-                    <YorubaText>{review.content}</YorubaText>
-                  </td>
-                  <td className="p-4">
-                    {review.accuracy ? (
-                      <span className={`font-bold ${review.accuracy > 90 ? "text-success" : "text-warning"}`}>
-                        {review.accuracy}%
-                      </span>
-                    ) : (
-                      <span className="text-slate-400 italic">Human eval</span>
-                    )}
-                  </td>
-                  <td className="p-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
-                       <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-brand-terracotta">
-                         <EyeIcon />
-                       </Button>
-                       <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-success bg-green-50">
-                         <CheckIcon />
-                       </Button>
-                       <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-error bg-red-50">
-                         <XIcon />
-                       </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Card>
+      <PageContainer size="md" className="pt-24">
+        
+        {/* 🧾 TITLE SECTION */}
+        <header className="space-y-8 mb-20 animate-in fade-in duration-1000">
+          <PageTitle className="text-5xl">Contribute to the Cultural Archive</PageTitle>
+          <div className="max-w-xl border-l border-brand-accent/30 pl-8">
+            <BodyText size="lg" className="italic !text-text-secondary/70 leading-relaxed">
+              Every submission becomes part of a preserved linguistic record for future generations.
+            </BodyText>
+          </div>
+        </header>
+        
+        {/* ✍🏾 FORM SECTION */}
+        <section className="animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-300">
+           <ContributionForm />
+        </section>
+
+      </PageContainer>
+
+      {/* 🏛 ARCHIVE FOOTER */}
+      <footer className="mt-32 border-t border-text-primary/5 py-24 bg-bg-secondary/30">
+        <PageContainer size="md" className="text-center space-y-8">
+          <OmoluabiLogo className="opacity-10 grayscale scale-75" />
+          <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-text-secondary/10">
+            OMOLUABI DIGITAL MANUSCRIPT LIBRARY — MMXXVI
+          </p>
+        </PageContainer>
+      </footer>
     </div>
   );
 }

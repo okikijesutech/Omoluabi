@@ -26,6 +26,7 @@ export class ContributionsService {
         content: dto.payload,
         status: ContributionStatus.PENDING,
         ...(dto.knowledgeUnitId && { knowledgeUnitId: dto.knowledgeUnitId }),
+        ...(dto.payload?.targetVariationId && { knowledgeVariationId: dto.payload.targetVariationId }),
       },
     });
   }
