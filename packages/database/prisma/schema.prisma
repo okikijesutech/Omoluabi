@@ -7,192 +7,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ============================================
+// LAYER 5: USER & ROLES
+// ============================================
+
 model User {
-  id                String           @id @default(uuid())
-  email             String           @unique
-  username          String           @unique
-  passwordHash      String
-  role              Role             @default(LEARNER)
-  culturalTitleId   String?
-  contributionCount Int              @default(0) // Gamification: Global Tracking
-  contributions     Contribution[]
-  reviews           Review[]
-  lessonProgress    LessonProgress[]
-  votes             Vote[]
-  culturalTitle     CulturalTitle?   @relation(fields: [culturalTitleId], references: [id])
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
+  id           String @id @default(uuid())
+  email        String @unique
+  username     String @unique
+  passwordHash String
+  role         Role   @default(LEARNER)
+
+  culturalTitleId String?
+  culturalTitle   CulturalTitle? @relation(fields: [culturalTitleId], references: [id])
+
+  // Gamification tied to approved contributions
+  contributionCount Int @default(0)
+
+  contributions Contribution[]
+  reviews       Review[]
+  votes         Vote[]
+  progress      UserProgress[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-// Expanded Governance Hierarchy
 enum Role {
-  FOUNDER
-  CULTURAL_COUNCIL
+  ADMIN
   REVIEWER
-  TRUSTED_CONTRIBUTOR
   CONTRIBUTOR
   LEARNER
-}
-
-model Language {
-  id        String   @id @default(uuid())
-  name      String
-  code      String   @unique
-  isActive  Boolean  @default(true)
-  courses   Course[]
-  createdAt DateTime @default(now())
-}
-
-model Course {
-  id          String   @id @default(uuid())
-  languageId  String
-  language    Language @relation(fields: [languageId], references: [id])
-  title       String
-  description String?
-  levels      Level[]
-  createdAt   DateTime @default(now())
-}
-
-model Level {
-  id       String   @id @default(uuid())
-  courseId String
-  course   Course   @relation(fields: [courseId], references: [id])
-  title    String
-  order    Int
-  modules  Module[]
-}
-
-model Module {
-  id      String   @id @default(uuid())
-  levelId String
-  level   Level    @relation(fields: [levelId], references: [id])
-  title   String
-  order   Int
-  lessons Lesson[]
-}
-
-// Lesson is now a VIEW mapping to many KnowledgeUnits
-model Lesson {
-  id             String                @id @default(uuid())
-  moduleId       String
-  module         Module                @relation(fields: [moduleId], references: [id])
-  title          String
-  description    String?
-  knowledgeUnits LessonKnowledgeUnit[] 
-  exercises      Exercise[]
-  createdAt      DateTime              @default(now())
-  updatedAt      DateTime              @updatedAt
-}
-
-// Join table defining the Learning Path sequential order
-model LessonKnowledgeUnit {
-  lessonId        String
-  knowledgeUnitId String
-  order           Int            // Sequence within the lesson
-
-  lesson          Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  knowledgeUnit   KnowledgeUnit  @relation(fields: [knowledgeUnitId], references: [id], onDelete: Cascade)
-
-  @@id([lessonId, knowledgeUnitId])
-}
-
-// The core atomic preservation object
-model KnowledgeUnit {
-  id                String               @id @default(uuid())
-  type              KnowledgeType
-  standardText      String               // Anchor text
-  translation       String               // Foundational translation
-  culturalContext   String?              // Philosophical/Historical Context
-  
-  dialectVariations DialectVariation[]
-  lessons           LessonKnowledgeUnit[]
-  contributions     Contribution[]       // Version history and validation tracking
-  
-  createdAt         DateTime             @default(now())
-  updatedAt         DateTime             @updatedAt
-}
-
-enum KnowledgeType {
-  WORD
-  PHRASE
-  PROVERB
-  ORIKI
-  CULTURAL_INSIGHT
-  HISTORY_NOTE
-  GRAMMAR_RULE
-}
-
-// Explicit inclusion without standardization erasure
-model DialectVariation {
-  id              String        @id @default(uuid())
-  knowledgeUnitId String
-  knowledgeUnit   KnowledgeUnit @relation(fields: [knowledgeUnitId], references: [id], onDelete: Cascade)
-  dialectName     String        // e.g., Ẹ̀gbá, Ìjẹ̀bú, Ọ̀yọ́, Èkiti
-  variationText   String        // Specific spelling/tonal variation
-  audioUrl        String?       // Audio preservation
-  explanation     String?       // Nuance description (why it differs)
-}
-
-model Exercise {
-  id       String       @id @default(uuid())
-  lessonId String
-  lesson   Lesson       @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  question String
-  answer   String
-  type     ExerciseType
-}
-
-enum ExerciseType {
-  MULTIPLE_CHOICE
-  TRANSLATE
-  MATCH
-  LISTEN
-  AUDIO
-  IDENTIFY
-}
-
-model Contribution {
-  id                String             @id @default(uuid())
-  userId            String
-  user              User               @relation(fields: [userId], references: [id])
-  
-  // Directly tied to the Preservation Engine logic (tracking updates to KnowledgeUnits)
-  knowledgeUnitId   String?
-  knowledgeUnit     KnowledgeUnit?     @relation(fields: [knowledgeUnitId], references: [id])
-  
-  proposedContent   String             // JSON diff/payload of the contribution
-  status            ContributionStatus @default(PENDING) // approval_state
-  
-  reviews           Review[]
-  votes             Vote[]
-  createdAt         DateTime           @default(now())
-}
-
-model Review {
-  id             String       @id @default(uuid())
-  contributionId String
-  contribution   Contribution @relation(fields: [contributionId], references: [id], onDelete: Cascade)
-  reviewerId     String
-  reviewer       User         @relation(fields: [reviewerId], references: [id])
-  comment        String?
-  approved       Boolean
-  disputeFlag    Boolean      @default(false) // Flags disputes to escalate to Cultural Council
-  createdAt      DateTime     @default(now())
-}
-
-enum ContributionStatus {
-  PENDING
-  APPROVED
-  REJECTED
-}
-
-model Vote {
-  id             String       @id @default(uuid())
-  userId         String
-  user           User         @relation(fields: [userId], references: [id])
-  contributionId String
-  contribution   Contribution @relation(fields: [contributionId], references: [id], onDelete: Cascade)
-  value          Int          // +1 or -1
 }
 
 // Cultural progression
@@ -204,12 +49,203 @@ model CulturalTitle {
   users                 User[]
 }
 
-model LessonProgress {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  lessonId  String
-  completed Boolean  @default(false)
-  score     Int?
+model UserProgress {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  knowledgeUnitId String
+  knowledgeUnit   KnowledgeUnit @relation(fields: [knowledgeUnitId], references: [id], onDelete: Cascade)
+
+  status ProgressStatus @default(NOT_STARTED)
+  score  Int?
+
+  lastReviewedAt DateTime?
+  updatedAt      DateTime  @updatedAt
+
+  @@unique([userId, knowledgeUnitId])
+}
+
+enum ProgressStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  MASTERED
+}
+
+// ============================================
+// LAYER 1: KNOWLEDGE CORE (Foundation)
+// ============================================
+
+model KnowledgeUnit {
+  id           String        @id @default(uuid())
+  type         KnowledgeType
+  standardText String // Anchor text
+  translation  String // Foundational translation
+
+  phoneticExplanation String? // Breakdown of pronunciation
+  culturalContext     String? // Philosophical/Historical Context
+  sourceAttribution   String? // E.g., "Ìwé Òwe Yorùbá, J.O. Ajibola"
+
+  validationStatus ValidationStatus @default(DRAFT)
+
+  // Relations
+  dialectVariations KnowledgeUnitVariation[]
+  learningPathUnits LearningPathUnit[]
+  contributions     Contribution[]
+  userProgress      UserProgress[]
+
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum KnowledgeType {
+  WORD
+  PHRASE
+  PROVERB
+  ORIKI
+  GRAMMAR_RULE
+  HISTORY_NOTE
+  CULTURAL_INSIGHT
+}
+
+enum ValidationStatus {
+  DRAFT
+  COMMUNITY_VERIFIED
+  EXPERT_VERIFIED
+}
+
+// ============================================
+// LAYER 2: DIALECT MODEL
+// ============================================
+
+model Dialect {
+  id          String  @id @default(uuid())
+  name        String  @unique // e.g., Ìjẹ̀bú, Ẹ̀gbá, Ọ̀yọ́, Èkiti, Ìjèsà
+  region      String?
+  description String?
+
+  variations KnowledgeUnitVariation[]
+}
+
+model KnowledgeUnitVariation {
+  id String @id @default(uuid())
+
+  knowledgeUnitId String
+  knowledgeUnit   KnowledgeUnit @relation(fields: [knowledgeUnitId], references: [id], onDelete: Cascade)
+
+  dialectId String
+  dialect   Dialect @relation(fields: [dialectId], references: [id], onDelete: Restrict)
+
+  textWithTone        String // Specific spelling/tonal variation for this dialect
+  phoneticExplanation String? // Nuance description (why it differs from standard)
+  notes               String?
+  audioUrl            String? // Audio preservation
+
+  @@unique([knowledgeUnitId, dialectId])
+}
+
+// ============================================
+// LAYER 4: LEARNING LAYER (Generated)
+// ============================================
+
+model LearningPath {
+  id          String  @id @default(uuid())
+  level       String // e.g., Beginner, Intermediate, Advanced, Cultural Depth
+  title       String
+  description String?
+  order       Int
+
+  units LearningPathUnit[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LearningPathUnit {
+  id String @id @default(uuid())
+
+  learningPathId String
+  learningPath   LearningPath @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
+
+  knowledgeUnitId String
+  knowledgeUnit   KnowledgeUnit @relation(fields: [knowledgeUnitId], references: [id], onDelete: Cascade)
+
+  order Int // Sequence within the path
+
+  @@unique([learningPathId, knowledgeUnitId])
+}
+
+// ============================================
+// LAYER 3: CONTRIBUTION & VALIDATION
+// ============================================
+
+model Contribution {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  knowledgeUnitId String?
+  knowledgeUnit   KnowledgeUnit? @relation(fields: [knowledgeUnitId], references: [id], onDelete: SetNull)
+
+  type    ContributionType
+  content String // JSON payload defining the state
+
+  status ContributionStatus @default(PENDING)
+
+  reviewCount   Int @default(0)
+  approvalScore Int @default(0) // Sum of votes +1/-1
+
+  reviews Review[]
+  votes   Vote[]
+
+  createdAt DateTime @default(now())
+}
+
+enum ContributionType {
+  NEW_KNOWLEDGE
+  EDIT_KNOWLEDGE
+  DIALECT_ADDITION
+  AUDIO_SUBMISSION
+}
+
+enum ContributionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Review {
+  id String @id @default(uuid())
+
+  contributionId String
+  contribution   Contribution @relation(fields: [contributionId], references: [id], onDelete: Cascade)
+
+  reviewerId String
+  reviewer   User   @relation(fields: [reviewerId], references: [id], onDelete: Restrict)
+
+  decision ReviewDecision
+  comment  String?
+
+  createdAt DateTime @default(now())
+}
+
+enum ReviewDecision {
+  APPROVE
+  REQUEST_CHANGES
+  REJECT
+  ESCALATE_TO_COUNCIL
+}
+
+model Vote {
+  id String @id @default(uuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  contributionId String
+  contribution   Contribution @relation(fields: [contributionId], references: [id], onDelete: Cascade)
+
+  value Int // +1 or -1
+
+  @@unique([userId, contributionId])
 }
