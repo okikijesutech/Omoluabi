@@ -5,11 +5,11 @@ export declare class ReviewsService {
     constructor(prisma: PrismaService);
     createReview(dto: CreateReviewDto): Promise<{
         id: string;
+        approved: boolean;
         comment: string | null;
         createdAt: Date;
         contributionId: string;
         reviewerId: string;
-        approved: boolean;
     }>;
     private evaluateThresholds;
     private rejectContribution;

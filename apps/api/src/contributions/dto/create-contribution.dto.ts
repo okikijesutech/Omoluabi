@@ -2,8 +2,8 @@ import { ContributionType } from '@prisma/client';
 
 export class CreateContributionDto {
   type: ContributionType;
-  knowledgeUnitId?: string;
+  dialectTag?: string; // Corresponds to dialectId
   authorId: string;
-  content: any; // Storing the proposed changes as JSON
-  comment?: string;
+  payload: any; // Storing the proposed changes as JSON
+  knowledgeUnitId?: string;
 }
