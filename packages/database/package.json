@@ -9,7 +9,11 @@
     "db:push": "prisma db push",
     "studio": "prisma studio",
     "clean": "rm -rf node_modules",
+    "seed": "ts-node prisma/seed.ts",
     "typecheck": "tsc --noEmit"
+  },
+  "prisma": {
+    "seed": "npm run seed"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0"

@@ -1,31 +1,74 @@
 @import "tailwindcss";
 
 @theme {
-  /* Omoluabi Brand Identity */
-  --color-brand-indigo: #1e1b4b; /* Deep Indigo (Heritage) */
-  --color-brand-earth: #78350f; /* Warm Earth Brown (Grounded Preservation) */
-  --color-brand-cream: #fdfbf7; /* Soft Cream (Learning Space) */
-  --color-brand-gold: #d97706; /* Muted Gold Accent (Dignity) */
+  /* 🎨 Color System (Preservation-First Palette) */
+  --color-bg-primary: #F7F3EE;     /* Warm Parchment */
+  --color-bg-secondary: #EFE8E1;   /* Soft Clay */
   
-  /* State Colors */
-  --color-success: #22c55e;
-  --color-error: #ef4444;
-  --color-warning: #eab308;
+  --color-text-primary: #1E1B18;   /* Deep Charcoal */
+  --color-text-secondary: #5C564F; /* Muted Brown-Gray */
+  
+  --color-brand-primary: #4B2E2B;  /* Earth Brown */
+  --color-brand-accent: #8C6A3F;   /* Subtle Gold */
+  
+  --color-success: #2F5D50;        /* Deep Forest */
+  --color-warning: #8A5A2B;
+  --color-danger: #7A2E2E;
 
-  /* Backgrounds */
-  --color-background-default: var(--color-brand-cream);
-  --color-surface: #ffffff;
+  /* 📐 Spacing System (8px Grid) */
+  --unit: 8px;
+  --space-1: var(--unit);
+  --space-2: calc(var(--unit) * 2);
+  --space-3: calc(var(--unit) * 3);
+  --space-4: calc(var(--unit) * 4);
+  --space-5: calc(var(--unit) * 5);
+  --space-6: calc(var(--unit) * 6);
+  --space-8: calc(var(--unit) * 8);
+  --space-10: calc(var(--unit) * 10);
+
+  /* 🧱 Component Design Tokens */
+  --border-soft: 1px solid #D8CFC7;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --shadow-soft: 0 4px 12px rgba(0,0,0,0.04);
   
-  /* Typography */
+  /* 🔤 Typography System */
   --font-sans: var(--font-inter), "system-ui", "sans-serif";
   --font-serif: var(--font-lora), "Georgia", "serif";
+  
+  /* Precise Type Scale */
+  --text-display: 72px;
+  --text-h1: 40px;
+  --text-h2: 28px;
+  --text-body-lg: 18px;
+  --text-body: 16px;
+  --text-caption: 14px;
 }
 
 @layer base {
   body {
-    background-color: var(--color-background-default);
-    color: var(--color-brand-indigo);
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.7;
+    letter-spacing: -0.01em;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-    line-height: 1.75;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    color: var(--color-brand-primary);
+    line-height: 1.2;
+    @apply tracking-tight;
+  }
+
+  h1 { font-size: var(--text-h1); }
+  h2 { font-size: var(--text-h2); }
+
+  /* Yoruba Tone Mark Optimization */
+  [lang="yo"] {
+    font-family: var(--font-serif);
+    font-feature-settings: "liga" 1, "kern" 1;
+    -webkit-font-smoothing: antialiased;
   }
 }

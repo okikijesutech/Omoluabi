@@ -1,56 +1,22 @@
-# Ọmọlúàbí
+# Ọmọlúàbí — Preservation-First Yoruba Platform
 
-Ọmọlúàbí is an open-source language learning platform dedicated to preserving and teaching African languages, starting with Yoruba. Inspired by gamified learning experiences, Ọmọlúàbí combines a premium UI with a community-driven content model.
+Ọmọlúàbí is a modern preservation engine and community-driven knowledge base for the Yoruba language and its diverse dialects. 
 
-## 🌟 Features
+## Project Status: Governance Layer (Phase 9)
+We are currently implementing the **Governance & Trust Layer**, enabling algorithmic authority and cultural preservation through a community-led validation system.
 
-- **Gamified Learning**: Bite-sized lessons, lives, and rewards.
-- **Open-Source Content**: All learning material is stored as JSON, allowing for easy community contributions.
-- **Modern Tech Stack**: Built with React 18, TypeScript 5, and Vite 6 for high performance.
-- **Community-Driven**: Designed for modularity and ease of contribution.
+## Key Documentation
+- [Architecture](docs/ARCHITECTURE.md) — The Preservation-First philosophy.
+- [Governance & Trust](docs/GOVERNANCE.md) — How we ensure cultural integrity.
+- [API Guide](docs/API_GUIDE.md) — Technical guide for the contribution system.
+- [Development](docs/DEVELOPMENT.md) — Setup and contribution instructions.
 
-> [!NOTE]
-> **Authentication Suspension**: Live Firebase authentication is temporarily suspended in the current build to allow direct access to content without registration.
+## Core Features
+- **Linguistic Precision**: Native support for Yoruba tonal marks and orthography.
+- **Dialect Inclusivity**: Non-standardization approach that treats variations (Ijebu, Ekiti, Yagba, etc.) as equals.
+- **Earned Trust**: Algorithmic authority prevents spam and ensures knowledge quality.
+- **Total Traceability**: Every edit is snapshotted, ensuring nothing is ever lost.
 
-## 🚀 Getting Started
+---
 
-### Prerequisites
-
-- Node.js (v18 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/okikijesutech/Omoluabi.git
-   ```
-2. Install dependencies:
-   ```bash
-   cd Omoluabi
-   npm install
-   ```
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-## 🏗️ Architecture
-
-Ọmọlúàbí uses a modern, modular architecture:
-
-- `src/components`: Reusable UI components (PascalCase).
-- `src/pages`: Application views and layouts.
-- `src/modals`: Interactive modal dialogues.
-- `public/content`: The open-source lesson database.
-
-## 🤝 Contributing
-
-We welcome contributions from everyone! Whether you're a developer, a linguist, or a native speaker, you can help us grow.
-
-- **Content**: See [DEVELOPER.md](./DEVELOPER.md) for how to add or improve lessons.
-- **Code**: Check our [Issues](https://github.com/okikijesutech/Omoluabi/issues) for bugs and feature requests.
-
-## 📄 License
-
-Code is licensed under [MIT](./LICENSE). Content is licensed under [CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+Built for the next generation. Rooted in preservation.
