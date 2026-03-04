@@ -1,24 +1,62 @@
 import Link from "next/link";
+import { BookOpen, Map, Library, PenTool, Database } from "lucide-react";
 
 export function SideNav() {
   return (
-    <aside className="w-64 border-r border-slate-200 bg-white hidden md:flex flex-col">
-      <div className="h-16 flex items-center px-6 border-b border-slate-200 bg-brand-indigo">
-        <Link href="/" className="font-bold text-2xl text-white tracking-tight flex items-center gap-2">
-          Omoluabi
+    <aside className="w-64 border-r border-zinc-200 bg-white hidden md:flex flex-col dark:bg-zinc-950 dark:border-zinc-800 font-sans">
+      <div className="h-16 flex items-center px-6 border-b border-zinc-100 dark:border-zinc-800">
+        <Link href="/" className="font-serif font-bold text-xl tracking-tight text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
+          Ọmọlúàbí
         </Link>
       </div>
       
-      <nav className="flex-1 p-4 flex flex-col gap-2">
-        <Link href="/learn" className="flex items-center gap-4 px-4 py-3 rounded-xl bg-slate-100 text-brand-terracotta font-bold border-2 border-slate-200 hover:bg-slate-50 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Learn
-        </Link>
-        <Link href="/leaderboard" className="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 font-bold hover:bg-slate-50 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg> Leaderboard
-        </Link>
-        <Link href="/contribute" className="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 font-bold hover:bg-slate-50 transition-colors mt-8">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg> Contribute
-        </Link>
+      <nav className="flex-1 px-4 py-8 flex flex-col gap-8">
+        <div className="space-y-2">
+          <Link 
+            href="/learn" 
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-emerald-50 text-emerald-800 font-medium transition-colors dark:bg-emerald-900/30 dark:text-emerald-400 group"
+          >
+            <Map className="w-5 h-5 text-emerald-600 dark:text-emerald-500 group-hover:scale-110 transition-transform" />
+            Learn
+          </Link>
+        </div>
+
+        <div className="space-y-2">
+          <h3 className="px-3 text-xs font-semibold tracking-wider text-zinc-500 uppercase dark:text-zinc-400 mb-2">
+            The Vault
+          </h3>
+          <Link 
+            href="/explore/words" 
+            className="flex items-center gap-3 px-3 py-2 rounded-lg text-zinc-600 font-medium hover:bg-zinc-50 hover:text-zinc-900 transition-colors dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
+          >
+            <BookOpen className="w-4 h-4" />
+            Vocabulary
+          </Link>
+          <Link 
+            href="/explore/proverbs" 
+            className="flex items-center gap-3 px-3 py-2 rounded-lg text-zinc-600 font-medium hover:bg-zinc-50 hover:text-zinc-900 transition-colors dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
+          >
+            <Library className="w-4 h-4" />
+            Òwe (Proverbs)
+          </Link>
+          <Link 
+            href="/explore/dialects" 
+            className="flex items-center gap-3 px-3 py-2 rounded-lg text-zinc-600 font-medium hover:bg-zinc-50 hover:text-zinc-900 transition-colors dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
+          >
+            <Database className="w-4 h-4" />
+            Dialect Explorer
+          </Link>
+        </div>
+
+        <div className="mt-auto space-y-2 pb-4">
+          <Link 
+            href="/contribute" 
+            className="flex items-center gap-3 px-3 py-2 rounded-lg text-zinc-500 font-medium hover:bg-zinc-50 hover:text-zinc-900 transition-colors dark:text-zinc-500 dark:hover:bg-zinc-900 dark:hover:text-zinc-200"
+          >
+            <PenTool className="w-4 h-4" />
+            Contribute
+          </Link>
+        </div>
       </nav>
     </aside>
   );
