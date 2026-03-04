@@ -1,5 +1,5 @@
 import React from 'react';
-import { DialectBadge } from './DialectBadge';
+import { DialectBadge } from '@/components/ui/DialectBadge';
 
 type DialectVariation = {
   id: string;
