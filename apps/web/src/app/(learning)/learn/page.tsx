@@ -1,90 +1,126 @@
-import { BookOpen, CheckCircle } from "lucide-react";
-import Link from "next/link";
+import { CheckCircle2, Circle, Lock } from "lucide-react";
 
 export default function LearnPage() {
-  const levels = [
+  const learningPath = [
     {
-      id: "l1",
-      title: "Foundation",
-      description: "Basic tonal awareness and foundational structure.",
-      modules: [
-        { id: "m1", title: "The Three Tones", status: "completed" },
-        { id: "m2", title: "Greetings & Respect", status: "active" },
-        { id: "m3", title: "Family Concepts", status: "locked" }
-      ]
+      id: "beginner-1",
+      level: "Beginner",
+      title: "Foundational Vocabulary & Greetings",
+      description: "Master the essential words and respectful greetings that form the bedrock of Yorùbá culture.",
+      status: "completed",
+      lessons: 4
     },
     {
-      id: "l2",
-      title: "Cultural Depth",
-      description: "Proverbs, honorifics, and dialect introductions.",
-      modules: [
-        { id: "m4", title: "Intro to Òwe (Proverbs)", status: "locked" },
-        { id: "m5", title: "Dialect Comparison", status: "locked" }
-      ]
+      id: "beginner-2",
+      level: "Beginner",
+      title: "Family Structure & Pronouns",
+      description: "Understand the deep relational ties within the family unit and how to address elders properly.",
+      status: "active",
+      lessons: 5
+    },
+    {
+      id: "intermediate-1",
+      level: "Intermediate",
+      title: "Introduction to Òwe (Proverbs)",
+      description: "Begin exploring the horses of speech. Learn how to decode and apply foundational proverbs.",
+      status: "locked",
+      lessons: 6
+    },
+    {
+      id: "intermediate-2",
+      level: "Intermediate",
+      title: "Dialectical Variations",
+      description: "Move beyond Standard Yorùbá and explore the rich nuances of Ìjẹ̀bú, Ẹ̀gbá, and other regional dialects.",
+      status: "locked",
+      lessons: 8
     }
   ];
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="mb-16">
-        <h1 className="text-4xl font-serif tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl">
-          Thematic Progression
-        </h1>
-        <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
-          A structured, philosophical approach to mastering the Yorùbá worldview.
-        </p>
-      </div>
-      
-      <div className="space-y-16 relative">
-        <div className="absolute left-6 top-8 bottom-8 w-px bg-zinc-200 dark:bg-zinc-800 hidden sm:block" />
+    <div className="flex flex-col items-center pt-12 pb-24 px-6 sm:px-12 bg-zinc-50 dark:bg-zinc-950 font-sans min-h-screen">
+      <div className="w-full max-w-3xl space-y-12">
+        
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl font-serif tracking-tight text-zinc-900 dark:text-zinc-50 font-bold">
+            The Learning Path
+          </h1>
+          <p className="text-lg text-zinc-600 dark:text-zinc-400">
+            A structured progression through the Ọmọlúàbí Archive.
+          </p>
+        </div>
 
-        {levels.map((level) => (
-          <section key={level.id} className="relative z-10 pl-0 sm:pl-16">
-            <div className="absolute left-[-5px] top-1.5 hidden sm:block">
-              <div className="h-3 w-3 rounded-full bg-emerald-600 ring-4 ring-emerald-50 dark:bg-emerald-500 dark:ring-emerald-900/50" />
-            </div>
-            
-            <div className="mb-8">
-              <h2 className="text-2xl font-serif text-zinc-900 dark:text-zinc-50">{level.title}</h2>
-              <p className="mt-2 text-zinc-600 dark:text-zinc-400">{level.description}</p>
-            </div>
+        <div className="space-y-6">
+          {learningPath.map((module, index) => {
+            const isCompleted = module.status === "completed";
+            const isActive = module.status === "active";
+            const isLocked = module.status === "locked";
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              {level.modules.map(module => (
-                <div 
-                  key={module.id} 
-                  className={`flex flex-col justify-between rounded-xl border p-5 transition-all ${
-                    module.status === 'completed' 
-                      ? 'border-emerald-200 bg-emerald-50/50 dark:border-emerald-900/50 dark:bg-emerald-900/10' 
-                      : module.status === 'active'
-                      ? 'border-zinc-300 bg-white shadow-sm dark:border-zinc-700 dark:bg-zinc-900'
-                      : 'border-zinc-100 bg-zinc-50/50 opacity-75 grayscale dark:border-zinc-800/50 dark:bg-zinc-900/20'
-                  }`}
-                >
-                  <div className="flex items-start justify-between">
-                    <h3 className={`font-medium ${
-                      module.status === 'locked' ? 'text-zinc-500' : 'text-zinc-900 dark:text-zinc-100'
-                    }`}>
-                      {module.title}
-                    </h3>
-                    {module.status === 'completed' && <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-500" />}
-                    {module.status === 'active' && <BookOpen className="h-5 w-5 text-zinc-400" />}
-                  </div>
-                  
-                  {module.status !== 'locked' && (
-                    <div className="mt-6 flex justify-end">
-                      <button className={`text-sm font-medium ${
-                        module.status === 'completed' ? 'text-emerald-700 dark:text-emerald-400' : 'text-emerald-600 dark:text-emerald-500'
-                      }`}>
-                        {module.status === 'completed' ? 'Review' : 'Continue'} &rarr;
-                      </button>
+            return (
+              <div 
+                key={module.id} 
+                className={`relative flex gap-6 p-6 md:p-8 rounded-2xl border transition-all ${
+                  isActive 
+                    ? "bg-white border-emerald-500 shadow-md ring-1 ring-emerald-500/20 dark:bg-zinc-900 dark:border-emerald-600" 
+                    : isCompleted
+                      ? "bg-zinc-100/50 border-emerald-200 dark:bg-zinc-900/30 dark:border-emerald-900/30"
+                      : "bg-zinc-100/50 border-zinc-200 opacity-70 dark:bg-zinc-900/30 dark:border-zinc-800"
+                }`}
+              >
+                {/* Connecting Line (except for last item) */}
+                {index < learningPath.length - 1 && (
+                  <div className={`absolute top-24 bottom-[-1.5rem] left-10 md:left-12 w-0.5 ${
+                      isCompleted ? "bg-emerald-300 dark:bg-emerald-800" : "bg-zinc-200 dark:bg-zinc-800"
+                    }`} 
+                  />
+                )}
+
+                <div className="relative z-10 flex-shrink-0 mt-1">
+                  {isCompleted ? (
+                    <div className="rounded-full bg-emerald-100 p-1 text-emerald-600 dark:bg-emerald-900/50 dark:text-emerald-500">
+                      <CheckCircle2 className="w-6 h-6" />
+                    </div>
+                  ) : isActive ? (
+                    <div className="rounded-full bg-emerald-50 p-1 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 ring-4 ring-emerald-50 dark:ring-emerald-900/20">
+                      <Circle className="w-6 h-6 fill-emerald-500 stroke-emerald-500" />
+                    </div>
+                  ) : (
+                    <div className="rounded-full bg-zinc-100 p-1 text-zinc-400 dark:bg-zinc-800 dark:text-zinc-500">
+                      <Lock className="w-6 h-6" />
                     </div>
                   )}
                 </div>
-              ))}
-            </div>
-          </section>
-        ))}
+
+                <div className="flex flex-col gap-2 w-full">
+                  <div className="flex items-center justify-between">
+                    <span className={`text-xs font-semibold tracking-widest uppercase ${
+                      isActive || isCompleted ? "text-emerald-700 dark:text-emerald-500" : "text-zinc-500 dark:text-zinc-400"
+                    }`}>
+                      {module.level} • {module.lessons} Lessons
+                    </span>
+                  </div>
+                  
+                  <h3 className={`text-2xl font-serif font-bold ${
+                    isLocked ? "text-zinc-500 dark:text-zinc-400" : "text-zinc-900 dark:text-zinc-50"
+                  }`}>
+                    {module.title}
+                  </h3>
+                  
+                  <p className={`text-base leading-relaxed ${
+                    isLocked ? "text-zinc-500 dark:text-zinc-500" : "text-zinc-600 dark:text-zinc-400"
+                  }`}>
+                    {module.description}
+                  </p>
+
+                  {isActive && (
+                    <button className="mt-4 self-start rounded-lg bg-emerald-700 px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-emerald-800 dark:bg-emerald-600 dark:hover:bg-emerald-500">
+                      Continue Learning
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
