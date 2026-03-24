@@ -13,6 +13,23 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
+
+    // 🛠️ DEV BYPASS: Allow test headers in development to simulate different roles
+    if (process.env.NODE_ENV !== 'production') {
+      if (request.headers['x-guest-test']) {
+        request['user'] = { id: 'guest-contributor-id', email: 'contributor@omoluabi.io', role: 'CONTRIBUTOR' };
+        return true;
+      }
+      if (request.headers['x-reviewer-test']) {
+        request['user'] = { id: 'test-reviewer-id', email: 'reviewer@omoluabi.io', role: 'REVIEWER' };
+        return true;
+      }
+      if (request.headers['x-admin-test']) {
+        request['user'] = { id: 'test-admin-id', email: 'admin@omoluabi.io', role: 'ADMIN' };
+        return true;
+      }
+    }
+
     const token = this.extractTokenFromHeader(request);
     
     if (!token) {

@@ -42,11 +42,12 @@ export class KnowledgeService {
     });
   }
 
-  async createKnowledgeUnit(payload: any) {
+  async createKnowledgeUnit(payload: any, tx?: any) {
+    const db = tx || this.prisma;
     const slug = this.generateSlug(payload.title);
     
     // 1. Create unit
-    const newKu = await this.prisma.knowledgeUnit.create({
+    const newKu = await db.knowledgeUnit.create({
       data: {
         type: payload.type as KnowledgeType,
         title: payload.title,
@@ -56,12 +57,23 @@ export class KnowledgeService {
       },
     });
 
-    // 2. Attach dialect variations
+    // 2. Snapshot initial creation
+    await this.recordRevision({
+      entityType: EntityType.KNOWLEDGE_UNIT,
+      entityId: newKu.id,
+      previousData: null,
+      newData: newKu,
+      changeType: ChangeType.EDIT, // We use EDIT for initial state in this schema's ChangeType enum
+      userId: payload.userId || 'SYSTEM',
+      tx,
+    });
+
+    // 3. Attach dialect variations
     if (payload.dialectId && payload.textWithTone) {
       await this.addDialectVariation({
         knowledgeUnitId: newKu.id,
         ...payload
-      });
+      }, tx);
     }
 
     return newKu;
@@ -193,15 +205,16 @@ export class KnowledgeService {
     });
   }
 
-  async addDialectVariation(payload: any) {
+  async addDialectVariation(payload: any, tx?: any) {
+    const db = tx || this.prisma;
     if (!payload.knowledgeUnitId) throw new BadRequestException('knowledgeUnitId missing');
     if (!payload.dialectId) throw new BadRequestException('dialectId missing');
 
     // Audit: Explicit validation before creation
-    const dialect = await this.prisma.dialect.findUnique({ where: { id: payload.dialectId } });
+    const dialect = await db.dialect.findUnique({ where: { id: payload.dialectId } });
     if (!dialect) throw new BadRequestException('Dialect not found');
 
-    return this.prisma.knowledgeVariation.create({
+    const newVariation = await db.knowledgeVariation.create({
       data: {
         knowledgeUnitId: payload.knowledgeUnitId,
         dialectId: payload.dialectId,
@@ -211,6 +224,19 @@ export class KnowledgeService {
         audioUrl: payload.audioUrl,
       },
     });
+
+    // Snapshot initial variation
+    await this.recordRevision({
+      entityType: EntityType.KNOWLEDGE_VARIATION,
+      entityId: newVariation.id,
+      previousData: null,
+      newData: newVariation,
+      changeType: ChangeType.EDIT,
+      userId: payload.userId || 'SYSTEM',
+      tx,
+    });
+
+    return newVariation;
   }
 
   async findAll(type?: KnowledgeType) {
@@ -289,6 +315,36 @@ export class KnowledgeService {
       take: limit,
       skip: offset,
       orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async findRecent(limit: number = 5) {
+    return this.prisma.knowledgeUnit.findMany({
+      where: { isArchived: false },
+      include: {
+        variations: {
+          include: { dialect: true },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+    });
+  }
+
+  async findGlobalHistory(limit: number = 20) {
+    return this.prisma.revisionHistory.findMany({
+      include: {
+        createdBy: {
+          select: {
+            id: true,
+            email: true,
+            role: true,
+          },
+        },
+        contribution: true,
+      },
+      orderBy: { createdAt: 'desc' },
+      take: limit,
     });
   }
 }

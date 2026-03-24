@@ -37,7 +37,7 @@ export class GovernanceExecutionService {
     // 1. Apply changes (Preservation Logic)
     switch (contribution.type) {
       case ContributionType.CREATE:
-        await this.knowledgeService.createKnowledgeUnit(payload);
+        await this.knowledgeService.createKnowledgeUnit(payload, tx);
         break;
 
       case ContributionType.EDIT:
@@ -53,7 +53,7 @@ export class GovernanceExecutionService {
         break;
 
       case ContributionType.DIALECT_VARIATION:
-        await this.knowledgeService.addDialectVariation(payload);
+        await this.knowledgeService.addDialectVariation(payload, tx);
         break;
     }
 

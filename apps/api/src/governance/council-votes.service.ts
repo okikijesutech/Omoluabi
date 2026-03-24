@@ -115,15 +115,7 @@ export class CouncilVotesService {
         await this.executionService.rejectContribution(councilCase.contributionId, tx);
       }
 
-      // Update trust for author (Fetch contribution securely)
-      const contribution = await tx.contribution.findUnique({ where: { id: councilCase.contributionId } });
-      if (contribution) {
-        await this.trustService.updateTrustAfterContribution(
-            contribution.authorId,
-            contributionStatus,
-            tx
-        );
-      }
+      // Trust update for author is handled by executionService.approveContribution/rejectContribution
     });
   }
 }

@@ -16,28 +16,35 @@ export class TrustService {
     const user = await db.user.findUnique({ where: { id: userId } });
     if (!user) return;
 
-    let trustDelta = 0;
-    let approvedDelta = 0;
-    let rejectedDelta = 0;
+    const approvedDelta = status === ContributionStatus.APPROVED ? 1 : 0;
+    const rejectedDelta = status === ContributionStatus.REJECTED ? 1 : 0;
 
-    if (status === ContributionStatus.APPROVED) {
-      approvedDelta = 1;
-      trustDelta = 2;
-    } else if (status === ContributionStatus.REJECTED) {
-      rejectedDelta = 1;
-      trustDelta = -1;
-    }
-
-    const updatedUser = await db.user.update({
+    await db.user.update({
       where: { id: userId },
       data: {
         approvedCount: { increment: approvedDelta },
         rejectedCount: { increment: rejectedDelta },
-        trustScore: { increment: trustDelta },
       },
     });
 
+    await this.syncTrustScore(userId, tx);
+  }
+
+  async syncTrustScore(userId: string, tx?: any) {
+    const db = this.getClient(tx);
+    const user = await db.user.findUnique({ where: { id: userId } });
+    if (!user) return;
+
+    // Formula: (approvedCount * 2) + (reviewAccuracy * 5) - (rejectedCount * 1)
+    const newTrustScore = (user.approvedCount * 2) + (user.reviewAccuracy * 5) - (user.rejectedCount * 1);
+
+    const updatedUser = await db.user.update({
+      where: { id: userId },
+      data: { trustScore: newTrustScore },
+    });
+
     await this.evaluatePromotion(updatedUser, tx);
+    return updatedUser;
   }
 
   async updateReviewAccuracy(contributionId: string, tx?: any) {
@@ -65,7 +72,7 @@ export class TrustService {
       const newCorrectReviews = reviewer.correctReviews + (isCorrect ? 1 : 0);
       const newAccuracy = newCorrectReviews / newTotalReviews;
 
-      const updatedReviewer = await db.user.update({
+      await db.user.update({
         where: { id: review.reviewerId },
         data: {
           totalReviews: newTotalReviews,
@@ -74,8 +81,10 @@ export class TrustService {
         },
       });
 
-      await this.evaluateSuspension(updatedReviewer, tx);
-      await this.evaluatePromotion(updatedReviewer, tx);
+      const updatedReviewer = await this.syncTrustScore(review.reviewerId, tx);
+      if (updatedReviewer) {
+        await this.evaluateSuspension(updatedReviewer, tx);
+      }
     }
   }
 
@@ -84,15 +93,22 @@ export class TrustService {
     
     if (user.role === Role.LEARNER || user.role === Role.CONTRIBUTOR) {
       if (user.trustScore >= 50 && user.reviewAccuracy >= 0.7) {
-        // Snapshot promotion for governance audit
-        await this.recordRoleChange(user.id, user.role, Role.REVIEWER, tx);
-
-        await db.user.update({
-          where: { id: user.id },
-          data: { role: Role.REVIEWER },
-        });
+        await this.applyRoleChange(user.id, user.role, Role.REVIEWER, tx);
+      }
+    } else if (user.role === Role.REVIEWER) {
+      if (user.trustScore >= 100 && user.reviewAccuracy >= 0.8) {
+        await this.applyRoleChange(user.id, user.role, Role.ADMIN, tx); // Council is represented by ADMIN role in this schema
       }
     }
+  }
+
+  private async applyRoleChange(userId: string, oldRole: Role, newRole: Role, tx?: any) {
+    const db = this.getClient(tx);
+    await this.recordRoleChange(userId, oldRole, newRole, tx);
+    return await db.user.update({
+      where: { id: userId },
+      data: { role: newRole },
+    });
   }
 
   private async evaluateSuspension(user: any, tx?: any) {
@@ -121,7 +137,7 @@ export class TrustService {
 
     await db.revisionHistory.create({
       data: {
-        entityType: EntityType.KNOWLEDGE_UNIT, // Using KnowledgeUnit as proxy or we should add USER to EntityType
+        entityType: EntityType.USER,
         entityId: userId,
         entityVersion: nextVersion,
         previousData: { role: oldRole },

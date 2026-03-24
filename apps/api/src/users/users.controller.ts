@@ -1,9 +1,17 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards, Request } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @UseGuards(AuthGuard)
+  @Get('me')
+  findMe(@Request() req: any) {
+    // In our dev bypass, req.user.id is 'guest-contributor-id' or similar
+    return this.usersService.findOne(req.user.id);
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

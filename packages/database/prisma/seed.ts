@@ -5,6 +5,11 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Seeding Omoluabi Governance Base...');
 
+  const slugify = (text: string) => text.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+
   // 1. Create Core Dialects
   const dialects = [
     { name: 'Standard Yoruba', region: 'General', description: 'The standard formal variation used in education.' },
@@ -14,7 +19,7 @@ async function main() {
 
   for (const d of dialects) {
     await prisma.dialect.upsert({
-      where: { id: d.name }, // This will fail as name is not a unique ID, usually we use findFirst or just create
+      where: { name: d.name },
       update: {},
       create: d,
     });
@@ -64,16 +69,34 @@ async function main() {
   ];
 
   for (const u of units) {
-    const unit = await prisma.knowledgeUnit.create({
-      data: {
+    const slug = slugify(u.title);
+    const unit = await prisma.knowledgeUnit.upsert({
+      where: { slug },
+      update: {
         type: u.type,
         title: u.title,
+        description: u.description,
+      },
+      create: {
+        type: u.type,
+        title: u.title,
+        slug,
         description: u.description,
       }
     });
 
-    await prisma.knowledgeVariation.create({
-      data: {
+    await prisma.knowledgeVariation.upsert({
+      where: {
+        knowledgeUnitId_dialectId: {
+          knowledgeUnitId: unit.id,
+          dialectId: u.variation.dialectId,
+        }
+      },
+      update: {
+        textWithTone: u.variation.textWithTone,
+        notes: u.variation.notes,
+      },
+      create: {
         knowledgeUnitId: unit.id,
         dialectId: u.variation.dialectId,
         textWithTone: u.variation.textWithTone,

@@ -17,6 +17,29 @@ export class ReviewsService {
     private executionService: GovernanceExecutionService,
   ) {}
 
+  async findAllPending() {
+    return this.prisma.contribution.findMany({
+      where: {
+        status: {
+          in: [ContributionStatus.PENDING, ContributionStatus.ESCALATED],
+        },
+      },
+      include: {
+        author: {
+          select: {
+            id: true,
+            email: true,
+            trustScore: true,
+          },
+        },
+        reviews: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
+
   async reviewContribution(reviewerId: string, contributionId: string, decision: 'APPROVE' | 'REJECT', comment?: string) {
     const reviewer = await this.prisma.user.findUnique({ where: { id: reviewerId } });
 
