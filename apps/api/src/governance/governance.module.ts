@@ -3,12 +3,19 @@ import { TrustService } from './trust.service';
 import { CouncilService } from './council.service';
 import { CouncilVotesService } from './council-votes.service';
 import { GovernanceExecutionService } from './governance-execution.service';
+import { ReviewsService } from './reviews.service';
 
 import { GovernanceController } from './governance.controller';
 
 @Module({
   controllers: [GovernanceController],
-  providers: [TrustService, CouncilService, CouncilVotesService, GovernanceExecutionService],
-  exports: [TrustService, CouncilService, CouncilVotesService, GovernanceExecutionService],
+  providers: [
+    CouncilService,
+    CouncilVotesService,
+    TrustService,
+    GovernanceExecutionService,
+    ReviewsService,
+  ],
+  exports: [CouncilService, CouncilVotesService, TrustService, ReviewsService],
 })
 export class GovernanceModule {}

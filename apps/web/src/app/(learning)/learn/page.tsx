@@ -1,4 +1,5 @@
-import { CheckCircle2, Circle, Lock } from "lucide-react";
+import { CheckCircle2, Circle, Lock, ArrowRight, Play } from "lucide-react";
+import { PageContainer, Section, Header, Footer } from "@/components/layout";
 
 export default function LearnPage() {
   const learningPath = [
@@ -37,91 +38,110 @@ export default function LearnPage() {
   ];
 
   return (
-    <div className="flex flex-col items-center pt-12 pb-24 px-6 sm:px-12 bg-brand-cream dark:bg-zinc-950 font-sans min-h-screen">
-      <div className="w-full max-w-3xl space-y-12">
-        
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl font-serif tracking-tight text-brand-indigo dark:text-brand-cream font-bold">
-            The Learning Path
-          </h1>
-          <p className="text-lg text-brand-indigo/70 dark:text-brand-cream/70">
-            A structured progression through the Ọmọlúàbí Archive.
-          </p>
-        </div>
+    <div className="min-h-screen bg-bg-primary selection:bg-brand-accent/20">
+      <Header />
 
-        <div className="space-y-6">
-          {learningPath.map((module, index) => {
-            const isCompleted = module.status === "completed";
-            const isActive = module.status === "active";
-            const isLocked = module.status === "locked";
-
-            return (
-              <div 
-                key={module.id} 
-                className={`relative flex gap-6 p-6 md:p-8 rounded-2xl border transition-all ${
-                  isActive 
-                    ? "bg-white border-brand-earth shadow-md ring-1 ring-brand-earth/20 dark:bg-zinc-900 dark:border-brand-gold/50" 
-                    : isCompleted
-                      ? "bg-brand-indigo/5 border-brand-earth/30 dark:bg-zinc-900/30 dark:border-brand-gold/30"
-                      : "bg-brand-indigo/5 border-zinc-200 opacity-70 dark:bg-zinc-900/30 dark:border-zinc-800"
-                }`}
-              >
-                {/* Connecting Line (except for last item) */}
-                {index < learningPath.length - 1 && (
-                  <div className={`absolute top-24 bottom-[-1.5rem] left-10 md:left-12 w-0.5 ${
-                      isCompleted ? "bg-brand-earth/40 dark:bg-brand-gold/40" : "bg-zinc-200 dark:bg-zinc-800"
-                    }`} 
-                  />
-                )}
-
-                <div className="relative z-10 flex-shrink-0 mt-1">
-                  {isCompleted ? (
-                    <div className="rounded-full bg-brand-earth/10 p-1 text-brand-earth dark:bg-brand-gold/20 dark:text-brand-gold">
-                      <CheckCircle2 className="w-6 h-6" />
-                    </div>
-                  ) : isActive ? (
-                    <div className="rounded-full bg-brand-earth/10 p-1 text-brand-earth dark:bg-brand-gold/20 dark:text-brand-gold ring-4 ring-brand-earth/5 dark:ring-brand-gold/10">
-                      <Circle className="w-6 h-6 fill-brand-earth stroke-brand-earth dark:fill-brand-gold dark:stroke-brand-gold" />
-                    </div>
-                  ) : (
-                    <div className="rounded-full bg-zinc-100 p-1 text-zinc-400 dark:bg-zinc-800 dark:text-zinc-500">
-                      <Lock className="w-6 h-6" />
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex flex-col gap-2 w-full">
-                  <div className="flex items-center justify-between">
-                    <span className={`text-xs font-semibold tracking-widest uppercase ${
-                      isActive || isCompleted ? "text-brand-earth dark:text-brand-gold" : "text-zinc-500 dark:text-zinc-400"
-                    }`}>
-                      {module.level} • {module.lessons} Lessons
-                    </span>
-                  </div>
-                  
-                  <h3 className={`text-2xl font-serif font-bold ${
-                    isLocked ? "text-zinc-500 dark:text-zinc-400" : "text-brand-indigo dark:text-brand-cream"
-                  }`}>
-                    {module.title}
-                  </h3>
-                  
-                  <p className={`text-base leading-relaxed ${
-                    isLocked ? "text-zinc-500 dark:text-zinc-500" : "text-brand-indigo/70 dark:text-brand-cream/70"
-                  }`}>
-                    {module.description}
-                  </p>
-
-                  {isActive && (
-                    <button className="mt-4 self-start rounded-lg bg-brand-indigo px-6 py-2.5 text-sm font-semibold text-brand-cream transition-all hover:bg-brand-indigo/90 dark:bg-brand-gold dark:text-zinc-900 dark:hover:bg-brand-gold/90">
-                      Continue Learning
-                    </button>
-                  )}
-                </div>
+      <main className="pb-24">
+        {/* Archival Header */}
+        <Section spacing="lg" className="border-b border-text-primary/5">
+          <PageContainer size="archive">
+            <header className="space-y-6 pt-16 max-w-3xl">
+              <div className="flex items-center gap-3 text-brand-accent uppercase tracking-[0.4em] text-[10px] font-bold">
+                <Play className="w-4 h-4 shadow-[0_0_10px_rgba(140,106,63,0.3)]" />
+                Preservation Path
               </div>
-            );
-          })}
-        </div>
-      </div>
+              <h1 className="text-6xl font-serif text-brand-primary tracking-tighter">The Learning Path</h1>
+              <p className="text-xl font-serif text-text-secondary italic leading-relaxed max-w-2xl border-l-2 border-brand-accent/10 pl-8">
+                A structured progression through the Ọmọlúàbí Archive. Master the language through the lens of history and dialect.
+              </p>
+            </header>
+          </PageContainer>
+        </Section>
+
+        {/* Path Grid */}
+        <Section spacing="xl">
+          <PageContainer size="archive" className="relative group">
+            
+            <div className="space-y-12">
+              {learningPath.map((module, index) => {
+                const isCompleted = module.status === "completed";
+                const isActive = module.status === "active";
+                const isLocked = module.status === "locked";
+
+                return (
+                  <div 
+                    key={module.id} 
+                    className={`relative grid grid-cols-1 md:grid-cols-12 gap-8 items-start transition-all duration-500 ${isLocked ? 'opacity-40 grayscale' : ''}`}
+                  >
+                    {/* Progress Indicator Column */}
+                    <div className="md:col-span-1 flex flex-col items-center pt-2">
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center border-2 z-10 transition-all duration-700 shadow-sm ${
+                            isCompleted ? 'bg-success/5 border-success/20 text-success' : 
+                            isActive ? 'bg-brand-accent/10 border-brand-accent text-brand-accent shadow-lg shadow-brand-accent/20 animate-pulse' :
+                            'bg-white border-text-primary/10 text-text-secondary/30'
+                        }`}>
+                            {isCompleted ? <CheckCircle2 className="w-6 h-6" /> : 
+                             isActive ? <Circle className="w-3 h-3 fill-brand-accent" /> :
+                             <Lock className="w-5 h-5" />}
+                        </div>
+                        {/* Connecting Line */}
+                        {index < learningPath.length - 1 && (
+                            <div className={`w-px h-32 md:h-24 border-l-2 border-dashed mt-4 ${isCompleted ? 'border-success/30' : 'border-brand-accent/10'}`} />
+                        )}
+                    </div>
+
+                    {/* Content Column */}
+                    <div className="md:col-span-11">
+                        <div className={`p-10 rounded-[32px] border transition-all duration-500 overflow-hidden relative group/card ${
+                            isCompleted ? 'bg-bg-secondary/40 border-text-primary/5 hover:bg-bg-secondary/60' :
+                            isActive ? 'bg-white/80 backdrop-blur-xl border-brand-accent/20 shadow-2xl shadow-brand-primary/5 ring-1 ring-brand-accent/5' :
+                            'bg-white border-text-primary/5'
+                        }`}>
+                            {/* Decorative Corner (Active) */}
+                            {isActive && (
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-brand-accent/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                            )}
+
+                            <div className="space-y-6 relative z-10">
+                                <div className="flex justify-between items-center">
+                                    <span className={`text-[10px] font-bold uppercase tracking-[0.3em] ${
+                                        isActive || isCompleted ? "text-brand-accent" : "text-text-secondary/40"
+                                    }`}>
+                                        {module.level} • {module.lessons} Lessons
+                                    </span>
+                                    {isCompleted && (
+                                        <span className="text-[10px] font-bold text-success uppercase tracking-widest bg-success/5 px-3 py-1 rounded-full border border-success/10">
+                                            Archived
+                                        </span>
+                                    )}
+                                </div>
+                                
+                                <div className="space-y-4">
+                                    <h3 className="text-3xl font-serif font-bold text-brand-primary">
+                                        {module.title}
+                                    </h3>
+                                    <p className="text-lg font-serif italic text-text-secondary leading-relaxed opacity-80 max-w-2xl">
+                                        {module.description}
+                                    </p>
+                                </div>
+
+                                {isActive && (
+                                    <button className="flex items-center gap-3 px-8 py-4 bg-brand-primary text-bg-primary rounded-2xl font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-brand-accent hover:-translate-y-1 transition-all shadow-xl shadow-brand-primary/10">
+                                        Continue Path <ArrowRight className="w-4 h-4" />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </PageContainer>
+        </Section>
+      </main>
+
+      <Footer />
     </div>
   );
 }

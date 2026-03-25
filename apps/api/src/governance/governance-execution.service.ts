@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { ContributionStatus, ContributionType } from '@prisma/client';
+import { ContributionStatus, ContributionType, KnowledgeType } from '@prisma/client';
 import { KnowledgeService } from '../knowledge/knowledge.service';
 import { TrustService } from './trust.service';
 
@@ -33,27 +33,43 @@ export class GovernanceExecutionService {
     if (!contribution) return;
 
     const payload: any = contribution.content;
+    const authorId = contribution.authorId;
 
     // 1. Apply changes (Preservation Logic)
     switch (contribution.type) {
       case ContributionType.CREATE:
-        await this.knowledgeService.createKnowledgeUnit(payload, tx);
+        // payload from TonalInput: { title, meaning, notes, dialectId }
+        await this.knowledgeService.createKnowledgeUnit({
+          title: payload.title,
+          description: payload.meaning,
+          type: KnowledgeType.WORD, // Defaulting to WORD for Lab submissions
+          dialectId: payload.dialectId,
+          textWithTone: payload.title, // In many simple cases, the title IS the word with tones
+          notes: payload.notes,
+          userId: authorId,
+        }, tx);
         break;
 
       case ContributionType.EDIT:
         if (contribution.knowledgeVariationId) {
           await this.knowledgeService.applyVariationEdit(
-            { ...payload, targetVariationId: contribution.knowledgeVariationId },
-            contribution.authorId,
+            { 
+              ...payload, 
+              targetVariationId: contribution.knowledgeVariationId 
+            },
+            authorId,
             contribution.id
           );
         } else {
-          await this.knowledgeService.applyEdit(payload, contribution.authorId, contribution.id);
+          await this.knowledgeService.applyEdit(payload, authorId, contribution.id);
         }
         break;
 
       case ContributionType.DIALECT_VARIATION:
-        await this.knowledgeService.addDialectVariation(payload, tx);
+        await this.knowledgeService.addDialectVariation({
+          ...payload,
+          userId: authorId,
+        }, tx);
         break;
     }
 
@@ -64,7 +80,7 @@ export class GovernanceExecutionService {
     });
 
     // 3. Update Governance & Trust
-    await this.trustService.updateTrustAfterContribution(contribution.authorId, ContributionStatus.APPROVED, tx);
+    await this.trustService.updateTrustAfterContribution(authorId, ContributionStatus.APPROVED, tx);
     await this.trustService.updateReviewAccuracy(contributionId, tx);
   }
 

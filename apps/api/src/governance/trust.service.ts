@@ -35,12 +35,19 @@ export class TrustService {
     const user = await db.user.findUnique({ where: { id: userId } });
     if (!user) return;
 
-    // Formula: (approvedCount * 2) + (reviewAccuracy * 5) - (rejectedCount * 1)
-    const newTrustScore = (user.approvedCount * 2) + (user.reviewAccuracy * 5) - (user.rejectedCount * 1);
+    // 🎓 Formula: (approvedCount * 5) + (reviewAccuracy * 100) - (rejectedCount * 2)
+    // We weight Accuracy heavily to ensure quality over quantity
+    // Baseline trust score for new users is 0
+    let newTrustScore = (user.approvedCount * 5) + (user.reviewAccuracy * 100) - (user.rejectedCount * 2);
+    
+    // Dialect Mastery Bonus: +10 if they have 90%+ accuracy and 20+ reviews
+    if (user.reviewAccuracy >= 0.9 && user.totalReviews >= 20) {
+      newTrustScore += 10;
+    }
 
     const updatedUser = await db.user.update({
       where: { id: userId },
-      data: { trustScore: newTrustScore },
+      data: { trustScore: Math.max(0, Math.floor(newTrustScore)) },
     });
 
     await this.evaluatePromotion(updatedUser, tx);

@@ -3,13 +3,57 @@
 import React, { useState } from 'react';
 import { PageContainer, Section, Header, Footer } from '@/components/layout';
 import { PageTitle } from '@/components/typography';
-import { TonalInput, YorubaText } from '@/components/ui';
-import { FlaskConical, Save, Languages, History, Info } from 'lucide-react';
+import { TonalInput, YorubaText, DialectSelector } from '@/components/ui';
+import { FlaskConical, Save, Languages, History, Info, Loader2, CheckCircle2 } from 'lucide-react';
 
 export default function ContributionLab() {
   const [word, setWord] = useState("");
   const [meaning, setMeaning] = useState("");
   const [notes, setNotes] = useState("");
+  const [dialectId, setDialectId] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSaveDraft = async () => {
+    if (!word || !dialectId) {
+      alert("Please enter a word and select a dialect.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch('http://localhost:3001/contributions/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-guest-test': 'true', // Dev bypass
+        },
+        body: JSON.stringify({
+          type: 'CREATE',
+          dialectTag: dialectId,
+          authorId: 'guest-contributor-id', // Simulated ID
+          payload: {
+            title: word,
+            meaning,
+            notes,
+            dialectId
+          }
+        }),
+      });
+
+      if (res.ok) {
+        setSubmitted(true);
+        setTimeout(() => setSubmitted(false), 3000);
+      } else {
+        const error = await res.json();
+        alert(`Error: ${error.message}`);
+      }
+    } catch (error) {
+      console.error("Submission failed:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-bg-primary">
@@ -41,6 +85,12 @@ export default function ContributionLab() {
               <div className="lg:col-span-7 space-y-12">
                 <div className="space-y-8 bg-white/50 p-12 rounded-3xl border border-text-primary/5 shadow-xl shadow-brand-primary/5">
                   <div className="space-y-6">
+                    <DialectSelector 
+                      value={dialectId} 
+                      onChange={setDialectId} 
+                      className="max-w-md" 
+                    />
+
                     <TonalInput
                       label="Word / Phrase (Ọ̀rọ̀)"
                       value={word}
@@ -72,9 +122,13 @@ export default function ContributionLab() {
                   </div>
 
                   <div className="flex justify-end gap-4 pt-4">
-                    <button className="flex items-center gap-2 px-8 py-4 bg-brand-primary text-bg-primary rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-accent hover:-translate-y-1 transition-all shadow-lg shadow-brand-primary/20">
-                      <Save className="w-4 h-4" />
-                      Save Draft
+                    <button 
+                      onClick={handleSaveDraft}
+                      disabled={isSubmitting || submitted}
+                      className={`flex items-center gap-2 px-8 py-4 ${submitted ? 'bg-green-600' : 'bg-brand-primary'} text-bg-primary rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-accent hover:-translate-y-1 transition-all shadow-lg shadow-brand-primary/20 disabled:opacity-50 disabled:translate-y-0`}
+                    >
+                      {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : submitted ? <CheckCircle2 className="w-4 h-4" /> : <Save className="w-4 h-4" />}
+                      {submitted ? 'Contribution Saved' : 'Save Draft'}
                     </button>
                   </div>
                 </div>
