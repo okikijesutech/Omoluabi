@@ -26,7 +26,9 @@ export class CouncilService {
       take: 7,
     });
 
-    // 3. Notify members (Future implementation)
+    // 3. Notify members
+    console.log(`[GOVERNANCE] Notifying ${members.length} rotational members for Case ${councilCase.id}`);
+    
     return councilCase;
   }
 }

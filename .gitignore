@@ -6,3 +6,8 @@ out
 build
 *.log
 .DS_Store
+.turbo
+**/*.js
+!**/node_modules/**
+!**/prisma/seed.js
+!**/apps/api/test/*.js

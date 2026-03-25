@@ -1,5 +1,5 @@
 import { Lesson } from "@omoluabi/types";
-import { communityLessons } from "../../infrastructure/database/inMemoryStore";
+import { communityLessons } from "./infrastructure/database/inMemoryStore";
 
 export class ContentService {
   public static submitContent(lesson: Lesson, contributor: string): string {
