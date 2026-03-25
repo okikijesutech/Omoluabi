@@ -6,3 +6,4 @@ export * from "./KnowledgeCard";
 export * from "./Logo";
 export * from "./YorubaText";
 export * from "./YorubaKeyboard";
+export * from "./TonalInput";
