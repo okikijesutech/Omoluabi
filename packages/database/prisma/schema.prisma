@@ -76,6 +76,14 @@ enum VoteDecision {
   REJECT
 }
 
+enum NotificationType {
+  CONTRIBUTION_APPROVED
+  CONTRIBUTION_REJECTED
+  LEVEL_UP
+  BADGE_EARNED
+  NEW_REVIEW_NEEDED
+}
+
 //////////////////////
 // USER & ROLES
 //////////////////////
@@ -104,6 +112,8 @@ model User {
   progress          UserProgress[]
   revisionHistories RevisionHistory[]
   councilVotes      CouncilVote[]
+
+  notifications     Notification[]
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -327,4 +337,21 @@ model UserProgress {
   createdAt       DateTime       @default(now())
 
   @@unique([userId, knowledgeUnitId], name: "user_knowledge_unique")
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  type      NotificationType
+  userId    String
+  user      User             @relation(fields: [userId], references: [id])
+  
+  title     String
+  message   String
+  read      Boolean          @default(false)
+  
+  metadata  Json?            // e.g. contributionId, badgeType
+  
+  createdAt DateTime         @default(now())
+
+  @@index([userId])
 }

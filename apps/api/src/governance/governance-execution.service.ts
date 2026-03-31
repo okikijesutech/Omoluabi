@@ -1,15 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { ContributionStatus, ContributionType, KnowledgeType } from '@prisma/client';
+import { ContributionStatus, ContributionType, KnowledgeType, NotificationType } from '@prisma/client';
 import { KnowledgeService } from '../knowledge/knowledge.service';
 import { TrustService } from './trust.service';
+import { NotificationsService } from '../notifications/notifications.service';
 
 @Injectable()
 export class GovernanceExecutionService {
-  constructor(
-    private prisma: PrismaService,
+  constructor(private prisma: PrismaService,
     private knowledgeService: KnowledgeService,
     private trustService: TrustService,
+    private notificationsService: NotificationsService,
   ) {}
 
   async approveContribution(contributionId: string, tx?: any) {
@@ -82,6 +83,15 @@ export class GovernanceExecutionService {
     // 3. Update Governance & Trust
     await this.trustService.updateTrustAfterContribution(authorId, contributionId, ContributionStatus.APPROVED, tx);
     await this.trustService.updateReviewAccuracy(contributionId, tx);
+
+    // 4. Notify Author
+    await this.notificationsService.create(
+      authorId,
+      NotificationType.CONTRIBUTION_APPROVED,
+      'Contribution Approved!',
+      `Your contribution for "${payload.title}" has been verified and added to the immortal archive.`,
+      { contributionId }
+    );
   }
 
   async rejectContribution(contributionId: string, tx?: any) {
@@ -105,5 +115,15 @@ export class GovernanceExecutionService {
     // Governance & Trust Logic
     await this.trustService.updateTrustAfterContribution(contribution.authorId, contributionId, ContributionStatus.REJECTED, tx);
     await this.trustService.updateReviewAccuracy(contributionId, tx);
+
+    // 📩 Notify Author
+    const payload: any = contribution.content;
+    await this.notificationsService.create(
+      contribution.authorId,
+      NotificationType.CONTRIBUTION_REJECTED,
+      'Review Update',
+      `Your contribution for "${payload.title || 'unnamed unit'}" requires linguistic adjustments and was not approved.`,
+      { contributionId }
+    );
   }
 }

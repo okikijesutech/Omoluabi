@@ -4,9 +4,13 @@ import Link from "next/link";
 import { OmoluabiLogo } from "@/components/ui/Logo";
 import { PageContainer } from "./index";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import { User } from "lucide-react";
+import NotificationDropdown from "../notifications/NotificationDropdown";
 
 export function Header() {
   const pathname = usePathname();
+  const { isAuthenticated } = useAuth();
   
   const navLinks = [
     { name: "Learn", href: "/learn" },
@@ -35,7 +39,10 @@ export function Header() {
                 ))}
             </div>
 
-            <AuthNav />
+            <div className="flex items-center gap-6">
+              {isAuthenticated && <NotificationDropdown />}
+              <AuthNav />
+            </div>
         </div>
       </PageContainer>
     </nav>
@@ -66,7 +73,7 @@ function AuthNav() {
         </div>
         <div className="hidden sm:block">
           <div className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo leading-none">
-            {user?.email.split('@')[0]}
+             {user?.email ? user.email.split('@')[0] : 'User'}
           </div>
           <div className="text-[8px] font-bold uppercase tracking-widest text-brand-accent opacity-60">
             {user?.role}
@@ -82,6 +89,3 @@ function AuthNav() {
     </div>
   );
 }
-
-import { useAuth } from "@/context/AuthContext";
-import { User } from "lucide-react";

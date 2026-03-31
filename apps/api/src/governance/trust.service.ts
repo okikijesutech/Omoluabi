@@ -1,11 +1,15 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { ContributionStatus, Role, EntityType, ChangeType } from '@prisma/client';
+import { ContributionStatus, Role, EntityType, ChangeType, NotificationType } from '@prisma/client';
 import { GamificationEngine, BadgeType } from '@omoluabi/gamification';
+import { NotificationsService } from '../notifications/notifications.service';
 
 @Injectable()
 export class TrustService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private notificationsService: NotificationsService,
+  ) {}
 
   // Helper to get DB client (standard or transactional)
   private getClient(tx?: any) {
@@ -58,11 +62,8 @@ export class TrustService {
     if (!user) return;
 
     // 🎓 Formula: (approvedCount * 5) + (reviewAccuracy * 100) - (rejectedCount * 2)
-    // We weight Accuracy heavily to ensure quality over quantity
-    // Baseline trust score for new users is 0
     let newTrustScore = (user.approvedCount * 5) + (user.reviewAccuracy * 100) - (user.rejectedCount * 2);
     
-    // Dialect Mastery Bonus: +10 if they have 90%+ accuracy and 20+ reviews
     if (user.reviewAccuracy >= 0.9 && user.totalReviews >= 20) {
       newTrustScore += 10;
     }
@@ -78,18 +79,46 @@ export class TrustService {
     });
 
     const newBadges = [...currentBadges];
+    const badgeNotifications: string[] = [];
+    
     earnedBadgeTypes.forEach((bt: BadgeType) => {
       newBadges.push({ type: bt, awardedAt: new Date() });
+      badgeNotifications.push(bt);
     });
+
+    const oldLevel = user.level;
+    const newLevel = GamificationEngine.calculateLevel(user.xp);
 
     const updatedUser = await db.user.update({
       where: { id: userId },
       data: { 
         trustScore: Math.max(0, Math.floor(newTrustScore)),
         badges: newBadges as any,
-        level: GamificationEngine.calculateLevel(user.xp)
+        level: newLevel
       },
     });
+
+    // 🏆 LEVEL UP NOTIFICATION
+    if (newLevel > oldLevel) {
+      await this.notificationsService.create(
+        userId,
+        NotificationType.LEVEL_UP,
+        'Level Up!',
+        `Congratulations! You have reached Level ${newLevel}. Your linguistic authority is growing.`,
+        { level: newLevel }
+      );
+    }
+
+    // 🎖️ NEW BADGE NOTIFICATIONS
+    for (const bt of badgeNotifications) {
+      await this.notificationsService.create(
+        userId,
+        NotificationType.BADGE_EARNED,
+        'New Badge Unlocked!',
+        `You have earned the "${bt.replace(/_/g, ' ')}" badge.`,
+        { badgeType: bt }
+      );
+    }
 
     await this.evaluatePromotion(updatedUser, tx);
     return updatedUser;
@@ -97,9 +126,6 @@ export class TrustService {
 
   async awardLearningXP(userId: string, xpAmount: number = 5, tx?: any) {
     const db = this.getClient(tx);
-    const user = await db.user.findUnique({ where: { id: userId } });
-    if (!user) return;
-
     await db.user.update({
       where: { id: userId },
       data: { xp: { increment: xpAmount } },
@@ -161,7 +187,7 @@ export class TrustService {
       }
     } else if (user.role === Role.REVIEWER) {
       if (user.trustScore >= 100 && user.reviewAccuracy >= 0.8) {
-        await this.applyRoleChange(user.id, user.role, Role.ADMIN, tx); // Council is represented by ADMIN role in this schema
+        await this.applyRoleChange(user.id, user.role, Role.ADMIN, tx);
       }
     }
   }
@@ -179,7 +205,6 @@ export class TrustService {
     const db = this.getClient(tx);
 
     if (user.role === Role.REVIEWER && user.totalReviews >= 20 && user.reviewAccuracy < 0.4) {
-      // Snapshot demotion for governance audit
       await this.recordRoleChange(user.id, user.role, Role.LEARNER, tx);
 
       await db.user.update({
@@ -192,7 +217,6 @@ export class TrustService {
   private async recordRoleChange(userId: string, oldRole: Role, newRole: Role, tx?: any) {
     const db = this.getClient(tx);
 
-    // Get current version for user revisions
     const lastRev = await db.revisionHistory.findFirst({
       where: { entityId: userId },
       orderBy: { entityVersion: 'desc' },
@@ -207,7 +231,7 @@ export class TrustService {
         previousData: { role: oldRole },
         newData: { role: newRole },
         changeType: ChangeType.EDIT,
-        createdById: userId, // System change but attributed to user for now
+        createdById: userId,
       },
     });
   }
