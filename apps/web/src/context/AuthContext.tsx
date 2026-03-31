@@ -7,6 +7,8 @@ interface User {
   id: string;
   email: string;
   role: string;
+  xp: number;
+  level: number;
 }
 
 interface AuthContextType {
@@ -15,6 +17,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (token: string, user: User) => void;
   logout: () => void;
+  refreshUser: () => Promise<void>;
   isAuthenticated: boolean;
 }
 
@@ -51,6 +54,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem('omoluabi_user', JSON.stringify(newUser));
   };
 
+  const refreshUser = async () => {
+    if (!token) return;
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/users/me`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const latestUser = await res.json();
+        setUser(latestUser);
+        localStorage.setItem('omoluabi_user', JSON.stringify(latestUser));
+      }
+    } catch (e) {
+      console.error('Failed to refresh user profile', e);
+    }
+  };
+
   const logout = () => {
     setToken(null);
     setUser(null);
@@ -67,6 +86,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isLoading,
         login,
         logout,
+        refreshUser,
         isAuthenticated: !!token,
       }}
     >

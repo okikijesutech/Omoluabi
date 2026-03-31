@@ -13,6 +13,7 @@ export class GovernanceController {
     private readonly reviewsService: ReviewsService,
     private readonly trustService: TrustService,
     private readonly councilService: CouncilService,
+    private readonly analyticsService: GovernanceAnalyticsService,
   ) {}
 
   @UseGuards(AuthGuard)
@@ -23,18 +24,7 @@ export class GovernanceController {
 
   @Get('metrics')
   async getMetrics() {
-    return {
-      totalReviews: 1402,
-      approvalRatio: '84%',
-      escalationsResolved: 48,
-      dialectDistribution: [
-        { name: "Òyó (Standard)", value: 65 },
-        { name: "Ìjẹ̀bú", value: 42 },
-        { name: "Ẹ̀gbá", value: 38 },
-        { name: "Èkìtì", value: 24 },
-        { name: "Oǹdó", value: 18 },
-      ]
-    };
+    return this.analyticsService.getMetrics();
   }
 
   @UseGuards(AuthGuard)

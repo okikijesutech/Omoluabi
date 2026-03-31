@@ -11,7 +11,8 @@ import {
   AlertTriangle,
   Gavel
 } from 'lucide-react';
-import { YorubaText } from '@/components/ui';
+import { YorubaText } from '../ui/YorubaText';
+import { Badge } from '../ui/Badge';
 
 export default function CouncilQueue() {
   const [cases, setCases] = useState<any[]>([]);
@@ -162,6 +163,29 @@ export default function CouncilQueue() {
                       {selectedCase.contribution.knowledgeUnit?.description || 'No existing record found.'}
                     </p>
                   </div>
+                </div>
+              </div>
+
+              {/* Reviewer Disagreements */}
+              <div className="space-y-4">
+                <h3 className="text-[9px] font-bold uppercase tracking-widest text-text-secondary/60 italic">Reviewer Disagreements</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {(selectedCase.contribution.reviews || []).map((r: any) => (
+                    <div key={r.id} className={`p-4 rounded-xl border transition-colors ${
+                      r.approved ? 'bg-emerald-50 border-emerald-100' : 'bg-red-50 border-red-100'
+                    }`}>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <div className={`w-2 h-2 rounded-full ${r.approved ? 'bg-emerald-500' : 'bg-red-500'}`} />
+                          <span className="text-[10px] font-bold text-text-secondary truncate max-w-[120px]">{r.reviewer.email}</span>
+                        </div>
+                        <Badge variant="outline" className="text-[8px] opacity-60">Trust: {r.reviewer.trustScore}</Badge>
+                      </div>
+                      <p className="text-xs text-brand-primary italic leading-relaxed">
+                        "{r.comment || (r.approved ? 'Standard verification passed.' : 'Requires dialect-specific tone correction.')}"
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </div>
 

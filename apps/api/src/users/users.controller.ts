@@ -9,8 +9,7 @@ export class UsersController {
   @UseGuards(AuthGuard)
   @Get('me')
   findMe(@Request() req: any) {
-    // In our dev bypass, req.user.id is 'guest-contributor-id' or similar
-    return this.usersService.findOne(req.user.id);
+    return this.usersService.findOne(req.user.id || req.user.sub);
   }
 
   @Get('leaderboard')

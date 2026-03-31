@@ -6,6 +6,15 @@ import { GovernanceExecutionService } from './governance-execution.service';
 import { ReviewsService } from './reviews.service';
 
 import { GovernanceController } from './governance.controller';
+import { Module } from '@nestjs/common';
+import { TrustService } from './trust.service';
+import { CouncilService } from './council.service';
+import { CouncilVotesService } from './council-votes.service';
+import { GovernanceExecutionService } from './governance-execution.service';
+import { ReviewsService } from './reviews.service';
+import { GovernanceAnalyticsService } from './governance-analytics.service';
+
+import { GovernanceController } from './governance.controller';
 
 @Module({
   controllers: [GovernanceController],
@@ -15,6 +24,7 @@ import { GovernanceController } from './governance.controller';
     TrustService,
     GovernanceExecutionService,
     ReviewsService,
+    GovernanceAnalyticsService,
   ],
   exports: [CouncilService, CouncilVotesService, TrustService, ReviewsService],
 })

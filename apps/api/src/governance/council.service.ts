@@ -39,6 +39,7 @@ export class CouncilService {
         contribution: {
           include: {
             author: { select: { id: true, email: true, trustScore: true, role: true, level: true, badges: true } },
+            reviews: { include: { reviewer: { select: { email: true, trustScore: true } } } },
             knowledgeUnit: true,
             knowledgeVariation: { include: { dialect: true } }
           }

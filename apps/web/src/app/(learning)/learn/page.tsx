@@ -1,134 +1,128 @@
-"use client";
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { BookOpen, Map, Trophy, Shield, ChevronRight } from 'lucide-react';
+'use client';
 
-export default function LearnDashboard() {
+import React, { useState, useEffect } from 'react';
+import { PageContainer } from '@/components/layout';
+import { PageTitle, BodyText } from '@/components/typography';
+import { GraduationCap, Sparkles, Loader2, Award } from 'lucide-react';
+import { LearningPathCard } from '@/components/ui/LearningPathCard';
+import { apiRequest } from '@/lib/api';
+import { useAuth } from '@/context/AuthContext';
+
+export default function LearnPage() {
+  const { user, isAuthenticated } = useAuth();
   const [paths, setPaths] = useState<any[]>([]);
-  const [progress, setProgress] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [progressData, setProgressData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [isAuthenticated]);
 
   const fetchData = async () => {
     try {
-      const [pathsRes, progRes] = await Promise.all([
-        fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/learning-paths`),
-        fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/progress`, {
-          headers: { 'x-guest-test': 'true' }
-        }).catch(() => ({ ok: false, json: () => [] })) // Safe fallback if not auth'd
+      const [pathsData, progress] = await Promise.all([
+        apiRequest('/learning-paths'),
+        isAuthenticated ? apiRequest('/progress') : Promise.resolve([])
       ]);
-
-      if (pathsRes.ok) {
-        setPaths(await pathsRes.json());
-      }
-      if (progRes.ok) {
-        setProgress(await progRes.json());
-      }
-    } catch (e) {
-      console.error(e);
+      setPaths(pathsData);
+      setProgressData(progress);
+    } catch (err) {
+      console.error('Failed to fetch learning data:', err);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
-  const calculateProgress = (path: any) => {
-    // Basic calculation for UI visualization based on units count
-    const totalUnits = path._count?.units || 1;
-    // In a real scenario, we'd cross-reference progress array with specific path units
-    // For this dashboard view MVP, we'll randomize or calculate loosely
-    const completed = progress.length || 0; 
-    return Math.min(Math.round((completed / totalUnits) * 100), 100);
+  const calculateCompleted = (path: any) => {
+    if (!isAuthenticated) return 0;
+    const unitIds = path.units.map((u: any) => u.knowledgeUnitId);
+    return progressData.filter(p => p.completed && unitIds.includes(p.knowledgeUnitId)).length;
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-brand-cream/20">
+        <Loader2 className="w-10 h-10 text-brand-indigo animate-spin" />
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-6xl mx-auto space-y-12">
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div className="space-y-4">
-          <h1 className="text-4xl font-serif text-brand-indigo dark:text-brand-cream flex items-center gap-3">
-            <BookOpen className="w-8 h-8 text-brand-accent" />
-            Curriculum
-          </h1>
-          <p className="text-brand-earth/80 text-lg max-w-2xl dark:text-brand-gold/80">
-            Journey through authentic cultural paths. Master the standard vocabulary, then graduate to regional dialects and proverbs.
-          </p>
-        </div>
-        
-        <div className="flex items-center gap-6 bg-white p-4 rounded-2xl shadow-sm border border-brand-indigo/10 dark:bg-zinc-900 dark:border-zinc-800">
-          <div className="text-center">
-            <div className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo/60 dark:text-brand-cream/60">XP Earned</div>
-            <div className="text-2xl font-serif text-brand-accent flex items-center justify-center gap-1">
-               25
+    <div className="min-h-screen bg-brand-cream/30 dark:bg-zinc-950 pb-24">
+      <div className="bg-white dark:bg-zinc-900 border-b border-text-primary/5 pt-16 pb-12">
+        <PageContainer size="archive">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-500 ring-1 ring-emerald-500/20">
+                <GraduationCap className="w-5 h-5" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-500/60">
+                 Guardian Curriculum
+              </span>
             </div>
-          </div>
-          <div className="w-px h-12 bg-brand-indigo/10 dark:bg-zinc-800"></div>
-          <div className="text-center">
-            <div className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo/60 dark:text-brand-cream/60">Rank</div>
-            <div className="text-2xl font-serif text-brand-indigo dark:text-brand-cream">Learner</div>
-          </div>
-        </div>
-      </header>
+            <PageTitle>Heritage Mastery</PageTitle>
+            <BodyText className="mt-4 max-w-2xl text-lg">
+              Systematic paths designed to transform you from a Learner to a respected Contributor 
+              and Reviewer of the Yorùbá archive.
+            </BodyText>
 
-      {isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-pulse">
-           {[1,2,3,4].map(i => <div key={i} className="h-64 bg-slate-100 rounded-2xl dark:bg-zinc-900" />)}
-        </div>
-      ) : paths.length === 0 ? (
-        <div className="py-20 text-center border border-dashed border-brand-indigo/10 rounded-3xl bg-white/50 dark:bg-zinc-900/50 dark:border-zinc-800">
-          <p className="text-brand-indigo/60 font-serif text-lg dark:text-brand-cream/60">The curriculum is currently being assembled by the Council.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {paths.map(path => {
-            const progressPercent = calculateProgress(path);
-            const isCompleted = progressPercent === 100;
-
-            return (
-              <Link href={`/lessons/${path.id}`} key={path.id} className="group flex flex-col justify-between rounded-3xl bg-white border border-brand-indigo/10 p-8 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1 hover:border-brand-accent/30 dark:bg-zinc-900 dark:border-zinc-800">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="px-3 py-1 rounded-full bg-brand-indigo/5 text-[10px] font-bold uppercase tracking-widest text-brand-indigo dark:bg-zinc-800 dark:text-brand-cream">
-                      {path.level}
-                    </span>
-                    {isCompleted && (
-                      <span className="text-green-600 flex items-center gap-1 text-xs font-bold uppercase tracking-wider bg-green-50 px-2 py-1 rounded-md">
-                        <Trophy className="w-3.5 h-3.5" /> Mastery
-                      </span>
-                    )}
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-3xl font-serif text-brand-indigo dark:text-brand-cream group-hover:text-brand-accent transition-colors">
-                      {path.title}
-                    </h3>
-                    <p className="mt-2 text-sm text-brand-earth dark:text-brand-gold/80 leading-relaxed">
-                      {path.description || 'Master foundational vocabulary and tonal structures.'}
-                    </p>
-                  </div>
+            {isAuthenticated && (
+              <div className="mt-8 p-6 bg-brand-indigo rounded-3xl text-white shadow-2xl shadow-brand-indigo/20 flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none transition-transform group-hover:scale-110" />
+                
+                <div className="flex items-center gap-4 relative z-10">
+                   <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center border border-white/20">
+                      <Award className="w-6 h-6 text-brand-gold" />
+                   </div>
+                   <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-white/50">Current Standing</p>
+                      <p className="text-xl font-serif">Level {user?.level} Guardian</p>
+                   </div>
                 </div>
 
-                <div className="pt-8 mt-auto">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo/60 dark:text-brand-cream/60">Progress</span>
-                    <span className="text-xs font-bold text-brand-indigo dark:text-brand-cream">{progressPercent}%</span>
-                  </div>
-                  <div className="w-full bg-brand-indigo/5 rounded-full h-2.5 dark:bg-zinc-800 overflow-hidden">
-                    <div className="bg-brand-accent h-2.5 rounded-full transition-all duration-1000" style={{ width: `${progressPercent}%` }}></div>
-                  </div>
-                  <div className="mt-6 flex items-center justify-between text-brand-accent font-bold text-sm">
-                    {path._count?.units || 0} Modules
-                    <div className="w-8 h-8 rounded-full bg-brand-accent/10 flex items-center justify-center group-hover:bg-brand-accent group-hover:text-white transition-colors">
-                      <ChevronRight className="w-4 h-4" />
-                    </div>
-                  </div>
+                <div className="flex items-center gap-8 relative z-10">
+                   <div className="text-center sm:text-right border-l border-white/10 pl-8">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-white/50">Total Mastery</p>
+                      <p className="text-2xl font-serif">{progressData.filter(p => p.completed).length} <span className="text-sm font-sans uppercase font-bold text-white/40">Units</span></p>
+                   </div>
+                   <div className="text-center sm:text-right border-l border-white/10 pl-8">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-white/50">Experience</p>
+                      <p className="text-2xl font-serif">{user?.xp} <span className="text-sm font-sans uppercase font-bold text-white/40">XP</span></p>
+                   </div>
                 </div>
-              </Link>
-            );
-          })}
+              </div>
+            )}
+          </div>
+        </PageContainer>
+      </div>
+
+      <PageContainer size="archive" className="mt-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {paths.map((path) => (
+            <LearningPathCard
+              key={path.id}
+              id={path.id}
+              title={path.title}
+              description={path.description}
+              level={path.level}
+              unitCount={path._count.units}
+              completedCount={calculateCompleted(path)}
+            />
+          ))}
+
+          {/* Coming Soon Card */}
+          <div className="bg-brand-indigo/[0.02] border-2 border-dashed border-brand-indigo/10 rounded-[2rem] p-8 flex flex-col items-center justify-center text-center opacity-60">
+             <div className="w-12 h-12 rounded-full bg-brand-indigo/5 mb-4 flex items-center justify-center text-brand-indigo/20">
+                <Sparkles className="w-6 h-6" />
+             </div>
+             <p className="text-[10px] font-black uppercase tracking-widest text-brand-indigo/40">Advanced Heritage</p>
+             <h3 className="text-xl font-serif text-brand-primary mt-2">More Paths Soon</h3>
+             <p className="mt-2 text-xs text-text-secondary/60 max-w-[200px]">
+               Our reviewers are validating more curricula. Contribute to unlock them faster!
+             </p>
+          </div>
         </div>
-      )}
+      </PageContainer>
     </div>
   );
 }
