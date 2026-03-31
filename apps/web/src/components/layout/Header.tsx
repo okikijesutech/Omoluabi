@@ -34,13 +34,54 @@ export function Header() {
                     </Link>
                 ))}
             </div>
-            {/* Quick Governance Badge */}
-            <Link href="/governance" className="flex items-center gap-2 px-3 py-1 bg-brand-accent/5 rounded-full border border-brand-accent/10 group hover:border-brand-accent/30 transition-all">
-                <div className="w-1.5 h-1.5 rounded-full bg-brand-accent shadow-[0_0_8px_rgba(140,106,63,0.4)]" />
-                <span className="text-[9px] font-bold uppercase tracking-widest text-brand-accent group-hover:text-brand-primary">Integrity: PASS</span>
-            </Link>
+
+            <AuthNav />
         </div>
       </PageContainer>
     </nav>
   );
 }
+
+function AuthNav() {
+  const { user, logout, isAuthenticated } = useAuth();
+  
+  if (!isAuthenticated) {
+    return (
+      <div className="flex items-center gap-6">
+        <Link href="/login" className="text-[10px] font-bold uppercase tracking-widest text-text-secondary hover:text-brand-primary transition-colors">
+          Sign In
+        </Link>
+        <Link href="/register" className="px-5 py-2 bg-brand-indigo text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-brand-indigo/90 transition-all shadow-sm">
+          Join
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-6">
+      <Link href="/profile" className="flex items-center gap-2 group">
+        <div className="w-8 h-8 rounded-full bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center text-brand-accent group-hover:bg-brand-accent group-hover:text-white transition-all">
+          <User className="w-4 h-4" />
+        </div>
+        <div className="hidden sm:block">
+          <div className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo leading-none">
+            {user?.email.split('@')[0]}
+          </div>
+          <div className="text-[8px] font-bold uppercase tracking-widest text-brand-accent opacity-60">
+            {user?.role}
+          </div>
+        </div>
+      </Link>
+      <button 
+        onClick={logout}
+        className="text-[10px] font-bold uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors"
+      >
+        Logout
+      </button>
+    </div>
+  );
+}
+
+import { useAuth } from "@/context/AuthContext";
+import { User } from "lucide-react";
