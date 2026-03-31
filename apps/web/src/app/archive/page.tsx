@@ -1,163 +1,161 @@
-"use client";
+'use client';
 
-import { PageTitle } from "@/components/typography";
-import { PageContainer, Section, Header, Footer } from "@/components/layout";
-import { Search, Filter, ChevronLeft, ChevronRight, FileText, History } from "lucide-react";
-import Link from "next/link";
+import React, { useState, useEffect } from 'react';
+import { PageContainer } from '@/components/layout';
+import { PageTitle, BodyText } from '@/components/typography';
+import { Search, Filter, Loader2, Sparkles, Database } from 'lucide-react';
+import { useSearch } from '@/hooks/useSearch';
+import { KnowledgeCard } from '@/components/ui/KnowledgeCard';
+import { apiRequest } from '@/lib/api';
 
-export default function ArchiveIndex() {
-  const archiveEntries = [
-    {
-      word: "Ọmọlúàbí",
-      dialect: "Òyó (Standard)",
-      description: "A person of impeccable integrity, characterizing the ideal Yoruba sociological status.",
-      source: "Oral Tradition",
-      revisions: 3,
-      slug: "omoluabi"
-    },
-    {
-      word: "Ìwà",
-      dialect: "General Yoruba",
-      description: "Character; the essence of human existence and the basis for social and spiritual standing.",
-      source: "Academic Record",
-      revisions: 5,
-      slug: "iwa"
-    },
-    {
-      word: "Àṣẹ",
-      dialect: "General Yoruba",
-      description: "The power to make things happen; the vital force that flows through all things in the universe.",
-      source: "Oral Tradition",
-      revisions: 2,
-      slug: "ase"
-    },
-    {
-      word: "Orí",
-      dialect: "Ìjẹ̀bú",
-      description: "The physical head and spiritual intuition; the seat of human destiny and consciousness.",
-      source: "Elder Consensus",
-      revisions: 4,
-      slug: "ori"
-    },
-    {
-      word: "Ẹ̀kọ́",
-      dialect: "Ẹ̀gbá",
-      description: "Education in its broadest sense; encompassing both formal instruction and moral upbringing.",
-      source: "Mixed Archival",
-      revisions: 1,
-      slug: "eko"
+export default function ArchivePage() {
+  const { results, loading, error, search, debouncedSearch } = useSearch();
+  const [keyword, setKeyword] = useState('');
+  const [dialectId, setDialectId] = useState('all');
+  const [type, setType] = useState('all');
+  const [dialects, setDialects] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Initial fetch
+    search({ limit: 20 });
+    fetchDialects();
+  }, [search]);
+
+  const fetchDialects = async () => {
+    try {
+      const data = await apiRequest('/dialects');
+      setDialects(data);
+    } catch (err) {
+      console.error('Failed to fetch dialects:', err);
     }
-  ];
+  };
+
+  const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setKeyword(val);
+    debouncedSearch({ keyword: val, dialectId, type, limit: 20 });
+  };
+
+  const handleFilterChange = (newDialectId: string, newType: string) => {
+    setDialectId(newDialectId);
+    setType(newType);
+    search({ keyword, dialectId: newDialectId, type: newType, limit: 20 });
+  };
 
   return (
-    <div className="min-h-screen bg-bg-primary selection:bg-brand-accent/20">
-      
-      <Header />
+    <div className="min-h-screen bg-brand-cream/30 dark:bg-zinc-950">
+      <div className="bg-white dark:bg-zinc-900 border-b border-text-primary/5 pt-12 pb-8">
+        <PageContainer size="archive">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-brand-indigo/10 rounded-lg text-brand-indigo ring-1 ring-brand-indigo/20">
+                <Database className="w-5 h-5" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-indigo/60">
+                Linguistic Repository
+              </span>
+            </div>
+            <PageTitle>Immortal Archive</PageTitle>
+            <BodyText className="mt-4 max-w-2xl">
+              Explore the collective wisdom of the Yorùbá people. Search through thousands of words, 
+              proverbs, and dialectal variations preserved for eternity.
+            </BodyText>
+          </div>
 
-      <main>
-        {/* TOP SECTION — ARCHIVE HEADER */}
-        <Section spacing="lg" className="border-b border-text-primary/5">
-          <PageContainer size="archive">
-            <header className="space-y-6 max-w-2xl pt-16">
-              <h2 className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand-accent">Repository Index</h2>
-              <PageTitle className="!text-6xl !text-brand-primary tracking-tighter">Archive</PageTitle>
-              <p className="text-xl font-serif text-text-secondary italic leading-relaxed max-w-xl">
-                Browse preserved knowledge across dialects, oral traditions, and community-validated historical records.
-              </p>
-            </header>
-          </PageContainer>
-        </Section>
-
-        {/* FILTER BAR — SOFT CLAY BACKGROUND PANEL */}
-        <Section spacing="sm" className="bg-[#D8CFC7]/10 border-b border-text-primary/5 sticky top-[80px] z-40 backdrop-blur-md">
-            <PageContainer size="archive" className="flex flex-col md:flex-row gap-8 justify-between items-center">
-                <div className="relative flex-1 w-full max-w-md">
-                    <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary/40" />
-                    <input 
-                        type="text" 
-                        placeholder="Search manuscript index..."
-                        className="w-full pl-14 pr-6 py-4 bg-white border border-text-primary/10 rounded-xl text-sm font-serif italic focus:border-brand-primary outline-none transition-all shadow-sm"
-                    />
+          <div className="mt-12 flex flex-col md:flex-row gap-4">
+            <div className="relative flex-1 group">
+              <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-text-secondary/30 group-focus-within:text-brand-indigo transition-colors" />
+              <input
+                type="text"
+                value={keyword}
+                onChange={handleKeywordChange}
+                placeholder="Search by word, meaning, or tonal variation..."
+                className="w-full pl-16 pr-6 py-5 bg-white dark:bg-zinc-800 border border-text-primary/10 rounded-2xl font-serif text-xl focus:outline-none focus:ring-2 focus:ring-brand-indigo/10 focus:border-brand-indigo transition-all shadow-sm"
+              />
+              {loading && (
+                <div className="absolute right-6 top-1/2 -translate-y-1/2">
+                  <Loader2 className="w-5 h-5 text-brand-indigo animate-spin" />
                 </div>
-                <div className="flex gap-4 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
-                    <ArchiveFilter label="Dialect" />
-                    <ArchiveFilter label="Source Type" />
-                    <ArchiveFilter label="Sort: Recent" />
-                </div>
-            </PageContainer>
-        </Section>
+              )}
+            </div>
 
-        {/* RESULTS LAYOUT — STRUCTURED LIST FORMAT */}
-        <Section spacing="xl">
-            <PageContainer size="archive">
-                <div className="space-y-4">
-                    {archiveEntries.map((entry, index) => (
-                        <div key={entry.slug}>
-                            <ArchiveItem entry={entry} />
-                            {index < archiveEntries.length - 1 && (
-                                <div className="h-px bg-text-primary/5 my-4" />
-                            )}
-                        </div>
-                    ))}
-                </div>
+            <div className="flex gap-4">
+              <div className="relative flex-1 md:w-48">
+                <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary/40" />
+                <select
+                  value={type}
+                  onChange={(e) => handleFilterChange(dialectId, e.target.value)}
+                  className="w-full pl-10 pr-4 py-5 bg-white dark:bg-zinc-800 border border-text-primary/10 rounded-2xl text-sm font-bold uppercase tracking-widest text-text-secondary appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-indigo/10"
+                >
+                  <option value="all">All Types</option>
+                  <option value="WORD">Words</option>
+                  <option value="PHRASE">Phrases</option>
+                  <option value="PROVERB">Proverbs</option>
+                  <option value="ORIKI">Oríkì</option>
+                </select>
+              </div>
 
-                {/* PAGINATION */}
-                <div className="mt-32 flex justify-center items-center gap-8">
-                    <button className="w-10 h-10 rounded-full border border-text-primary/5 flex items-center justify-center text-text-secondary/30 hover:text-brand-primary hover:border-brand-primary transition-all">
-                        <ChevronLeft className="w-4 h-4" />
-                    </button>
-                    <div className="flex gap-4 text-[11px] font-bold tracking-widest text-text-secondary/40 items-center">
-                        <span className="text-brand-primary border-b-2 border-brand-primary pb-1">01</span>
-                        <span className="hover:text-brand-primary transition-colors cursor-pointer">02</span>
-                        <span className="hover:text-brand-primary transition-colors cursor-pointer">03</span>
-                        <span className="hover:text-brand-primary transition-colors cursor-pointer">04</span>
-                        <span className="px-2">...</span>
-                        <span className="hover:text-brand-primary transition-colors cursor-pointer">42</span>
-                    </div>
-                    <button className="w-10 h-10 rounded-full border border-text-primary/5 flex items-center justify-center text-text-secondary/30 hover:text-brand-primary hover:border-brand-primary transition-all">
-                        <ChevronRight className="w-4 h-4" />
-                    </button>
+              <div className="relative flex-1 md:w-48">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary/40">
+                   <Sparkles className="w-4 h-4" />
                 </div>
-            </PageContainer>
-        </Section>
-      </main>
+                <select
+                  value={dialectId}
+                  onChange={(e) => handleFilterChange(e.target.value, type)}
+                  className="w-full pl-10 pr-4 py-5 bg-white dark:bg-zinc-800 border border-text-primary/10 rounded-2xl text-sm font-bold uppercase tracking-widest text-text-secondary appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-indigo/10"
+                >
+                  <option value="all">All Dialects</option>
+                  {dialects.map(d => (
+                    <option key={d.id} value={d.id}>{d.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+        </PageContainer>
+      </div>
 
-      <Footer />
+      <PageContainer size="archive" className="py-12">
+        {error && (
+          <div className="bg-red-50 text-red-600 p-6 rounded-2xl border border-red-100 mb-8 flex items-center gap-4">
+             <AlertCircle className="w-6 h-6" />
+             <p className="font-medium">{error}</p>
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {results.length > 0 ? (
+            results.map((unit: any) => (
+              <KnowledgeCard
+                key={unit.id}
+                type={unit.type}
+                standardText={unit.title}
+                translation={unit.description || 'No translation provided'}
+                culturalContext={unit.description} // Using same for now if no specific context field
+                dialects={unit.variations?.map((v: any) => ({
+                  id: v.id,
+                  dialectName: v.dialect.name,
+                  variationText: v.textWithTone,
+                  explanation: v.notes
+                }))}
+              />
+            ))
+          ) : !loading && (
+            <div className="col-span-full py-24 text-center">
+               <div className="w-20 h-20 bg-brand-indigo/5 rounded-full flex items-center justify-center mx-auto mb-6 text-brand-indigo/20">
+                  <Search className="w-10 h-10" />
+               </div>
+               <h3 className="text-2xl font-serif text-brand-primary">Linguistic Silence</h3>
+               <p className="text-text-secondary mt-2 max-w-md mx-auto">
+                 We couldn't find any records matching "{keyword}". Perhaps this is your opportunity to 
+                 <a href="/contribute" className="text-brand-indigo font-bold ml-1 hover:underline">add it to the archive?</a>
+               </p>
+            </div>
+          )}
+        </div>
+      </PageContainer>
     </div>
   );
 }
 
-function ArchiveFilter({ label }: { label: string }) {
-    return (
-        <button className="flex items-center gap-4 px-6 py-3 bg-white border border-text-primary/5 rounded-xl text-[10px] font-bold uppercase tracking-widest text-text-secondary/60 hover:border-brand-primary hover:text-brand-primary transition-all shadow-sm whitespace-nowrap">
-            {label}
-            <div className="w-1.5 h-1.5 border-r border-b border-current rotate-45 opacity-30 mt-[-2px]" />
-        </button>
-    )
-}
-
-function ArchiveItem({ entry }: { entry: { word: string, dialect: string, description: string, source: string, revisions: number, slug: string } }) {
-    return (
-        <Link href={`/lessons/${entry.slug}`} className="group block">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 py-8 px-6 rounded-2xl group-hover:bg-bg-secondary/20 transition-all duration-500">
-                <div className="md:col-span-3 space-y-1">
-                    <h3 className="text-2xl font-serif font-bold text-brand-primary transition-all underline decoration-transparent group-hover:decoration-brand-primary/20">{entry.word}</h3>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-brand-accent/60">Dialect: {entry.dialect}</p>
-                </div>
-                <div className="md:col-span-6">
-                    <p className="text-base font-serif text-text-secondary italic leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
-                        {entry.description}
-                    </p>
-                </div>
-                <div className="md:col-span-3 flex md:flex-col justify-between items-end md:items-end gap-4">
-                    <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-text-secondary/30">
-                        <FileText className="w-3 h-3" /> {entry.source}
-                    </div>
-                    <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-text-secondary/30">
-                        <History className="w-3 h-3" /> Revision {entry.revisions}
-                    </div>
-                </div>
-            </div>
-        </Link>
-    )
-}
+import { AlertCircle } from 'lucide-react';
