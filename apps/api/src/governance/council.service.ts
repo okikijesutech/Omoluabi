@@ -31,4 +31,23 @@ export class CouncilService {
     
     return councilCase;
   }
+
+  async getActiveCases() {
+    return this.prisma.councilCase.findMany({
+      where: { status: CouncilStatus.OPEN },
+      include: {
+        contribution: {
+          include: {
+            author: { select: { id: true, email: true, trustScore: true, role: true, level: true, badges: true } },
+            knowledgeUnit: true,
+            knowledgeVariation: { include: { dialect: true } }
+          }
+        },
+        councilVotes: {
+          include: { member: { select: { id: true, email: true, trustScore: true } } }
+        }
+      },
+      orderBy: { openedAt: 'desc' }
+    });
+  }
 }

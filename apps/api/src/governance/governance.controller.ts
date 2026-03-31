@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body, Param, UseGuards, Request } from '@nestjs/common';
 import { CouncilVotesService } from './council-votes.service';
+import { CouncilService } from './council.service';
 import { ReviewsService } from './reviews.service';
 import { TrustService } from './trust.service';
 import { VoteDecision } from '@prisma/client';
@@ -11,7 +12,14 @@ export class GovernanceController {
     private readonly councilVotesService: CouncilVotesService,
     private readonly reviewsService: ReviewsService,
     private readonly trustService: TrustService,
+    private readonly councilService: CouncilService,
   ) {}
+
+  @UseGuards(AuthGuard)
+  @Get('council/cases')
+  async getCouncilCases() {
+    return this.councilService.getActiveCases();
+  }
 
   @Get('metrics')
   async getMetrics() {
