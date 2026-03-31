@@ -94,6 +94,11 @@ model User {
   totalReviews      Int     @default(0)
   correctReviews    Int     @default(0)
 
+  // Gamification
+  xp                Int     @default(0)
+  level             Int     @default(1)
+  badges            Json    @default("[]")
+
   contributions     Contribution[]
   reviews           Review[]
   progress          UserProgress[]

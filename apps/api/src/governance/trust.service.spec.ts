@@ -44,17 +44,24 @@ describe('TrustService', () => {
         approvedCount: 10,
         rejectedCount: 2,
         reviewAccuracy: 0.8,
+        totalReviews: 5,
+        xp: 0,
+        badges: []
       };
       
       mockPrisma.user.findUnique.mockResolvedValue(mockUser);
-      mockPrisma.user.update.mockResolvedValue({ ...mockUser, trustScore: 22 });
+      mockPrisma.user.update.mockResolvedValue({ ...mockUser, trustScore: 126, level: 1 });
 
       await service.syncTrustScore('user-1');
 
-      // Formula: (10 * 2) + (0.8 * 5) - (2 * 1) = 20 + 4 - 2 = 22
+      // Formula: (10 * 5) + (0.8 * 100) - (2 * 2) = 50 + 80 - 4 = 126
       expect(mockPrisma.user.update).toHaveBeenCalledWith({
         where: { id: 'user-1' },
-        data: { trustScore: 22 },
+        data: { 
+          trustScore: 126,
+          level: 1,
+          badges: []
+        },
       });
     });
   });

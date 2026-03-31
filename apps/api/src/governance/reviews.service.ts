@@ -78,6 +78,8 @@ export class ReviewsService {
             trustScore: true,
             reviewAccuracy: true,
             totalReviews: true,
+            level: true,
+            badges: true,
           },
         },
         knowledgeUnit: true,

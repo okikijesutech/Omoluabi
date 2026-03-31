@@ -1,6 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ContributionStatus, Role, EntityType, ChangeType } from '@prisma/client';
+import { GamificationEngine, BadgeType } from '@omoluabi/gamification';
 
 @Injectable()
 export class TrustService {
@@ -11,10 +12,30 @@ export class TrustService {
     return tx || this.prisma;
   }
 
-  async updateTrustAfterContribution(userId: string, status: ContributionStatus, tx?: any) {
+  async updateTrustAfterContribution(userId: string, contributionId: string, status: ContributionStatus, tx?: any) {
     const db = this.getClient(tx);
     const user = await db.user.findUnique({ where: { id: userId } });
     if (!user) return;
+
+    let xpDelta = 2; // Default for rejected attempts
+
+    if (status === ContributionStatus.APPROVED) {
+      const isFirst = user.approvedCount === 0;
+
+      const obj = await db.contribution.findUnique({
+        where: { id: contributionId },
+        include: { knowledgeUnit: true, knowledgeVariation: { include: { knowledgeUnit: true } } }
+      });
+
+      let typeStr = 'WORD';
+      if (obj?.knowledgeUnit) {
+        typeStr = obj.knowledgeUnit.type;
+      } else if (obj?.knowledgeVariation?.knowledgeUnit) {
+        typeStr = obj.knowledgeVariation.knowledgeUnit.type;
+      }
+
+      xpDelta = GamificationEngine.calculateContributionXP(typeStr, isFirst);
+    }
 
     const approvedDelta = status === ContributionStatus.APPROVED ? 1 : 0;
     const rejectedDelta = status === ContributionStatus.REJECTED ? 1 : 0;
@@ -24,6 +45,7 @@ export class TrustService {
       data: {
         approvedCount: { increment: approvedDelta },
         rejectedCount: { increment: rejectedDelta },
+        xp: { increment: xpDelta },
       },
     });
 
@@ -45,9 +67,28 @@ export class TrustService {
       newTrustScore += 10;
     }
 
+    // Gamification: New Badges
+    const currentBadges = (user.badges as any[]) || [];
+    const currentBadgeTypes = currentBadges.map(b => b.type);
+    const earnedBadgeTypes = GamificationEngine.evaluateBadges({
+      approvedCount: user.approvedCount,
+      totalReviews: user.totalReviews,
+      reviewAccuracy: user.reviewAccuracy,
+      currentBadges: currentBadgeTypes
+    });
+
+    const newBadges = [...currentBadges];
+    earnedBadgeTypes.forEach((bt: BadgeType) => {
+      newBadges.push({ type: bt, awardedAt: new Date() });
+    });
+
     const updatedUser = await db.user.update({
       where: { id: userId },
-      data: { trustScore: Math.max(0, Math.floor(newTrustScore)) },
+      data: { 
+        trustScore: Math.max(0, Math.floor(newTrustScore)),
+        badges: newBadges as any,
+        level: GamificationEngine.calculateLevel(user.xp)
+      },
     });
 
     await this.evaluatePromotion(updatedUser, tx);
@@ -79,12 +120,15 @@ export class TrustService {
       const newCorrectReviews = reviewer.correctReviews + (isCorrect ? 1 : 0);
       const newAccuracy = newCorrectReviews / newTotalReviews;
 
+      const xpDelta = GamificationEngine.calculateReviewXP(isCorrect, reviewer.trustScore);
+
       await db.user.update({
         where: { id: review.reviewerId },
         data: {
           totalReviews: newTotalReviews,
           correctReviews: newCorrectReviews,
           reviewAccuracy: newAccuracy,
+          xp: { increment: xpDelta },
         },
       });
 

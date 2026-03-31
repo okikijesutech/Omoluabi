@@ -23,6 +23,8 @@ type Contribution = {
     email: string;
     trustScore: number;
     role: string;
+    level?: number;
+    badges?: any[];
   };
   knowledgeUnit?: {
       title: string;
@@ -113,9 +115,11 @@ export default function ReviewQueue() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className={`text-[9px] font-bold truncate ${selectedId === item.id ? 'text-white' : 'text-text-primary'}`}>{item.author.email}</p>
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1.5 mt-1">
                   <Shield className="w-2.5 h-2.5 text-brand-accent" />
                   <p className={`text-[8px] font-bold uppercase tracking-widest ${selectedId === item.id ? 'text-white/50' : 'text-text-secondary'}`}>Trust: {item.author.trustScore}</p>
+                  <span className="text-[8px] text-text-secondary/50">•</span>
+                  <p className={`text-[8px] font-bold uppercase tracking-widest ${selectedId === item.id ? 'text-white/50' : 'text-text-secondary'}`}>Lvl {item.author.level || 1}</p>
                 </div>
               </div>
               <ChevronRight className={`w-4 h-4 transition-transform group-hover:translate-x-1 ${selectedId === item.id ? 'text-white' : 'text-text-secondary'}`} />

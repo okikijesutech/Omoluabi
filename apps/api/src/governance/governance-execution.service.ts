@@ -80,7 +80,7 @@ export class GovernanceExecutionService {
     });
 
     // 3. Update Governance & Trust
-    await this.trustService.updateTrustAfterContribution(authorId, ContributionStatus.APPROVED, tx);
+    await this.trustService.updateTrustAfterContribution(authorId, contributionId, ContributionStatus.APPROVED, tx);
     await this.trustService.updateReviewAccuracy(contributionId, tx);
   }
 
@@ -103,7 +103,7 @@ export class GovernanceExecutionService {
     });
 
     // Governance & Trust Logic
-    await this.trustService.updateTrustAfterContribution(contribution.authorId, ContributionStatus.REJECTED, tx);
+    await this.trustService.updateTrustAfterContribution(contribution.authorId, contributionId, ContributionStatus.REJECTED, tx);
     await this.trustService.updateReviewAccuracy(contributionId, tx);
   }
 }
