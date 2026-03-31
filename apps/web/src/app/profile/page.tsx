@@ -1,298 +1,229 @@
 "use client";
+import React, { useEffect, useState } from 'react';
+import { User, ShieldCheck, Trophy, Target, Star, Loader2, Award, Clock } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
-import React, { useState, useEffect } from "react";
-import { PageContainer, Header, Footer, Divider, Section } from "@/components/layout";
-import { Badge, YorubaText } from "@/components/ui";
-import { Button } from "@/components/ui/Button";
-import { 
-    ShieldCheck, 
-    Star, 
-    TrendingUp, 
-    CheckCircle2, 
-    XCircle, 
-    Clock, 
-    Award,
-    Info,
-    Activity,
-    Loader2,
-    History
-} from "lucide-react";
-
-export default function ProfilePage() {
-  const [user, setUser] = useState<any>(null);
+export default function ProfileDashboard() {
+  const router = useRouter();
+  const [profile, setProfile] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-        const response = await fetch(`${apiBase}/users/me`, {
-          headers: {
-            'x-guest-test': 'true' // Simulating the current user for dev
-          }
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setUser(data);
-        }
-      } catch (error) {
-        console.error("Profile fetch failed", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchProfile();
   }, []);
 
-  const getRolePrestige = (role: string) => {
-    const roles: any = {
-      LEARNER: { label: "Cultural Learner", color: "text-slate-500", icon: Clock },
-      CONTRIBUTOR: { label: "Knowledge Steward", color: "text-brand-primary", icon: ShieldCheck },
-      REVIEWER: { label: "Linguistic Validator", color: "text-brand-accent", icon: Award },
-      ADMIN: { label: "Council Member", color: "text-brand-indigo", icon: Star }
-    };
-    return roles[role] || roles.LEARNER;
+  const fetchProfile = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/users/me`, {
+        headers: {
+          'x-guest-test': 'true' // Simulating Auth middleware bypass for UI verification
+        }
+      });
+      if (res.ok) {
+        setProfile(await res.json());
+      } else {
+        // Fallback to demo profile or redirect
+        if(res.status === 404) {
+             const userRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/users/leaderboard`);
+             if (userRes.ok) {
+                 const users = await userRes.json();
+                 if (users.length > 0) {
+                     // For MVP, just show the top user if `me` fails
+                     const topUser = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/users/${users[0].id}`);
+                     setProfile(await topUser.json());
+                 }
+             }
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const getNextRole = (role: string) => {
-    if (role === 'LEARNER' || role === 'CONTRIBUTOR') return { label: 'REVIEWER', requirement: 10 };
-    if (role === 'REVIEWER') return { label: 'COUNCIL', requirement: 50 };
-    return null;
+  const getRankColor = (role: string) => {
+    switch(role) {
+      case 'ADMIN': return 'text-brand-accent bg-brand-accent/10 border-brand-accent/20';
+      case 'REVIEWER': return 'text-indigo-500 bg-indigo-500/10 border-indigo-500/20';
+      case 'CONTRIBUTOR': return 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20';
+      default: return 'text-brand-indigo bg-brand-indigo/10 border-brand-indigo/20';
+    }
   };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-bg-primary flex items-center justify-center">
-        <Loader2 className="w-12 h-12 text-brand-accent animate-spin" />
+      <div className="flex justify-center py-32">
+        <Loader2 className="w-12 h-12 text-brand-indigo/30 animate-spin" />
       </div>
     );
   }
 
-  if (!user) return (
-      <div className="min-h-screen bg-bg-primary flex flex-col items-center justify-center space-y-4">
-          <p className="font-serif italic text-text-secondary">Identity not found in archive.</p>
-          <Button onClick={() => window.location.reload()}>Retry Sync</Button>
+  if (!profile) {
+    return (
+      <div className="py-20 text-center border border-dashed border-brand-indigo/10 rounded-3xl">
+        <p className="text-brand-indigo/60 font-serif text-lg">Unable to load profile.</p>
       </div>
-  );
+    );
+  }
 
-  const roleInfo = getRolePrestige(user.role);
-  const nextRole = getNextRole(user.role);
-  const progressPercent = nextRole ? Math.min(100, (user.approvedCount / nextRole.requirement) * 100) : 100;
+  // Calculate XP progress to next level strictly via an arbitrary visual scale (e.g., each level is 100 XP)
+  const currentLvlXP = profile.xp % 100;
+  const progressPercent = Math.min(100, currentLvlXP);
 
   return (
-    <div className="min-h-screen bg-bg-primary selection:bg-brand-accent/20 text-text-primary">
-      <Header />
+    <div className="max-w-6xl mx-auto space-y-12">
+      
+      {/* IDENTITY BANNER */}
+      <header className="relative bg-white rounded-[2.5rem] p-10 shadow-sm border border-brand-indigo/10 overflow-hidden dark:bg-zinc-900 dark:border-zinc-800">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-brand-accent/5 rounded-full blur-3xl -mr-48 -mt-48 pointer-events-none" />
+        
+        <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
+          
+          <div className="w-32 h-32 rounded-full bg-gradient-to-tr from-brand-indigo/5 to-white flex items-center justify-center border-4 border-white shadow-xl flex-shrink-0 dark:from-zinc-800 dark:border-zinc-800">
+             <User className="w-12 h-12 text-brand-indigo/40 dark:text-brand-cream/40" />
+          </div>
 
-      <main className="pb-32">
-        {/* HERO SECTION */}
-        <div className="bg-[#D8CFC7]/5 border-b border-text-primary/5 pt-32 pb-24">
-            <PageContainer size="lg">
-                <div className="flex flex-col md:flex-row gap-12 items-center md:items-start text-center md:text-left">
-                    <div className="relative group">
-                        <div className="w-32 h-32 rounded-[2.5rem] bg-brand-primary flex items-center justify-center text-5xl font-serif text-bg-primary shadow-2xl transition-transform group-hover:rotate-6">
-                            {user.email[0].toUpperCase()}
-                        </div>
-                        <div className="absolute -bottom-2 -right-2 bg-brand-accent text-bg-primary p-2 rounded-full border-4 border-bg-primary shadow-lg">
-                            <roleInfo.icon className="w-5 h-5" />
-                        </div>
-                    </div>
-                    
-                    <div className="space-y-4 flex-1">
-                        <div className="flex flex-col md:flex-row md:items-center gap-4">
-                            <h1 className="text-5xl font-serif font-bold text-brand-primary tracking-tighter leading-none">
-                                {user.email.split('@')[0]}
-                            </h1>
-                            <Badge variant="outline" className={`${roleInfo.color} border-current font-bold px-4 py-1 tracking-widest text-[10px] uppercase bg-white/50 backdrop-blur-sm`}>
-                                {roleInfo.label}
-                            </Badge>
-                        </div>
-                        <p className="text-xl font-serif text-text-secondary italic opacity-60">
-                            Preserving the Yorùbá record since {new Date(user.createdAt).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
-                        </p>
-                    </div>
+          <div className="flex-1 text-center md:text-left space-y-4">
+            <div>
+              <h1 className="text-4xl font-serif text-brand-indigo dark:text-brand-cream tracking-tight">
+                {profile.email.split('@')[0]}
+              </h1>
+              <div className="mt-2 flex items-center justify-center md:justify-start gap-3">
+                <span className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest border ${getRankColor(profile.role)}`}>
+                  {profile.role}
+                </span>
+                <span className="text-brand-earth dark:text-brand-gold/80 text-sm font-medium">Joined {new Date(profile.createdAt).getFullYear()}</span>
+              </div>
+            </div>
+            
+            <div className="max-w-md pt-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold uppercase tracking-widest text-brand-indigo/60 dark:text-brand-cream/60">Level {profile.level}</span>
+                <span className="text-xs font-bold text-brand-accent">{profile.xp} XP</span>
+              </div>
+              <div className="w-full h-3 bg-brand-indigo/5 rounded-full dark:bg-zinc-800 overflow-hidden">
+                <div className="h-full bg-brand-accent transition-all duration-1000 rounded-full" style={{ width: `${progressPercent}%` }} />
+              </div>
+            </div>
+          </div>
 
-                    <div className="bg-white/60 p-8 rounded-[2rem] border border-text-primary/5 shadow-inner backdrop-blur-sm min-w-[240px]">
-                        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-secondary/30 mb-2">Impact Authority</p>
-                        <div className="flex items-baseline gap-2">
-                            <span className="text-6xl font-serif font-bold text-brand-primary tracking-tighter">{user.trustScore.toFixed(1)}</span>
-                            <span className="text-xs font-bold text-brand-accent">TS</span>
-                        </div>
-                    </div>
-                </div>
-            </PageContainer>
+          {/* Core Trust Metrics */}
+          <div className="flex flex-row gap-8 bg-brand-indigo/5 p-6 rounded-3xl dark:bg-zinc-800/50">
+            <div className="text-center">
+              <div className="w-10 h-10 mx-auto bg-white rounded-full flex items-center justify-center mb-2 shadow-sm text-emerald-500 dark:bg-zinc-900">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <div className="text-2xl font-serif text-brand-indigo dark:text-brand-cream">{profile.trustScore}</div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo/50 mt-1 dark:text-brand-cream/50">Trust</div>
+            </div>
+            <div className="text-center">
+              <div className="w-10 h-10 mx-auto bg-white rounded-full flex items-center justify-center mb-2 shadow-sm text-brand-accent dark:bg-zinc-900">
+                <Target className="w-5 h-5" />
+              </div>
+              <div className="text-2xl font-serif text-brand-indigo dark:text-brand-cream">{Math.round(profile.reviewAccuracy * 100)}%</div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo/50 mt-1 dark:text-brand-cream/50">Accuracy</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-black dark:text-white">
+        
+        {/* LEFT COLUMN: BADGES & STATS */}
+        <div className="space-y-8 lg:col-span-1">
+           {/* Badges Box */}
+           <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-brand-indigo/10 dark:bg-zinc-900 dark:border-zinc-800">
+             <h2 className="text-sm font-bold uppercase tracking-widest text-brand-indigo/50 dark:text-brand-cream/50 mb-6 flex items-center gap-2">
+               <Award className="w-4 h-4" /> Earned Badges
+             </h2>
+             {profile.badges && profile.badges.length > 0 ? (
+               <div className="grid grid-cols-2 gap-4">
+                 {profile.badges.map((b: any, i: number) => (
+                   <div key={i} className="bg-brand-accent/5 border border-brand-accent/10 rounded-2xl p-4 text-center">
+                     <Star className="w-8 h-8 text-brand-accent mx-auto mb-2" />
+                     <div className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo dark:text-brand-cream">{b.type.replace(/_/g, ' ')}</div>
+                   </div>
+                 ))}
+               </div>
+             ) : (
+               <div className="text-center py-8 opacity-50 space-y-2">
+                 <Trophy className="w-8 h-8 mx-auto" />
+                 <p className="text-xs">No badges unlocked yet.</p>
+               </div>
+             )}
+           </div>
+
+           {/* Metrics Grid */}
+           <div className="grid grid-cols-2 gap-4">
+             <div className="bg-white p-6 rounded-3xl border border-brand-indigo/10 text-center dark:bg-zinc-900 dark:border-zinc-800">
+               <div className="text-3xl font-serif text-emerald-500 mb-1">{profile.approvedCount}</div>
+               <div className="text-[10px] uppercase font-bold tracking-widest text-brand-indigo/50 dark:text-brand-cream/50">Approved Submits</div>
+             </div>
+             <div className="bg-white p-6 rounded-3xl border border-brand-indigo/10 text-center dark:bg-zinc-900 dark:border-zinc-800">
+               <div className="text-3xl font-serif text-brand-indigo mb-1 dark:text-brand-cream">{profile.totalReviews}</div>
+               <div className="text-[10px] uppercase font-bold tracking-widest text-brand-indigo/50 dark:text-brand-cream/50">Total Reviews</div>
+             </div>
+           </div>
         </div>
 
-        <PageContainer size="lg" className="py-24 space-y-24">
-            
-            {/* STATS GRID */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="bg-bg-secondary/20 p-8 rounded-[2rem] border border-text-primary/5 space-y-6 flex flex-col justify-between group hover:bg-bg-secondary/30 transition-all">
-                    <div className="flex items-center gap-3 text-green-600 opacity-60">
-                        <CheckCircle2 className="w-5 h-5" />
-                        <span className="text-[10px] font-bold uppercase tracking-widest">Approved Records</span>
-                    </div>
-                    <p className="text-6xl font-serif text-brand-primary tracking-tighter leading-none">{user.approvedCount}</p>
-                </div>
-                <div className="bg-bg-secondary/20 p-8 rounded-[2rem] border border-text-primary/5 space-y-6 flex flex-col justify-between group hover:bg-bg-secondary/30 transition-all">
-                    <div className="flex items-center gap-3 text-brand-accent opacity-60">
-                        <TrendingUp className="w-5 h-5" />
-                        <span className="text-[10px] font-bold uppercase tracking-widest">Review Accuracy</span>
-                    </div>
-                    <p className="text-6xl font-serif text-brand-primary tracking-tighter leading-none">{(user.reviewAccuracy * 100).toFixed(0)}%</p>
-                </div>
-                <div className="bg-bg-secondary/20 p-8 rounded-[2rem] border border-text-primary/5 space-y-6 flex flex-col justify-between group hover:bg-bg-secondary/30 transition-all">
-                    <div className="flex items-center gap-3 text-text-secondary/30">
-                        <History className="w-5 h-5" />
-                        <span className="text-[10px] font-bold uppercase tracking-widest">Archival Reviews</span>
-                    </div>
-                    <p className="text-6xl font-serif text-brand-primary tracking-tighter leading-none">{user.totalReviews}</p>
-                </div>
-            </div>
+        {/* RIGHT COLUMN: CONTRIBUTION TIMELINE */}
+        <div className="lg:col-span-2 space-y-8">
+           <div className="bg-white rounded-[2rem] shadow-sm border border-brand-indigo/10 p-8 dark:bg-zinc-900 dark:border-zinc-800">
+             <div className="flex items-center justify-between mb-8">
+               <h2 className="text-sm font-bold uppercase tracking-widest text-brand-indigo/50 dark:text-brand-cream/50 flex items-center gap-2">
+                 <Clock className="w-4 h-4" /> Recent Contributions
+               </h2>
+             </div>
 
-            {/* PROGRESSION PATH */}
-            {nextRole && (
-                <Section className="space-y-8">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                        <div className="space-y-2">
-                            <h2 className="text-4xl font-serif font-bold text-brand-primary tracking-tight">Path to {nextRole.label}</h2>
-                            <p className="text-lg font-serif italic text-text-secondary opacity-60 leading-relaxed">High-accuracy contributions unlock deep archival authority.</p>
-                        </div>
-                        <Badge variant="outline" className="mb-2 text-brand-accent border-brand-accent/20 bg-brand-accent/5 px-6 py-2 uppercase tracking-widest text-[10px]">
-                            {nextRole.requirement - user.approvedCount} Approvals Until Promotion
-                        </Badge>
-                    </div>
-                    
-                    <div className="bg-bg-secondary/10 p-12 rounded-[2.5rem] border border-text-primary/5 space-y-12 shadow-inner">
-                        <div className="space-y-4">
-                            <div className="flex justify-between items-center text-[11px] font-bold tracking-[0.4em] text-text-secondary/30 uppercase">
-                                <span>{user.role}</span>
-                                <span>{nextRole.label}</span>
+             {profile.contributions && profile.contributions.length > 0 ? (
+               <div className="space-y-6">
+                 {profile.contributions.map((c: any) => {
+                   const title = c.knowledgeVariation?.textWithTone || c.knowledgeUnit?.title || 'Unknown Entity';
+                   const isApproved = c.status === 'APPROVED';
+                   const isPending = c.status === 'PENDING';
+                   
+                   return (
+                     <div key={c.id} className="flex gap-6 items-start">
+                       <div className="mt-1 flex-shrink-0">
+                         {isApproved ? (
+                           <div className="w-3 h-3 rounded-full bg-emerald-500 outline outline-4 outline-emerald-500/20" />
+                         ) : isPending ? (
+                           <div className="w-3 h-3 rounded-full bg-amber-400 outline outline-4 outline-amber-400/20" />
+                         ) : (
+                           <div className="w-3 h-3 rounded-full bg-red-400 outline outline-4 outline-red-400/20" />
+                         )}
+                       </div>
+                       <div className="flex-1 bg-brand-indigo/5 dark:bg-zinc-800/50 rounded-2xl p-5 border border-brand-indigo/10 dark:border-zinc-800/50">
+                         <div className="flex items-start justify-between">
+                            <div>
+                              <p className="text-sm font-bold text-brand-indigo dark:text-brand-cream mb-1">
+                                {c.type === 'CREATE' ? 'Added new vocabulary: ' : 'Suggested variation for: '}
+                                <span className="font-serif italic text-brand-accent text-lg">"{title}"</span>
+                              </p>
+                              {c.knowledgeVariation?.dialect && (
+                                <p className="text-xs text-brand-earth dark:text-brand-gold mb-3">
+                                  Dialect: {c.knowledgeVariation.dialect.name}
+                                </p>
+                              )}
                             </div>
-                            <div className="w-full h-5 bg-bg-primary rounded-full p-1 border border-text-primary/5 shadow-sm overflow-hidden ring-4 ring-bg-secondary/10">
-                                <div 
-                                    className="h-full bg-brand-primary rounded-full transition-all duration-1000 shadow-lg relative"
-                                    style={{ width: `${progressPercent}%` }}
-                                >
-                                    <div className="absolute top-0 right-0 bottom-0 w-32 bg-gradient-to-l from-white/20 to-transparent" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 py-4">
-                            <div className="flex gap-6 items-start">
-                                <div className="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center shrink-0 border border-green-500/10">
-                                    <CheckCircle2 className="w-6 h-6 text-green-600" />
-                                </div>
-                                <div className="space-y-2">
-                                    <p className="text-[11px] font-bold uppercase tracking-widest text-text-secondary">Archival Consensus</p>
-                                    <p className="text-sm font-serif italic text-text-secondary/60 leading-relaxed">Your contributions consistently align with community elders and linguistic experts.</p>
-                                </div>
-                            </div>
-                            <div className="flex gap-6 items-start">
-                                <div className="w-12 h-12 rounded-2xl bg-brand-accent/10 flex items-center justify-center shrink-0 border border-brand-accent/10">
-                                    <ShieldCheck className="w-6 h-6 text-brand-accent" />
-                                </div>
-                                <div className="space-y-2">
-                                    <p className="text-[11px] font-bold uppercase tracking-widest text-text-secondary">Community Integrity</p>
-                                    <p className="text-sm font-serif italic text-text-secondary/60 leading-relaxed">Your review accuracy has remained above 80% for the last 15 validations.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </Section>
-            )}
-
-            {/* RECENT IMPACT */}
-            <Section className="space-y-12">
-                <div className="flex items-center gap-4">
-                    <Activity className="w-10 h-10 text-brand-primary opacity-20" />
-                    <h2 className="text-4xl font-serif font-bold text-brand-primary tracking-tight">Recent Archival Impact</h2>
-                </div>
-
-                <div className="grid grid-cols-1 gap-6">
-                    {user.contributions.map((item: any, i: number) => (
-                        <div key={i} className="bg-white/40 backdrop-blur-sm border border-text-primary/5 rounded-[1.5rem] p-8 flex flex-col md:flex-row md:items-center gap-10 group hover:bg-white/80 transition-all hover:shadow-2xl hover:-translate-y-1">
-                            <div className="flex-1 space-y-3">
-                                <div className="flex items-center gap-4">
-                                    <Badge variant="outline" className={`text-[9px] py-0 border-none font-bold tracking-widest ${item.status === 'APPROVED' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
-                                        {item.status}
-                                    </Badge>
-                                    <span className="text-[10px] text-text-secondary/30 font-bold uppercase tracking-widest">{new Date(item.createdAt).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
-                                </div>
-                                <h3 className="text-3xl font-serif text-brand-primary group-hover:translate-x-1 transition-transform">
-                                    <YorubaText>{item.content.title}</YorubaText>
-                                </h3>
-                            </div>
-                            <div className="flex items-center gap-6">
-                                <div className="text-right space-y-1">
-                                    <p className="text-[10px] font-bold uppercase tracking-widest text-text-secondary/40">Archival Status</p>
-                                    <p className={`text-sm font-serif italic font-bold ${item.status === 'APPROVED' ? 'text-green-600' : 'text-orange-500'}`}>
-                                        {item.status === 'APPROVED' ? 'Memorialized in Record' : 'Under Community Review'}
-                                    </p>
-                                </div>
-                                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg transform group-hover:rotate-12 transition-transform ${item.status === 'APPROVED' ? 'bg-green-600 text-bg-primary' : 'bg-orange-500 text-bg-primary'}`}>
-                                    {item.status === 'APPROVED' ? <CheckCircle2 className="w-6 h-6" /> : <Clock className="w-6 h-6" />}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                    {user.contributions.length === 0 && (
-                        <div className="py-32 text-center border-4 border-dashed border-text-primary/5 rounded-[3rem] grayscale opacity-30 space-y-6">
-                            <Activity className="w-16 h-16 mx-auto text-brand-accent/20" />
-                            <div className="space-y-2">
-                                <p className="text-2xl font-serif italic text-text-secondary">Your archival path begins here.</p>
-                                <p className="text-sm font-serif italic text-text-secondary/50">Submit your first contribution to start building trust.</p>
-                            </div>
-                            <Button variant="outline" className="rounded-full px-10 py-6 text-[10px] uppercase font-bold tracking-[0.2em] hover:bg-brand-primary hover:text-bg-primary transition-all">Start Preserving</Button>
-                        </div>
-                    )}
-                </div>
-            </Section>
-
-            {/* TRUST FORMULA PANEL */}
-            <div className="bg-brand-primary p-16 rounded-[4rem] text-bg-primary space-y-12 relative overflow-hidden shadow-[0_40px_100px_-20px_rgba(30,30,30,0.4)]">
-                <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
-                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl" />
-                
-                <header className="space-y-6 relative z-10">
-                    <div className="inline-flex items-center gap-3 bg-white/10 text-white border border-white/20 uppercase tracking-[0.4em] text-[10px] py-2 px-6 rounded-full font-bold">
-                        <ShieldCheck className="w-4 h-4" />
-                        Archival Protocol
-                    </div>
-                    <h2 className="text-6xl font-serif font-bold tracking-tighter leading-none">The Integrity Engine</h2>
-                    <p className="text-2xl font-serif italic opacity-70 max-w-2xl leading-relaxed">
-                        Trust in Ọmọlúàbí is mathematical, not social. Your authority grows through the verified accuracy of your linguistic contributions.
-                    </p>
-                </header>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-16 relative z-10 pt-8">
-                    <div className="space-y-4">
-                        <p className="text-[11px] font-bold uppercase tracking-[0.3em] opacity-40">Precision Reward</p>
-                        <p className="text-2xl font-serif leading-relaxed italic">Approvals provide 2x weight to your archival TS score.</p>
-                    </div>
-                    <div className="space-y-4 md:border-x md:border-white/10 md:px-16">
-                        <p className="text-[11px] font-bold uppercase tracking-[0.3em] opacity-40">Validation Bonus</p>
-                        <p className="text-2xl font-serif leading-relaxed italic text-brand-accent">Review accuracy adds 5x weight to your seniority.</p>
-                    </div>
-                    <div className="space-y-4 font-bold">
-                        <p className="text-[11px] font-bold uppercase tracking-[0.3em] opacity-40">Conflict Penalty</p>
-                        <p className="text-2xl font-serif leading-relaxed italic">Factual rejections reduce authority until corrected.</p>
-                    </div>
-                </div>
-
-                <Divider className="opacity-10" />
-
-                <div className="pt-4 flex items-center gap-4 text-xs font-bold uppercase tracking-[0.3em] opacity-40">
-                    <Info className="w-5 h-5" />
-                    System Protocol v3.14 — Verified by Council Consensus
-                </div>
-            </div>
-
-        </PageContainer>
-      </main>
-
-      <Footer />
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo/40 dark:text-brand-cream/40 px-2 py-1 bg-white dark:bg-zinc-900 rounded-md shadow-sm border border-brand-indigo/5 dark:border-zinc-800">
+                              {new Date(c.createdAt).toLocaleDateString()}
+                            </span>
+                         </div>
+                       </div>
+                     </div>
+                   );
+                 })}
+               </div>
+             ) : (
+               <div className="text-center py-12 border border-dashed border-brand-indigo/10 rounded-2xl bg-brand-indigo/5 dark:bg-zinc-900/50 dark:border-zinc-800">
+                 <p className="text-brand-indigo/50 font-serif dark:text-brand-cream/50">No contributions made yet.</p>
+               </div>
+             )}
+           </div>
+        </div>
+      </div>
     </div>
   );
 }

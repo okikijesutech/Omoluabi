@@ -13,6 +13,9 @@ export class UsersService {
         email: true,
         role: true,
         trustScore: true,
+        xp: true,
+        level: true,
+        badges: true,
         approvedCount: true,
         rejectedCount: true,
         reviewAccuracy: true,
@@ -20,11 +23,19 @@ export class UsersService {
         correctReviews: true,
         createdAt: true,
         contributions: {
-          take: 20,
+          take: 50,
           orderBy: { createdAt: 'desc' },
+          include: {
+            knowledgeUnit: true,
+            knowledgeVariation: {
+              include: {
+                dialect: true,
+              }
+            }
+          }
         },
         reviews: {
-          take: 20,
+          take: 50,
           orderBy: { createdAt: 'desc' },
         },
       },
