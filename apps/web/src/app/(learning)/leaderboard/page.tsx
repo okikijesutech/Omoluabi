@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { PageContainer, Header, Footer } from '@/components/layout';
-import { Trophy, Medal, Star, ShieldCheck, Loader2, Sparkles, Award, TrendingUp, User } from 'lucide-react';
+import { Trophy, Medal, Star, ShieldCheck, Loader2, Sparkles, Award, TrendingUp, User, ChevronRight } from 'lucide-react';
 import { apiRequest } from '@/lib/api';
 
 export default function LeaderboardPage() {
