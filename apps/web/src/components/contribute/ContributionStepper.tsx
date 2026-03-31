@@ -11,9 +11,13 @@ import {
   ArrowRight,
   Info,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Volume2,
+  Camera
 } from 'lucide-react';
 import { ToneAssistant } from './ToneAssistant';
+import { AudioForge } from './AudioForge';
+import { VisualForge } from './VisualForge';
 import { apiRequest } from '@/lib/api';
 import { YorubaText } from '../ui/YorubaText';
 
@@ -21,6 +25,7 @@ const STEPS = [
   { id: 'seed', name: 'The Seed', description: 'Core linguistic data', icon: BookOpen },
   { id: 'roots', name: 'The Roots', description: 'Regional heritage', icon: Globe },
   { id: 'spirit', name: 'The Spirit', description: 'Cultural essence', icon: ShieldCheck },
+  { id: 'echo', name: 'The Echo', description: 'Oral & visual artifacts', icon: Volume2 },
 ];
 
 export function ContributionStepper() {
@@ -36,7 +41,9 @@ export function ContributionStepper() {
     dialectId: '',
     context: '',
     source: '',
-    reflection: ''
+    reflection: '',
+    audioData: null as string | null,
+    imageData: null as string | null,
   });
 
   const refs = {
@@ -81,6 +88,7 @@ export function ContributionStepper() {
     if (step === 0) return formData.word.length > 1;
     if (step === 1) return formData.dialectId !== '';
     if (step === 2) return formData.context.length > 5;
+    if (step === 3) return true; // Media is optional
     return true;
   };
 
@@ -95,7 +103,9 @@ export function ContributionStepper() {
             ...formData,
             title: formData.word,
             description: formData.context,
-            textWithTone: formData.word
+            textWithTone: formData.word,
+            audioUrl: formData.audioData, // Sent as base64
+            imageUrl: formData.imageData  // Sent as base64
           }
         })
       });
@@ -265,6 +275,31 @@ export function ContributionStepper() {
           </div>
         )}
 
+        {currentStep === 3 && (
+          <div className="space-y-12 animate-in fade-in slide-in-from-right-4 duration-500">
+             <div className="space-y-2">
+                <h3 className="text-3xl font-serif text-brand-primary">The Echo</h3>
+                <p className="text-sm text-brand-earth/60 font-serif italic">Oral and visual artifacts of the heritage.</p>
+             </div>
+
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <AudioForge onAudioCapture={(data) => setFormData({...formData, audioData: data})} />
+                <VisualForge onImageCapture={(data) => setFormData({...formData, imageData: data})} />
+             </div>
+
+             <div className="p-8 bg-brand-gold/5 rounded-[2rem] border border-brand-gold/10">
+                <div className="flex items-center gap-3 text-brand-gold mb-3">
+                   <Sparkles className="w-4 h-4" />
+                   <span className="text-[10px] font-black uppercase tracking-widest">Premium Contribution</span>
+                </div>
+                <p className="text-xs text-brand-earth/60 leading-relaxed font-serif italic">
+                  Adding an audio echo or visual sight increases the "archival trust" of your contribution. 
+                  Entries with media are 3x more likely to be prioritized by the Council.
+                </p>
+             </div>
+          </div>
+        )}
+
         {/* Footer Actions */}
         <div className="mt-auto pt-16 flex items-center justify-between border-t border-brand-indigo/5">
            <button 
@@ -281,7 +316,7 @@ export function ContributionStepper() {
               <div className="text-right hidden sm:block">
                  <p className="text-[8px] font-bold uppercase tracking-widest text-brand-indigo/40">Next Milestone</p>
                  <p className="text-[10px] font-black uppercase tracking-widest text-brand-indigo">
-                    {currentStep === 2 ? 'Submit to Forge' : STEPS[currentStep + 1].name}
+                    {currentStep === STEPS.length - 1 ? 'Submit to Forge' : STEPS[currentStep + 1].name}
                  </p>
               </div>
               

@@ -179,6 +179,8 @@ model KnowledgeVariation {
   notes            String?
 
   audioUrl         String?
+  imageUrl         String?
+  videoUrl         String?
   isArchived       Boolean        @default(false)
 
   createdAt        DateTime       @default(now())

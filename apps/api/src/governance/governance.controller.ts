@@ -5,6 +5,7 @@ import { ReviewsService } from './reviews.service';
 import { TrustService } from './trust.service';
 import { VoteDecision } from '@prisma/client';
 import { AuthGuard } from '../auth/auth.guard'; 
+import { GovernanceAnalyticsService } from './governance-analytics.service';
 
 @Controller('governance')
 export class GovernanceController {
