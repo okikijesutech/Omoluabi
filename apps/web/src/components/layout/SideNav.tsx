@@ -60,7 +60,7 @@ export function SideNav() {
       <nav className="flex-1 px-4 py-10 flex flex-col gap-10">
         {navGroups.map((group) => (
           <div key={group.label} className="space-y-2">
-            <h3 className="px-5 text-[9px] font-black tracking-[0.4em] text-brand-indigo/20 uppercase mb-5">
+            <h3 className="px-5 text-[9px] font-black tracking-[0.4em] text-brand-indigo/60 uppercase mb-5">
               {group.label}
             </h3>
             
@@ -72,12 +72,12 @@ export function SideNav() {
                   className={`group flex items-center justify-between px-5 py-3 rounded-2xl transition-all duration-300 ${
                     isActive(link.href)
                       ? 'bg-brand-indigo text-white shadow-xl shadow-brand-indigo/10 translate-x-1' 
-                      : 'text-brand-earth/60 hover:bg-brand-indigo/5 hover:text-brand-primary'
+                      : 'text-brand-earth/80 hover:bg-brand-indigo/5 hover:text-brand-primary'
                   }`}
                 >
                   <div className="flex items-center gap-4">
                     <link.icon className={`w-4 h-4 transition-transform group-hover:scale-110 duration-500 ${
-                      isActive(link.href) ? 'text-brand-gold' : 'text-brand-indigo/40'
+                      isActive(link.href) ? 'text-brand-gold' : 'text-brand-indigo/60'
                     }`} />
                     <span className="text-xs font-bold tracking-tight">{link.name}</span>
                   </div>
@@ -110,7 +110,7 @@ export function SideNav() {
       <div className="p-6 border-t border-brand-indigo/5 bg-white/30 backdrop-blur-sm">
          <Link 
             href="/settings" 
-            className="flex items-center gap-4 px-5 py-2.5 rounded-xl text-brand-earth/40 hover:bg-white/50 hover:text-brand-primary transition-all text-[10px] font-black uppercase tracking-widest"
+            className="flex items-center gap-4 px-5 py-2.5 rounded-xl text-brand-earth/80 hover:bg-white/50 hover:text-brand-primary transition-all text-[10px] font-black uppercase tracking-widest"
          >
             <Settings className="w-4 h-4" />
             Control Registry

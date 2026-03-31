@@ -38,10 +38,15 @@ Omoluabi uses a reputation-based trust model to govern authority.
 
 ---
 
-## 3. Cultural Escalation Council
-The Council is the final guard against cultural erosion or sensitivity violations.
+## 3. High Council & Role-Based Access Control
+The High Council is the final guard against cultural erosion or sensitivity violations, protected by the **Guardian Protocol** (JWT-based RBAC).
 
-- **Trigger**: Sparked by `ESCALATED` status or attempts to delete dialect variations.
-- **Membership**: A rotational board of the top 5–7 most trusted users in the system.
-- **Voting**: Requires at least 5 votes.
-- **Tie-breaker**: If a decision cannot be reached, the system defaults to **ARCHIVE** state—preserving the data in the backend but hiding it from the public view until a manual audit can be performed.
+- **The Council Interface**: A specialized dashboard accessible only to those with the `REVIEWER` or `ADMIN` role.
+- **RBAC Enforcement**: Sensitive routes (`/contribute`, `/governance/council`) are protected by the `ProtectedRoute` component, which verifies internal claims.
+- **Isolation Protocol**: Sparked by `ESCALATED` status or attempts to delete dialect variations. 
+- **Quorum Requirement**: Requires at least 5 votes from the Council board.
+- **Archival Default**: If a decision cannot be reached, the system defaults to an **ARCHIVE** state—preserving the data in the backend but hiding it from the public view until a manual audit can be performed.
+
+---
+
+Built for cultural integrity. Rooted in preservation.

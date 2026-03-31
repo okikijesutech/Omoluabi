@@ -66,8 +66,8 @@ export default function RegisterPage() {
               </div>
               
               <div className="space-y-1">
-                <h1 className="text-4xl font-serif text-brand-indigo dark:text-brand-cream tracking-tight">Begin Journey</h1>
-                <p className="text-[10px] text-brand-indigo/40 uppercase tracking-[0.3em] font-black">New Guardian Registration</p>
+                <h1 className="text-4xl font-serif text-brand-primary dark:text-brand-cream tracking-tight">Begin Journey</h1>
+                <p className="text-[10px] text-brand-indigo/70 uppercase tracking-[0.3em] font-black">New Guardian Registration</p>
               </div>
             </div>
 
@@ -80,7 +80,7 @@ export default function RegisterPage() {
 
               <div className="space-y-5">
                 <div className="space-y-3">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo/50 ml-2">Choose Your Path</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo/80 ml-2">Choose Your Path</label>
                   <div className="grid grid-cols-2 gap-4">
                     <button
                       type="button"
@@ -88,7 +88,7 @@ export default function RegisterPage() {
                       className={`relative group/role py-4 px-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all border-2 ${
                         role === 'LEARNER' 
                           ? 'bg-brand-indigo text-white border-brand-indigo shadow-lg shadow-brand-indigo/20' 
-                          : 'bg-brand-indigo/[0.03] text-brand-indigo/40 border-transparent hover:border-brand-indigo/10'
+                          : 'bg-brand-indigo/[0.06] text-brand-indigo/70 border-brand-indigo/10 hover:border-brand-indigo/20'
                       }`}
                     >
                       Learner
@@ -100,7 +100,7 @@ export default function RegisterPage() {
                       className={`relative group/role py-4 px-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all border-2 ${
                         role === 'CONTRIBUTOR' 
                           ? 'bg-brand-indigo text-white border-brand-indigo shadow-lg shadow-brand-indigo/20' 
-                          : 'bg-brand-indigo/[0.03] text-brand-indigo/40 border-transparent hover:border-brand-indigo/10'
+                          : 'bg-brand-indigo/[0.06] text-brand-indigo/70 border-brand-indigo/10 hover:border-brand-indigo/20'
                       }`}
                     >
                       Contributor
@@ -110,30 +110,30 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo/50 ml-2">Email Address</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo/80 ml-2">Email Address</label>
                   <div className="relative group">
-                    <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-indigo/20 group-focus-within:text-brand-indigo transition-colors" />
+                    <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-indigo/40 group-focus-within:text-brand-indigo transition-colors" />
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="w-full pl-14 pr-6 py-5 bg-brand-indigo/[0.03] focus:bg-white border-2 border-transparent focus:border-brand-indigo/10 rounded-2xl outline-none transition-all text-brand-indigo font-medium placeholder:text-brand-indigo/20"
+                      className="w-full pl-14 pr-6 py-5 bg-brand-indigo/[0.03] focus:bg-white border-2 border-brand-indigo/10 focus:border-brand-indigo/20 rounded-2xl outline-none transition-all text-brand-primary font-medium placeholder:text-brand-indigo/50"
                       placeholder="you@heritage.org"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo/50 ml-2">Create Password</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo/80 ml-2">Create Password</label>
                   <div className="relative group">
-                    <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-indigo/20 group-focus-within:text-brand-indigo transition-colors" />
+                    <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-indigo/40 group-focus-within:text-brand-indigo transition-colors" />
                     <input
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      className="w-full pl-14 pr-6 py-5 bg-brand-indigo/[0.03] focus:bg-white border-2 border-transparent focus:border-brand-indigo/10 rounded-2xl outline-none transition-all text-brand-indigo font-medium placeholder:text-brand-indigo/20"
+                      className="w-full pl-14 pr-6 py-5 bg-brand-indigo/[0.03] focus:bg-white border-2 border-brand-indigo/10 focus:border-brand-indigo/20 rounded-2xl outline-none transition-all text-brand-primary font-medium placeholder:text-brand-indigo/50"
                       placeholder="••••••••••••"
                     />
                   </div>
@@ -160,7 +160,7 @@ export default function RegisterPage() {
             </form>
 
             <div className="pt-4 text-center">
-              <p className="text-sm text-brand-indigo/40 font-medium">
+              <p className="text-sm text-brand-indigo/70 font-medium">
                 Already a guardian?{' '}
                 <Link href="/login" className="text-brand-gold font-bold hover:text-brand-gold/80 transition-colors ml-1">
                   Sign In

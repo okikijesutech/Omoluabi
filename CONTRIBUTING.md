@@ -23,10 +23,11 @@ Unlike "standardization" projects, Ọmọlúàbí treats every dialect and tona
 
 ## Contribution Types
 ### 1. Linguistic Contributions
-Use the **Contribution Lab** in the app to submit:
-- New words or phrases.
-- Dialect variations (Ijebu, Ekiti, Yagba, etc.).
-- Proverb etymologies.
+Use **The Forge** (Linguistic Lab) in the app to submit:
+- **Lexical Units**: New words, phrases, or tonal variations.
+- **Dialect Heritage**: Precise captures of regional variations (Ijebu, Ekiti, Yagba, etc.).
+- **The Echo (Audio/Visual)**: Authentic oral recordings and cultural artifact imagery.
+- **Archival Wisdom**: Proverbs, etymologies, and historical usage context.
 
 ### 2. Code Contributions
 - **Bug Fixes**: Open an issue before submitting a PR.

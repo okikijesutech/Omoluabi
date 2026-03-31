@@ -26,9 +26,24 @@ Authority is not granted; it is algorithmically earned.
 #### 5. Revision Mastery (`RevisionHistory`)
 Total traceability. Every edit, deletion attempt, or merge is snapshotted in JSON. We prioritize cultural integrity over storage efficiency.
 
+#### 6. Multi-modal Archiving (The Echo)
+Enriching the text database with authentic sound and sight.
+- **Audio Capture**: Integrated browser-based media recording for oral history.
+- **Visual Artifacts**: Image-based evidence for cultural items and variations.
+
+#### 7. The Vault (Proverbs & Context)
+Specialized repositories for complex cultural units.
+- **Archival Proverbs**: A high-fidelity system for Yorùbá wisdom (Àwọn Òwe).
+- **Cultural Lore**: Deep context beyond literal translation, preserved in the `Spirit` phase.
+
+#### 8. Real-time Guardian Discourse (Chat)
+A global persistence layer for social validation and community mentorship.
+- **Guardian Encounters**: Real-time discussion integrated with tonal support.
+
 ## Tech Stack
 - **Monorepo**: Turborepo
-- **Backend**: NestJS + Prisma ORM
+- **Backend**: NestJS + Prisma ORM (ChatMessage, KnowledgeUnit, Contribution)
 - **Database**: PostgreSQL
-- **Frontend**: Next.js + TailwindCSS
-- **Language**: TypeScript (Strict Type Safety)
+- **Frontend**: Next.js (App Router) + TailwindCSS
+- **Real-time**: Polling-based discourse (Upgrade to WebSockets planned).
+- **Security**: JWT-based RBAC (Guardian Protocol).

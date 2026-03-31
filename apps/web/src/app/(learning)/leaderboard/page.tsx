@@ -60,7 +60,7 @@ export default function LeaderboardPage() {
              </div>
              <div className="space-y-4">
                 <h1 className="text-6xl font-serif text-brand-primary tracking-tighter leading-none">The Hall of Guardians</h1>
-                <p className="text-lg text-brand-earth/60 font-serif italic max-w-2xl mx-auto leading-relaxed">
+                <p className="text-lg text-brand-earth/80 font-serif italic max-w-2xl mx-auto leading-relaxed">
                    Honoring the scholars and custodians algorithmically ranked by their dedication 
                    to the cultural preservation of the Yorùbá heritage.
                 </p>
@@ -146,9 +146,9 @@ function GuardianCard({ user, rank, icon, className, color }: any) {
              {icon}
           </div>
           <div className="mt-10 space-y-3">
-             <p className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-indigo/30 leading-none mb-4">Rank {rank}</p>
+             <p className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-indigo/60 leading-none mb-4">Rank {rank}</p>
              <h3 className="text-2xl font-serif text-brand-primary tracking-tight group-hover:scale-105 transition-transform duration-500">{user.email.split('@')[0]}</h3>
-             <div className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest inline-flex items-center gap-2 border border-brand-indigo/5 ${
+             <div className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest inline-flex items-center gap-2 border border-brand-indigo/10 ${
                user.role === 'ADMIN' ? 'bg-brand-indigo text-white shadow-xl shadow-brand-indigo/20' : 'bg-brand-indigo/5 text-brand-indigo'
              }`}>
                 {user.role}
@@ -160,20 +160,20 @@ function GuardianCard({ user, rank, icon, className, color }: any) {
           <div className="space-y-1">
              <p className="text-4xl font-serif text-brand-primary">{user.xp} <span className="text-xs font-sans font-black uppercase tracking-widest text-text-secondary/40">XP</span></p>
           </div>
-          <div className="flex items-center justify-center gap-6">
-             <div className="text-center">
-                <p className="text-[8px] font-black uppercase tracking-widest text-brand-indigo/30 mb-0.5">Trust</p>
-                <div className="flex items-center gap-1 text-emerald-500 text-xs font-bold">
-                   <ShieldCheck className="w-3.5 h-3.5" />
-                   {user.trustScore}
-                </div>
-             </div>
-             <div className="w-px h-6 bg-brand-indigo/5" />
-             <div className="text-center">
-                <p className="text-[8px] font-black uppercase tracking-widest text-brand-indigo/30 mb-0.5">Level</p>
-                <p className="text-xs font-black text-brand-indigo/60">{user.level}</p>
-             </div>
-          </div>
+           <div className="flex items-center justify-center gap-6">
+              <div className="text-center">
+                 <p className="text-[8px] font-black uppercase tracking-widest text-brand-indigo/60 mb-0.5">Trust</p>
+                 <div className="flex items-center gap-1 text-emerald-600 text-xs font-bold">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    {user.trustScore}
+                 </div>
+              </div>
+              <div className="w-px h-6 bg-brand-indigo/10" />
+              <div className="text-center">
+                 <p className="text-[8px] font-black uppercase tracking-widest text-brand-indigo/60 mb-0.5">Level</p>
+                 <p className="text-xs font-black text-brand-indigo/80">{user.level}</p>
+              </div>
+           </div>
        </div>
     </div>
   );
@@ -185,31 +185,31 @@ function HonorRow({ user, rank }: { user: any, rank: number }) {
        <div className="absolute inset-0 bg-gradient-to-r from-brand-indigo/[0.01] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
        
        <div className="flex items-center gap-8 relative z-10">
-          <span className="text-2xl font-serif text-brand-indigo/20 group-hover:text-brand-indigo transition-colors flex-shrink-0 w-12 text-center italic font-bold">#{rank}</span>
-          <div className="w-12 h-12 bg-brand-indigo/[0.03] rounded-2xl flex items-center justify-center group-hover:bg-brand-indigo/5 group-hover:scale-110 transition-all">
-             <User className="w-5 h-5 text-brand-indigo/20 group-hover:text-brand-indigo/60" />
-          </div>
-          <div>
-             <h4 className="text-lg font-serif text-brand-primary tracking-tight">{user.email.split('@')[0]}</h4>
-             <div className="flex items-center gap-3 mt-1 opacity-60">
-                <span className="text-[9px] font-black uppercase tracking-widest text-brand-indigo">LVL {user.level}</span>
-                <div className="w-1 h-1 rounded-full bg-brand-indigo/20" />
-                <span className="text-[9px] font-black uppercase tracking-widest text-emerald-600">{user.trustScore} Trust</span>
-             </div>
-          </div>
-       </div>
+           <span className="text-2xl font-serif text-brand-indigo/40 group-hover:text-brand-indigo transition-colors flex-shrink-0 w-12 text-center italic font-bold">#{rank}</span>
+           <div className="w-12 h-12 bg-brand-indigo/10 rounded-2xl flex items-center justify-center group-hover:bg-brand-indigo/20 group-hover:scale-110 transition-all">
+              <User className="w-5 h-5 text-brand-indigo/40 group-hover:text-brand-indigo/80" />
+           </div>
+           <div>
+              <h4 className="text-lg font-serif text-brand-primary tracking-tight">{user.email.split('@')[0]}</h4>
+              <div className="flex items-center gap-3 mt-1">
+                 <span className="text-[9px] font-black uppercase tracking-widest text-brand-indigo/80">LVL {user.level}</span>
+                 <div className="w-1 h-1 rounded-full bg-brand-indigo/40" />
+                 <span className="text-[9px] font-black uppercase tracking-widest text-emerald-700">{user.trustScore} Trust</span>
+              </div>
+           </div>
+        </div>
 
-       <div className="flex items-center gap-12 relative z-10 pr-4">
-          <div className={`px-4 py-1.5 rounded-xl text-[8px] font-black uppercase tracking-widest border border-brand-indigo/10 ${
-             user.role === 'ADMIN' ? 'bg-brand-indigo text-white shadow-xl shadow-brand-indigo/20 border-brand-indigo' : 'bg-brand-indigo/5 text-brand-indigo/60'
-          }`}>
-             {user.role}
-          </div>
-          <div className="text-right">
-             <p className="text-2xl font-serif text-brand-primary leading-none">{user.xp} <span className="text-[9px] font-sans font-black uppercase tracking-tighter text-text-secondary/40">XP</span></p>
-          </div>
-          <ChevronRight className="w-4 h-4 text-brand-indigo/20 group-hover:translate-x-1 transition-transform" />
-       </div>
+        <div className="flex items-center gap-12 relative z-10 pr-4">
+           <div className={`px-4 py-1.5 rounded-xl text-[8px] font-black uppercase tracking-widest border border-brand-indigo/20 ${
+              user.role === 'ADMIN' ? 'bg-brand-indigo text-white shadow-xl shadow-brand-indigo/20 border-brand-indigo' : 'bg-brand-indigo/10 text-brand-indigo/80'
+           }`}>
+              {user.role}
+           </div>
+           <div className="text-right">
+              <p className="text-2xl font-serif text-brand-primary leading-none">{user.xp} <span className="text-[9px] font-sans font-black uppercase tracking-tighter text-text-secondary/60">XP</span></p>
+           </div>
+           <ChevronRight className="w-4 h-4 text-brand-indigo/40 group-hover:translate-x-1 transition-transform" />
+        </div>
     </div>
   );
 }

@@ -61,6 +61,29 @@ The API uses a manual JWT system. Include the token in the `Authorization` heade
 
 ---
 
+## 6. Archival Proverbs
+**URL**: `/proverbs`
+**Method**: `GET`
+**Query**: `?dialectId=uuid`
+
+## 7. Community Chat
+### Get Messages
+**URL**: `/chat`
+**Method**: `GET`
+
+### Send Message
+**URL**: `/chat`
+**Method**: `POST`
+**Body**:
+```json
+{
+  "content": "The spirit of the word is eternal."
+}
+```
+**Auth Required**: JWT Bearer Token.
+
+---
+
 ## 5. User Progress
 
 ### Get Progress

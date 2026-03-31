@@ -67,8 +67,8 @@ export default function LoginPage() {
               </div>
               
               <div className="space-y-1">
-                <h1 className="text-4xl font-serif text-brand-indigo dark:text-brand-cream tracking-tight">Welcome Back</h1>
-                <p className="text-[10px] text-brand-indigo/40 uppercase tracking-[0.3em] font-black">Linguistic Guardian Login</p>
+                <h1 className="text-4xl font-serif text-brand-primary dark:text-brand-cream tracking-tight">Welcome Back</h1>
+                <p className="text-[10px] text-brand-indigo/70 uppercase tracking-[0.3em] font-black">Linguistic Guardian Login</p>
               </div>
             </div>
 
@@ -81,15 +81,15 @@ export default function LoginPage() {
 
               <div className="space-y-5">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo/50 ml-2">Email Identity</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo/80 ml-2">Email Identity</label>
                   <div className="relative group">
-                    <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-indigo/20 group-focus-within:text-brand-indigo transition-colors" />
+                    <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-indigo/40 group-focus-within:text-brand-indigo transition-colors" />
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="w-full pl-14 pr-6 py-5 bg-brand-indigo/[0.03] focus:bg-white border-2 border-transparent focus:border-brand-indigo/10 rounded-2xl outline-none transition-all text-brand-indigo font-medium placeholder:text-brand-indigo/20"
+                      className="w-full pl-14 pr-6 py-5 bg-brand-indigo/[0.03] focus:bg-white border-2 border-brand-indigo/5 focus:border-brand-indigo/20 rounded-2xl outline-none transition-all text-brand-primary font-medium placeholder:text-brand-indigo/50"
                       placeholder="guardian@omoluabi.io"
                     />
                   </div>
@@ -97,17 +97,17 @@ export default function LoginPage() {
 
                 <div className="space-y-2">
                   <div className="flex justify-between items-center px-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo/50">Password Key</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-brand-indigo/80">Password Key</label>
                     <Link href="#" className="text-[10px] font-bold uppercase tracking-widest text-brand-gold hover:underline">Forgot?</Link>
                   </div>
                   <div className="relative group">
-                    <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-indigo/20 group-focus-within:text-brand-indigo transition-colors" />
+                    <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-indigo/40 group-focus-within:text-brand-indigo transition-colors" />
                     <input
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      className="w-full pl-14 pr-6 py-5 bg-brand-indigo/[0.03] focus:bg-white border-2 border-transparent focus:border-brand-indigo/10 rounded-2xl outline-none transition-all text-brand-indigo font-medium placeholder:text-brand-indigo/20"
+                      className="w-full pl-14 pr-6 py-5 bg-brand-indigo/[0.03] focus:bg-white border-2 border-brand-indigo/5 focus:border-brand-indigo/20 rounded-2xl outline-none transition-all text-brand-primary font-medium placeholder:text-brand-indigo/50"
                       placeholder="••••••••••••"
                     />
                   </div>
@@ -134,7 +134,7 @@ export default function LoginPage() {
             </form>
 
             <div className="pt-4 text-center">
-              <p className="text-sm text-brand-indigo/40 font-medium">
+              <p className="text-sm text-brand-indigo/70 font-medium">
                 New to the mission?{' '}
                 <Link href="/register" className="text-brand-gold font-bold hover:text-brand-gold/80 transition-colors ml-1">
                   Create Account

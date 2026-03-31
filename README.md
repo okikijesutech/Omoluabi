@@ -1,9 +1,9 @@
 # Ọmọlúàbí — Preservation-First Yoruba Platform
 
-Ọmọlúàbí is a modern preservation engine and community-driven knowledge base for the Yoruba language and its diverse dialects. 
+Ọmọlúàbí is a modern preservation engine and community-driven knowledge base for the Yorùbá language and its diverse dialects. 
 
-## Project Status: Governance Layer (Phase 9)
-We are currently implementing the **Governance & Trust Layer**, enabling algorithmic authority and cultural preservation through a community-led validation system.
+## Project Status: **Production Ready (Phase 21)**
+We have successfully completed the core archival loop, enabling high-fidelity linguistic preservation, community governance, and real-time social engagement.
 
 ## Key Documentation
 - [Architecture](docs/ARCHITECTURE.md) — The Preservation-First philosophy.
@@ -12,10 +12,13 @@ We are currently implementing the **Governance & Trust Layer**, enabling algorit
 - [Development](docs/DEVELOPMENT.md) — Setup and contribution instructions.
 
 ## Core Features
-- **Linguistic Precision**: Native support for Yoruba tonal marks and orthography.
-- **Dialect Inclusivity**: Non-standardization approach that treats variations (Ijebu, Ekiti, Yagba, etc.) as equals.
-- **Earned Trust**: Algorithmic authority prevents spam and ensures knowledge quality.
-- **Total Traceability**: Every edit is snapshotted, ensuring nothing is ever lost.
+- **The Linguistic Forge**: A premium, guided contribution workflow with reactive tonal assistance.
+- **The Echo (Multi-modal)**: Integrated audio and visual capture for oral history and artifact preservation.
+- **The Vault (Proverbs)**: A specialized archival repository for Yorùbá wisdom (Àwọn Òwe).
+- **Guardian Encounters (Chat)**: Real-time community discourse integrated into the global experience.
+- **Hall of Guardians**: A prestigious reputation system honoring cultural custodians.
+- **Linguistic Precision**: Native support for Yorùbá tonal marks and orthography.
+- **Dialect Inclusivity**: A non-standardization approach that treats all variations as equals.
 
 ---
 

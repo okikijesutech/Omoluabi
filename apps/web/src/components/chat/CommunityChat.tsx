@@ -143,7 +143,7 @@ export function CommunityChat() {
             <div key={msg.id} className={`flex flex-col gap-3 animate-in fade-in slide-in-from-bottom-4 duration-500`}>
                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                     <div className="w-8 h-8 rounded-lg bg-brand-indigo/5 flex items-center justify-center text-brand-indigo/40 border border-brand-indigo/5">
+                     <div className="w-8 h-8 rounded-lg bg-brand-indigo/10 flex items-center justify-center text-brand-indigo/60 border border-brand-indigo/20">
                         <User className="w-4 h-4" />
                      </div>
                      <div>
@@ -152,17 +152,17 @@ export function CommunityChat() {
                         </p>
                         <div className="flex items-center gap-2">
                            <ShieldCheck className="w-2.5 h-2.5 text-brand-gold" />
-                           <span className="text-[8px] font-black uppercase tracking-widest text-brand-accent/60">Level {msg.user.level} Guardian</span>
+                           <span className="text-[8px] font-black uppercase tracking-widest text-brand-accent">Level {msg.user.level} Guardian</span>
                         </div>
                      </div>
                   </div>
-                  <span className="text-[8px] font-bold text-brand-indigo/20 uppercase tracking-widest flex items-center gap-1">
+                  <span className="text-[8px] font-bold text-brand-indigo/40 uppercase tracking-widest flex items-center gap-1">
                      <Clock className="w-2.5 h-2.5" />
                      {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
                </div>
                
-               <div className="bg-brand-indigo/[0.03] border border-brand-indigo/5 rounded-2xl p-4 font-serif text-brand-primary leading-relaxed shadow-sm">
+               <div className="bg-brand-indigo/[0.06] border border-brand-indigo/10 rounded-2xl p-4 font-serif text-brand-primary leading-relaxed shadow-sm">
                   {msg.content}
                </div>
             </div>

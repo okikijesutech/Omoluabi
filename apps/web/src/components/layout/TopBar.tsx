@@ -17,7 +17,7 @@ export function TopBar() {
       </div>
       
       <div className="hidden md:flex items-center gap-4 animate-in fade-in slide-in-from-left-4 duration-700">
-         <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-indigo/40 px-3 py-1 bg-brand-indigo/5 rounded-lg border border-brand-indigo/5">
+         <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-indigo/80 px-3 py-1 bg-brand-indigo/10 rounded-lg border border-brand-indigo/10">
            Artisan Mode
          </span>
       </div>
@@ -52,8 +52,8 @@ export function TopBar() {
               <p className="text-[10px] font-black uppercase tracking-widest text-brand-indigo leading-none mb-0.5">
                 {user?.email ? user.email.split('@')[0] : 'Guardian'}
               </p>
-              <p className="text-[8px] font-bold uppercase tracking-widest text-brand-accent opacity-60 leading-none">
-                {user?.level ? `Level ${user.level}` : 'Observer'}
+              <p className="text-[8px] font-bold uppercase tracking-widest text-brand-accent leading-none">
+                {user?.level ? `Level ${user.level} Artisan` : 'Observer'}
               </p>
             </div>
           </Link>

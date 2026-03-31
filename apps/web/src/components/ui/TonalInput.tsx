@@ -63,8 +63,8 @@ export function TonalInput({
           rows={multiline ? 4 : undefined}
           className={`
             w-full px-6 py-4 bg-white border border-text-primary/10 rounded-2xl
-            font-serif text-lg text-brand-primary placeholder:text-text-secondary/30
-            focus:outline-none focus:ring-2 focus:ring-brand-accent/20 focus:border-brand-accent
+            font-serif text-lg text-brand-primary placeholder:text-text-secondary/60
+            focus:outline-none focus:ring-4 focus:ring-brand-accent/10 focus:border-brand-accent
             transition-all duration-300
             ${multiline ? 'resize-none' : ''}
           `}

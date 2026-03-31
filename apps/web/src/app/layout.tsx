@@ -1,6 +1,7 @@
 import { Inter, Lora } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import { CommunityChat } from "@/components/chat/CommunityChat";
 
 const inter = Inter({
   subsets: ["latin"],

@@ -148,12 +148,12 @@ export function ContributionStepper() {
             <div className={`w-12 h-12 rounded-2xl border-2 flex items-center justify-center transition-all duration-500 ${
               idx <= currentStep 
                 ? 'bg-brand-indigo border-brand-indigo text-white shadow-lg shadow-brand-indigo/20' 
-                : 'bg-white border-brand-indigo/10 text-brand-indigo/20'
+                : 'bg-white border-brand-indigo/20 text-brand-indigo/40'
             }`}>
               <step.icon className="w-5 h-5" />
             </div>
             <div className="text-center">
-              <p className={`text-[10px] font-black uppercase tracking-widest ${idx <= currentStep ? 'text-brand-indigo' : 'text-brand-indigo/20'}`}>
+              <p className={`text-[10px] font-black uppercase tracking-widest ${idx <= currentStep ? 'text-brand-indigo' : 'text-brand-indigo/50'}`}>
                 {step.name}
               </p>
             </div>
@@ -168,11 +168,11 @@ export function ContributionStepper() {
           <div className="space-y-12 animate-in fade-in slide-in-from-right-4 duration-500">
              <div className="space-y-2">
                 <h3 className="text-3xl font-serif text-brand-primary">The Seed</h3>
-                <p className="text-sm text-brand-earth/60 font-serif italic">The core linguistic unit to be preserved.</p>
+                <p className="text-sm text-brand-earth/80 font-serif italic">The core linguistic unit to be preserved.</p>
              </div>
 
              <div className="relative pt-12">
-                <label className="absolute top-0 left-0 text-[10px] font-black uppercase tracking-widest text-brand-indigo/40 italic">
+                <label className="absolute top-0 left-0 text-[10px] font-black uppercase tracking-widest text-brand-indigo/60 italic">
                   Primary Entry
                 </label>
                 <input 
@@ -181,7 +181,7 @@ export function ContributionStepper() {
                    onChange={(e) => setFormData({...formData, word: e.target.value})}
                    onFocus={() => setActiveField('word')}
                    placeholder="Enter word or proverb..."
-                   className="w-full bg-transparent border-b-2 border-brand-indigo/10 focus:border-brand-indigo text-5xl font-serif text-brand-primary py-4 outline-none transition-all"
+                   className="w-full bg-transparent border-b-2 border-brand-indigo/30 focus:border-brand-indigo text-5xl font-serif text-brand-primary py-4 outline-none transition-all placeholder:text-brand-primary/40"
                 />
                 <div className="mt-4 flex items-center gap-2 text-brand-gold">
                    <Sparkles className="w-3.5 h-3.5" />
@@ -212,7 +212,7 @@ export function ContributionStepper() {
                       className={`p-6 rounded-3xl border text-left transition-all ${
                         formData.dialectId === dialect.id 
                           ? 'bg-brand-indigo border-brand-indigo text-white shadow-xl shadow-brand-indigo/10' 
-                          : 'bg-brand-indigo/[0.02] border-brand-indigo/5 hover:border-brand-indigo/20 text-brand-primary/60'
+                          : 'bg-brand-indigo/[0.05] border-brand-indigo/10 hover:border-brand-indigo/20 text-brand-primary'
                       }`}
                    >
                       <p className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-1">{dialect.region}</p>
@@ -227,19 +227,19 @@ export function ContributionStepper() {
           <div className="space-y-12 animate-in fade-in slide-in-from-right-4 duration-500">
              <div className="space-y-2">
                 <h3 className="text-3xl font-serif text-brand-primary">The Spirit</h3>
-                <p className="text-sm text-brand-earth/60 font-serif italic">Breathing life and context into the record.</p>
+                <p className="text-sm text-brand-earth/80 font-serif italic">Breathing life and context into the record.</p>
              </div>
 
              <div className="space-y-8">
                 <div className="relative pt-8">
-                   <label className="absolute top-0 left-0 text-[10px] font-black uppercase tracking-widest text-brand-indigo/40 italic">Cultural Essence</label>
+                   <label className="absolute top-0 left-0 text-[10px] font-black uppercase tracking-widest text-brand-indigo/60 italic">Cultural Essence</label>
                    <textarea 
                       ref={refs.context}
                       value={formData.context}
                       onChange={(e) => setFormData({...formData, context: e.target.value})}
                       onFocus={() => setActiveField('context')}
                       placeholder="What is the story or usage behind this?"
-                      className="w-full bg-brand-indigo/[0.02] border border-brand-indigo/5 rounded-2xl p-6 min-h-[150px] font-serif text-brand-primary italic focus:border-brand-indigo outline-none transition-all resize-none"
+                      className="w-full bg-brand-indigo/[0.04] border border-brand-indigo/10 rounded-2xl p-6 min-h-[150px] font-serif text-brand-primary italic focus:border-brand-indigo outline-none transition-all resize-none placeholder:text-brand-primary/40"
                    />
                 </div>
 
@@ -256,7 +256,7 @@ export function ContributionStepper() {
                    <div className="bg-brand-indigo text-white rounded-3xl p-6 relative overflow-hidden shadow-2xl shadow-brand-indigo/20 translate-y-2">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl -mr-16 -mt-16" />
                       <h4 className="text-lg font-serif">Archival Goal</h4>
-                      <p className="mt-2 text-xs text-white/60 leading-relaxed italic">
+                      <p className="mt-2 text-xs text-white/80 leading-relaxed italic">
                         By providing this context, you help future generations understand not just the word, but the soul of the language.
                       </p>
                       <div className="mt-6 flex items-center gap-2 text-brand-gold">
