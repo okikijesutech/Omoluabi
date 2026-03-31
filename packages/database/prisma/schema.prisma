@@ -114,6 +114,7 @@ model User {
   councilVotes      CouncilVote[]
 
   notifications     Notification[]
+  chatMessages      ChatMessage[]
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -356,4 +357,14 @@ model Notification {
   createdAt DateTime         @default(now())
 
   @@index([userId])
+}
+
+model ChatMessage {
+  id        String   @id @default(uuid())
+  content   String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
 }

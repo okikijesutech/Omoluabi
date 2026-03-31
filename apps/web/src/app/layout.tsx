@@ -24,6 +24,7 @@ export default function RootLayout({
       <body className="antialiased font-sans text-brand-indigo bg-brand-cream transition-colors">
         <AuthProvider>
           {children}
+          <CommunityChat />
         </AuthProvider>
       </body>
     </html>
