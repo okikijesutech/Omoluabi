@@ -95,6 +95,19 @@ export class TrustService {
     return updatedUser;
   }
 
+  async awardLearningXP(userId: string, xpAmount: number = 5, tx?: any) {
+    const db = this.getClient(tx);
+    const user = await db.user.findUnique({ where: { id: userId } });
+    if (!user) return;
+
+    await db.user.update({
+      where: { id: userId },
+      data: { xp: { increment: xpAmount } },
+    });
+
+    return this.syncTrustScore(userId, tx);
+  }
+
   async updateReviewAccuracy(contributionId: string, tx?: any) {
     const db = this.getClient(tx);
     const contribution = await db.contribution.findUnique({

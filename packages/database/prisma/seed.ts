@@ -105,7 +105,37 @@ async function main() {
     });
   }
 
-  console.log('🚀 Seed complete. Governance system ready.');
+  // 4. Create Learning Path Curriculum Base
+  const lp = await prisma.learningPath.upsert({
+    where: { id: 'default-path-1' },
+    update: {},
+    create: {
+      id: 'default-path-1',
+      level: 'BEGINNER',
+      title: 'Foundations of Ọmọlúàbí',
+      description: 'The definitive starting point for mastering the cultural pillars of the Yoruba language.',
+    }
+  });
+
+  // Assign Knowledge Units to Learning Path sequentially
+  let orderIdx = 0;
+  for (const u of units) {
+    const unitInDb = await prisma.knowledgeUnit.findUnique({ where: { slug: slugify(u.title) } });
+    if (unitInDb) {
+      await prisma.learningPathUnit.upsert({
+        where: { learningPathId_order: { learningPathId: lp.id, order: orderIdx } },
+        update: { knowledgeUnitId: unitInDb.id },
+        create: {
+          learningPathId: lp.id,
+          knowledgeUnitId: unitInDb.id,
+          order: orderIdx,
+        }
+      });
+      orderIdx++;
+    }
+  }
+
+  console.log('🚀 Seed complete. Governance & Learning systems ready.');
 }
 
 main()

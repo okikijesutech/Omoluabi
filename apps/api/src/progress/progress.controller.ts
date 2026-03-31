@@ -1,21 +1,23 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards, Req } from '@nestjs/common';
 import { ProgressService } from './progress.service';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('progress')
+@UseGuards(AuthGuard)
 export class ProgressController {
   constructor(private readonly progressService: ProgressService) {}
 
-  @Get(':userId')
-  getUserProgress(@Param('userId') userId: string) {
-    return this.progressService.getUserProgress(userId);
+  @Get()
+  getUserProgress(@Req() req: any) {
+    return this.progressService.getUserProgress(req.user.id || req.user.sub);
   }
 
-  @Post(':userId/complete/:knowledgeUnitId')
+  @Post('complete/:knowledgeUnitId')
   markAsCompleted(
-    @Param('userId') userId: string,
     @Param('knowledgeUnitId') knowledgeUnitId: string,
-    @Body('completed') completed?: boolean,
+    @Body('completed') completed: boolean,
+    @Req() req: any,
   ) {
-    return this.progressService.markAsCompleted(userId, knowledgeUnitId, completed);
+    return this.progressService.markAsCompleted(req.user.id || req.user.sub, knowledgeUnitId, completed ?? true);
   }
 }

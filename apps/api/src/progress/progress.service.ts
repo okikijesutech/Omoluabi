@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { TrustService } from '../governance/trust.service';
 
 @Injectable()
 export class ProgressService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private trustService: TrustService) {}
 
   async getUserProgress(userId: string) {
     return this.prisma.userProgress.findMany({
@@ -15,7 +16,7 @@ export class ProgressService {
   }
 
   async markAsCompleted(userId: string, knowledgeUnitId: string, completed: boolean = true) {
-    return this.prisma.userProgress.upsert({
+    const record = await this.prisma.userProgress.upsert({
       where: {
         user_knowledge_unique: {
           userId,
@@ -33,5 +34,11 @@ export class ProgressService {
         lastReviewedAt: new Date(),
       },
     });
+
+    if (completed) {
+      await this.trustService.awardLearningXP(userId, 5);
+    }
+
+    return record;
   }
 }
