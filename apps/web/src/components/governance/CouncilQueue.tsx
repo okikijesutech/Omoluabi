@@ -9,7 +9,10 @@ import {
   Shield, 
   MessageSquare,
   AlertTriangle,
-  Gavel
+  Gavel,
+  History,
+  Scale,
+  Sparkles
 } from 'lucide-react';
 import { YorubaText } from '../ui/YorubaText';
 import { Badge } from '../ui/Badge';
@@ -64,192 +67,225 @@ export default function CouncilQueue() {
 
   if (cases.length === 0) {
     return (
-      <div className="border border-dashed border-text-primary/10 rounded-3xl py-32 text-center space-y-4 bg-white/30">
-        <div className="w-16 h-16 bg-bg-secondary rounded-full flex items-center justify-center mx-auto">
-          <Gavel className="w-8 h-8 text-green-600/40" />
+      <div className="border border-dashed border-brand-indigo/10 rounded-[3rem] py-32 text-center space-y-4 bg-white/30 dark:bg-zinc-900/10 backdrop-blur-sm">
+        <div className="w-20 h-20 bg-brand-indigo/5 rounded-full flex items-center justify-center mx-auto ring-1 ring-brand-indigo/10">
+          <Scale className="w-8 h-8 text-brand-indigo/20" />
         </div>
         <div className="space-y-1">
-          <p className="text-[11px] font-bold uppercase tracking-widest text-brand-primary">The Council is at Peace</p>
-          <p className="text-sm text-text-secondary font-serif italic">There are no escalated disputes requiring Council intervention.</p>
+          <p className="text-[11px] font-black uppercase tracking-[0.4em] text-brand-indigo/40 leading-relaxed">The Council is at Peace</p>
+          <p className="text-sm text-brand-earth/40 font-serif italic max-w-sm mx-auto">There are no escalated disputes requiring Council intervention at this time.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
       {/* Left: Queue List */}
-      <div className="lg:col-span-4 space-y-4">
-        <div className="flex items-center justify-between px-2 mb-6">
-          <h3 className="text-[11px] font-bold uppercase tracking-widest text-brand-primary/60">Escalated Cases</h3>
-          <span className="text-[10px] bg-red-500/10 px-2 py-1 rounded-full font-bold text-red-600">{cases.length} Items</span>
+      <div className="lg:col-span-4 space-y-6">
+        <div className="flex items-center justify-between px-2 mb-4">
+          <div className="flex items-center gap-2">
+             <History className="w-4 h-4 text-brand-indigo/40" />
+             <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-indigo/60">Active Docket</h3>
+          </div>
+          <span className="text-[9px] bg-red-500/10 px-3 py-1 rounded-full font-bold text-red-600 ring-1 ring-red-500/5">{cases.length} Pendings</span>
         </div>
         
-        {cases.map(item => (
-          <button 
-            key={item.id}
-            onClick={() => setSelectedCase(item)}
-            className={`w-full text-left p-6 rounded-2xl border transition-all group ${
-              selectedCase?.id === item.id 
-                ? 'bg-red-900 border-red-700 shadow-xl shadow-red-900/20 scale-[1.02]' 
-                : 'bg-white border-red-200 hover:border-red-300 hover:shadow-lg'
-            }`}
-          >
-            <div className="flex justify-between items-start mb-4">
-              <span className={`text-[8px] font-bold uppercase tracking-widest px-2 py-1 rounded-md ${
-                selectedCase?.id === item.id ? 'bg-white/20 text-white' : 'bg-red-100 text-red-800'
-              }`}>
-                {item.contribution.type}
-              </span>
-              <span className={`text-[10px] font-serif ${selectedCase?.id === item.id ? 'text-white/60' : 'text-text-secondary'}`}>
-                {new Date(item.openedAt).toLocaleDateString()}
-              </span>
-            </div>
+        <div className="space-y-3">
+          {cases.map(item => (
+            <button 
+              key={item.id}
+              onClick={() => setSelectedCase(item)}
+              className={`w-full text-left p-6 rounded-[2rem] border transition-all group relative overflow-hidden ${
+                selectedCase?.id === item.id 
+                  ? 'bg-brand-indigo border-brand-indigo shadow-2xl shadow-brand-indigo/20 scale-[1.02]' 
+                  : 'bg-white dark:bg-zinc-900 border-brand-indigo/5 hover:border-brand-indigo/20 hover:shadow-lg'
+              }`}
+            >
+              {selectedCase?.id === item.id && (
+                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none" />
+              )}
 
-            <div className={`text-xl font-serif mb-4 leading-tight ${selectedCase?.id === item.id ? 'text-white' : 'text-brand-primary'}`}>
-              {item.contribution.content?.title || item.contribution.knowledgeUnit?.title || "Language Variation dispute"}
-            </div>
-
-            <div className="flex items-center justify-between pt-4 border-t border-text-primary/5">
-              <div className={`text-[10px] font-bold uppercase tracking-widest ${selectedCase?.id === item.id ? 'text-white/70' : 'text-text-secondary'}`}>
-                Votes: {item.councilVotes?.length || 0} / 5
+              <div className="flex justify-between items-start mb-4 relative z-10">
+                <span className={`text-[8px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-lg ${
+                  selectedCase?.id === item.id ? 'bg-white/10 text-white border border-white/10' : 'bg-brand-indigo/5 text-brand-indigo'
+                }`}>
+                  {item.contribution.type}
+                </span>
+                <span className={`text-[9px] font-serif italic ${selectedCase?.id === item.id ? 'text-white/40' : 'text-text-secondary/40'}`}>
+                  {new Date(item.openedAt).toLocaleDateString()}
+                </span>
               </div>
-              <ChevronRight className={`w-4 h-4 transition-transform group-hover:translate-x-1 ${selectedCase?.id === item.id ? 'text-white' : 'text-text-secondary'}`} />
-            </div>
-          </button>
-        ))}
+
+              <div className={`text-xl font-serif mb-4 leading-tight tracking-tight relative z-10 ${selectedCase?.id === item.id ? 'text-white' : 'text-brand-primary'}`}>
+                {item.contribution.content?.title || item.contribution.knowledgeUnit?.title || "Variation dispute"}
+              </div>
+
+              <div className={`flex items-center justify-between pt-4 border-t relative z-10 ${selectedCase?.id === item.id ? 'border-white/10' : 'border-brand-indigo/5'}`}>
+                <div className={`text-[10px] font-black uppercase tracking-widest ${selectedCase?.id === item.id ? 'text-white/50' : 'text-text-secondary/40'}`}>
+                  Quorum: {item.councilVotes?.length || 0} / 5
+                </div>
+                <ChevronRight className={`w-4 h-4 transition-transform group-hover:translate-x-1 ${selectedCase?.id === item.id ? 'text-white' : 'text-brand-indigo/40'}`} />
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Right: Focused Review Area */}
-      <div className="lg:col-span-8">
+      <div className="lg:col-span-8 sticky top-24">
         {selectedCase ? (
-          <div className="bg-white rounded-3xl border border-text-primary/10 shadow-xl overflow-hidden">
-            <div className="border-b border-text-primary/10 bg-bg-secondary/50 p-6 flex justify-between items-center">
-              <div>
-                <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-text-secondary mb-1">Council Review</h2>
-                <div className="font-serif text-2xl text-brand-primary">Case #{selectedCase.id.slice(0, 8)}</div>
+          <div className="bg-white dark:bg-zinc-900 rounded-[3rem] border border-brand-indigo/5 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-500">
+            {/* Header Area */}
+            <div className="border-b border-brand-indigo/5 bg-brand-cream/10 dark:bg-zinc-800/20 p-10 flex justify-between items-center relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-64 h-64 bg-brand-indigo/[0.02] rounded-full blur-3xl -ml-32 -mt-32" />
+              
+              <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-2">
+                   <div className="p-1.5 bg-red-500/10 rounded-lg text-red-500 ring-1 ring-red-500/20">
+                      <AlertTriangle className="w-3.5 h-3.5" />
+                   </div>
+                   <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-red-600/60">Escalated Case File</h2>
+                </div>
+                <div className="font-serif text-3xl text-brand-primary tracking-tighter">Protocol #{selectedCase.id.slice(0, 8)}</div>
               </div>
-              <div className="px-3 py-1.5 bg-red-100 text-red-800 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-                <AlertTriangle className="w-3.5 h-3.5" />
-                Escalated
+
+              <div className="relative z-10 flex flex-col items-end gap-2">
+                 <div className="px-4 py-2 bg-brand-indigo text-white rounded-2xl text-[9px] font-black uppercase tracking-widest flex items-center gap-3 shadow-xl shadow-brand-indigo/20">
+                    <Gavel className="w-3.5 h-3.5" />
+                    Pending Resolution
+                 </div>
+                 <p className="text-[9px] font-serif italic text-brand-earth/40">Opened {new Date(selectedCase.openedAt).toLocaleDateString()}</p>
               </div>
             </div>
 
-            <div className="p-8 space-y-8">
-              <div className="grid grid-cols-2 gap-8 relative">
-                <div className="absolute inset-y-0 left-1/2 w-px bg-gradient-to-b from-transparent via-text-primary/10 to-transparent" />
+            <div className="p-10 space-y-12">
+              {/* The Tension (Comparison) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative">
+                <div className="hidden md:block absolute inset-y-0 left-1/2 w-px bg-gradient-to-b from-transparent via-brand-indigo/5 to-transparent" />
                 
                 {/* Proposed */}
                 <div className="space-y-6">
-                  <h3 className="text-[9px] font-bold uppercase tracking-widest text-brand-accent">Proposed Change</h3>
-                  <div className="bg-bg-secondary rounded-2xl p-6 border border-brand-accent/20">
-                    <YorubaText className="text-3xl text-brand-primary font-medium mb-4">
+                  <div className="flex items-center gap-2">
+                     <Sparkles className="w-3 h-3 text-brand-gold" />
+                     <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-gold">Proposed Artifact</h3>
+                  </div>
+                  <div className="bg-brand-gold/[0.02] rounded-3xl p-8 border border-brand-gold/10 ring-1 ring-brand-gold/5">
+                    <YorubaText className="text-4xl text-brand-primary font-medium mb-6 leading-tight">
                       {selectedCase.contribution.content?.title || '—'}
                     </YorubaText>
-                    <p className="text-sm text-text-secondary leading-relaxed">
-                      {selectedCase.contribution.content?.meaning || selectedCase.contribution.content?.description || 'No meaning provided.'}
+                    <p className="text-sm text-brand-earth/60 leading-relaxed font-serif italic">
+                      {selectedCase.contribution.content?.meaning || selectedCase.contribution.content?.description || 'No cultural context provided.'}
                     </p>
                   </div>
                 </div>
 
-                {/* Original (if any) */}
+                {/* Original */}
                 <div className="space-y-6">
-                  <h3 className="text-[9px] font-bold uppercase tracking-widest text-text-secondary">Original Archive</h3>
-                  <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
-                    <YorubaText className="text-3xl text-slate-400 font-medium mb-4">
+                  <div className="flex items-center gap-2">
+                     <Shield className="w-3 h-3 text-brand-indigo/40" />
+                     <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-indigo/40">Archived Record</h3>
+                  </div>
+                  <div className="bg-brand-indigo/[0.01] rounded-3xl p-8 border border-brand-indigo/5 opacity-60">
+                    <YorubaText className="text-4xl text-brand-indigo/30 font-medium mb-6 leading-tight">
                       {selectedCase.contribution.knowledgeUnit?.title || '—'}
                     </YorubaText>
-                    <p className="text-sm text-slate-500 leading-relaxed">
-                      {selectedCase.contribution.knowledgeUnit?.description || 'No existing record found.'}
+                    <p className="text-sm text-brand-indigo/30 leading-relaxed font-serif italic">
+                      {selectedCase.contribution.knowledgeUnit?.description || 'No existing record for this variation.'}
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Reviewer Disagreements */}
-              <div className="space-y-4">
-                <h3 className="text-[9px] font-bold uppercase tracking-widest text-text-secondary/60 italic">Reviewer Disagreements</h3>
+              {/* Reviewer Disagreements (The Conflict) */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-2">
+                   <MessageSquare className="w-4 h-4 text-brand-indigo/20" />
+                   <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary/40">Reviewer Deliberations</h3>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {(selectedCase.contribution.reviews || []).map((r: any) => (
-                    <div key={r.id} className={`p-4 rounded-xl border transition-colors ${
-                      r.approved ? 'bg-emerald-50 border-emerald-100' : 'bg-red-50 border-red-100'
+                    <div key={r.id} className={`p-6 rounded-[2rem] border backdrop-blur-sm transition-all ${
+                      r.approved ? 'bg-emerald-500/[0.02] border-emerald-500/10' : 'bg-red-500/[0.02] border-red-500/10'
                     }`}>
-                      <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2">
-                          <div className={`w-2 h-2 rounded-full ${r.approved ? 'bg-emerald-500' : 'bg-red-500'}`} />
-                          <span className="text-[10px] font-bold text-text-secondary truncate max-w-[120px]">{r.reviewer.email}</span>
+                          <div className={`w-1.5 h-1.5 rounded-full ${r.approved ? 'bg-emerald-500' : 'bg-red-500'}`} />
+                          <span className="text-[10px] font-bold text-brand-primary truncate max-w-[120px]">{r.reviewer.email.split('@')[0]}</span>
                         </div>
-                        <Badge variant="outline" className="text-[8px] opacity-60">Trust: {r.reviewer.trustScore}</Badge>
+                        <span className="text-[8px] font-black uppercase tracking-[0.1em] text-brand-earth/30">Acc: {r.reviewer.reviewAccuracy}%</span>
                       </div>
-                      <p className="text-xs text-brand-primary italic leading-relaxed">
-                        "{r.comment || (r.approved ? 'Standard verification passed.' : 'Requires dialect-specific tone correction.')}"
+                      <p className="text-xs text-brand-earth/60 italic leading-relaxed font-serif">
+                        "{r.comment || (r.approved ? 'Verification passing protocol.' : 'Requires dialectal tonal audit.')}"
                       </p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Author & Votes Status */}
-              <div className="pt-8 border-t border-text-primary/5 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-brand-primary/5 rounded-full flex items-center justify-center">
-                    <User className="w-4 h-4 text-brand-primary" />
+              {/* Voting Interface */}
+              <div className="pt-10 border-t border-brand-indigo/5 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 bg-brand-indigo/[0.03] rounded-3xl flex items-center justify-center ring-1 ring-brand-indigo/5">
+                    <User className="w-6 h-6 text-brand-indigo/40" />
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-brand-primary">{selectedCase.contribution.author.email}</div>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <Shield className="w-3 h-3 text-brand-accent" />
-                      <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider">
-                        Trust: {selectedCase.contribution.author.trustScore}
-                      </span>
-                      <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider">
-                        • Lvl {selectedCase.contribution.author.level}
-                      </span>
+                    <div className="text-sm font-bold text-brand-primary">{selectedCase.contribution.author.email.split('@')[0]}</div>
+                    <div className="flex items-center gap-3 mt-1">
+                      <div className="flex items-center gap-1.5 px-2 py-0.5 bg-brand-gold/5 rounded-md border border-brand-gold/10">
+                         <Shield className="w-2.5 h-2.5 text-brand-gold" />
+                         <span className="text-[8px] font-black uppercase tracking-widest text-brand-gold">Trust {selectedCase.contribution.author.trustScore}</span>
+                      </div>
+                      <span className="text-[9px] font-black uppercase tracking-widest text-brand-earth/30">LVL {selectedCase.contribution.author.level} Guardian</span>
                     </div>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-[10px] font-bold uppercase tracking-widest text-text-secondary mb-1">Current Votes</div>
-                  <div className="flex gap-2">
+
+                <div className="flex flex-col items-end gap-3">
+                  <span className="text-[9px] font-black uppercase tracking-[0.3em] text-brand-earth/40">Consensus Quorum</span>
+                  <div className="flex gap-2.5">
                     {selectedCase.councilVotes.map((v: any) => (
-                      <div key={v.id} className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                        v.decision === 'APPROVE' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                      <div key={v.id} className={`w-10 h-10 rounded-2xl flex items-center justify-center shadow-sm ${
+                        v.decision === 'APPROVE' ? 'bg-emerald-500 text-white shadow-emerald-500/20' : 'bg-red-500 text-white shadow-red-500/20'
                       }`}>
-                        {v.decision === 'APPROVE' ? <CheckCircle2 className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
+                        {v.decision === 'APPROVE' ? <CheckCircle2 className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
                       </div>
                     ))}
                     {Array.from({ length: 5 - (selectedCase.councilVotes?.length || 0) }).map((_, i) => (
-                      <div key={i} className="w-8 h-8 rounded-full border border-dashed border-text-primary/20 flex items-center justify-center text-text-secondary/30 text-xs">?</div>
+                      <div key={i} className="w-10 h-10 rounded-2xl border-2 border-dashed border-brand-indigo/5 flex items-center justify-center text-brand-indigo/10 font-serif">?</div>
                     ))}
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-bg-secondary p-6 border-t border-text-primary/10 flex justify-end gap-3">
+            {/* Actions Panel */}
+            <div className="p-8 bg-brand-indigo/5 border-t border-brand-indigo/5 flex justify-end gap-4">
               <button 
                 onClick={() => handleVote(selectedCase.id, 'REJECT')}
-                className="px-6 py-2.5 rounded-xl text-sm font-bold text-red-600 hover:bg-red-50 transition-colors"
+                className="px-8 py-4 rounded-full text-[10px] font-black uppercase tracking-widest text-red-600 hover:bg-red-50 border border-red-200/50 transition-all"
               >
-                Veto & Reject
+                Veto Submission
               </button>
               <button 
                 onClick={() => handleVote(selectedCase.id, 'APPROVE')}
-                className="px-6 py-2.5 rounded-xl text-sm font-bold bg-green-600 text-white hover:bg-green-700 transition-colors shadow-lg shadow-green-600/20"
+                className="px-10 py-4 rounded-full text-[10px] font-black uppercase tracking-widest bg-brand-indigo text-white hover:bg-brand-gold transition-all shadow-xl shadow-brand-indigo/20 flex items-center gap-3"
               >
-                Approve to Archive
+                Grant Archival Approval
+                <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           </div>
         ) : (
-          <div className="h-full min-h-[500px] border border-dashed border-text-primary/10 rounded-3xl flex flex-col items-center justify-center space-y-6 bg-white/30 text-center p-12">
-            <div className="w-20 h-20 bg-white rounded-full shadow-inner flex items-center justify-center">
-              <Gavel className="w-10 h-10 text-brand-primary/20" />
+          <div className="h-full min-h-[600px] border-2 border-dashed border-brand-indigo/5 rounded-[4rem] flex flex-col items-center justify-center space-y-8 bg-brand-indigo/[0.01] backdrop-blur-sm text-center p-16 animate-in fade-in duration-1000">
+            <div className="w-24 h-24 bg-white dark:bg-zinc-900 rounded-[2.5rem] shadow-2xl flex items-center justify-center ring-1 ring-brand-indigo/5 relative">
+              <div className="absolute inset-0 bg-brand-indigo/5 rounded-[2.5rem] animate-pulse" />
+              <Scale className="w-10 h-10 text-brand-indigo/20 relative z-10" />
             </div>
-            <div className="max-w-md space-y-2">
-              <h3 className="text-xl font-serif italic text-brand-primary opacity-40">Select a case to examine</h3>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-secondary leading-relaxed">
-                The Council exists to break stalemates and protect the cultural integrity of the archive.
+            <div className="max-w-md space-y-4">
+              <h3 className="text-3xl font-serif italic text-brand-primary/30 tracking-tight">Awaiting Deliberation</h3>
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-earth/20 leading-relaxed mx-auto max-w-xs">
+                The Council must examine the linguistic tension between recorded archive and proposed evolution.
               </p>
             </div>
           </div>

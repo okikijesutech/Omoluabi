@@ -1,6 +1,9 @@
-"use client";
+'use client';
+
 import React, { useEffect, useState } from 'react';
-import { Trophy, Medal, Star, ShieldCheck, Loader2 } from 'lucide-react';
+import { PageContainer, Header, Footer } from '@/components/layout';
+import { Trophy, Medal, Star, ShieldCheck, Loader2, Sparkles, Award, TrendingUp, User } from 'lucide-react';
+import { apiRequest } from '@/lib/api';
 
 export default function LeaderboardPage() {
   const [users, setUsers] = useState<any[]>([]);
@@ -12,145 +15,201 @@ export default function LeaderboardPage() {
 
   const fetchLeaderboard = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/users/leaderboard`);
-      if (res.ok) {
-        setUsers(await res.json());
-      }
+      const data = await apiRequest('/users/leaderboard');
+      setUsers(data);
     } catch (e) {
-      console.error(e);
+      console.error('Failed to fetch leaderboard:', e);
     } finally {
       setIsLoading(false);
     }
   };
 
   const parseRoleBg = (role: string) => {
-    if (role === 'ADMIN') return 'bg-brand-accent/20 text-brand-accent border-brand-accent/30';
-    if (role === 'REVIEWER') return 'bg-indigo-500/10 text-indigo-500 border-indigo-500/20';
+    if (role === 'ADMIN') return 'bg-brand-indigo text-white border-brand-indigo shadow-lg shadow-brand-indigo/20';
+    if (role === 'REVIEWER') return 'bg-brand-gold/10 text-brand-gold border-brand-gold/20';
     if (role === 'CONTRIBUTOR') return 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20';
-    return 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-zinc-800 dark:border-zinc-700 dark:text-zinc-400';
+    return 'bg-brand-earth/5 text-brand-earth/40 border-brand-earth/10';
   };
 
   const top3 = users.slice(0, 3);
   const rest = users.slice(3);
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-brand-cream/20">
+        <Loader2 className="w-10 h-10 text-brand-indigo animate-spin" />
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-5xl mx-auto space-y-16">
-      <header className="text-center space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-brand-accent/20 to-brand-accent/5 flex items-center justify-center border border-brand-accent/20">
-          <Trophy className="w-10 h-10 text-brand-accent" />
-        </div>
-        <div className="space-y-2">
-          <h1 className="text-5xl font-serif text-brand-indigo dark:text-brand-cream tracking-tight">The Guardians</h1>
-          <p className="text-lg text-brand-earth dark:text-brand-gold/80 max-w-2xl mx-auto">
-            Recognizing the scholars and contributors algorithmically ranked by their dedication to the cultural preservation of the Yoruba language.
-          </p>
-        </div>
-      </header>
+    <div className="min-h-screen bg-brand-cream/30 dark:bg-zinc-950 pb-32">
+      <Header />
 
-      {isLoading ? (
-        <div className="flex justify-center py-20">
-          <Loader2 className="w-12 h-12 text-brand-indigo/30 animate-spin dark:text-brand-cream/30" />
-        </div>
-      ) : users.length === 0 ? (
-        <div className="py-20 text-center border border-dashed border-brand-indigo/10 rounded-3xl bg-white/50 dark:bg-zinc-900/50 dark:border-zinc-800">
-          <p className="text-brand-indigo/60 font-serif text-lg dark:text-brand-cream/60">The leaderboard is currently empty.</p>
-        </div>
-      ) : (
-        <div className="space-y-16">
-          {/* Top 3 Podium */}
-          <div className="flex flex-col md:flex-row items-end justify-center gap-6 md:gap-8 pt-10">
-            {/* 2nd Place */}
-            {top3[1] && (
-              <div className="w-full md:w-64 bg-white border border-brand-indigo/10 shadow-lg rounded-[2rem] p-6 text-center transform hover:-translate-y-2 transition-transform relative dark:bg-zinc-900 dark:border-zinc-800">
-                <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center border-4 border-white shadow-inner dark:bg-zinc-700 dark:border-zinc-900">
-                   <Medal className="w-6 h-6 text-slate-500" />
+      <main className="pt-24 pb-32">
+        <PageContainer size="archive">
+          {/* Header Section */}
+          <header className="text-center space-y-8 mb-20 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+             <div className="flex justify-center mb-6">
+                <div className="relative group">
+                   <div className="absolute inset-0 bg-brand-gold/20 rounded-full blur-2xl animate-pulse group-hover:scale-150 transition-transform duration-1000" />
+                   <div className="w-24 h-24 bg-white dark:bg-zinc-900 rounded-[2.5rem] flex items-center justify-center ring-1 ring-brand-gold/20 relative z-10 shadow-2xl">
+                      <Trophy className="w-10 h-10 text-brand-gold" />
+                   </div>
                 </div>
-                <div className="mt-6 space-y-4">
-                  <div className="font-bold text-brand-indigo dark:text-brand-cream break-all px-2">{top3[1].email.split('@')[0]}</div>
-                  <div className={`text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full border inline-block ${parseRoleBg(top3[1].role)}`}>{top3[1].role}</div>
-                  <div className="pt-4 border-t border-brand-indigo/5 dark:border-zinc-800">
-                    <div className="text-3xl font-serif text-brand-accent">{top3[1].xp} <span className="text-sm font-sans tracking-widest uppercase opacity-50">XP</span></div>
-                  </div>
-                </div>
-              </div>
-            )}
+             </div>
+             <div className="space-y-4">
+                <h1 className="text-6xl font-serif text-brand-primary tracking-tighter leading-none">The Hall of Guardians</h1>
+                <p className="text-lg text-brand-earth/60 font-serif italic max-w-2xl mx-auto leading-relaxed">
+                   Honoring the scholars and custodians algorithmically ranked by their dedication 
+                   to the cultural preservation of the Yorùbá heritage.
+                </p>
+             </div>
+          </header>
 
-            {/* 1st Place */}
-            {top3[0] && (
-              <div className="w-full md:w-72 bg-gradient-to-b from-brand-accent/5 to-white border border-brand-accent/20 shadow-2xl rounded-[2.5rem] p-8 text-center transform md:-translate-y-4 hover:-translate-y-6 transition-transform relative dark:from-brand-accent/10 dark:to-zinc-900">
-                <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center border-4 border-white shadow-inner dark:bg-yellow-900/50 dark:border-zinc-900">
-                   <Trophy className="w-8 h-8 text-yellow-600 dark:text-yellow-500" />
-                </div>
-                <div className="mt-8 space-y-4">
-                  <div className="text-xl font-bold text-brand-indigo dark:text-brand-cream break-all px-2">{top3[0].email.split('@')[0]}</div>
-                  <div className={`text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full border inline-block ${parseRoleBg(top3[0].role)}`}>{top3[0].role}</div>
-                  <div className="pt-6 border-t border-brand-indigo/5 dark:border-zinc-800 space-y-2">
-                    <div className="text-4xl font-serif text-brand-accent">{top3[0].xp} <span className="text-base font-sans tracking-widest uppercase opacity-50">XP</span></div>
-                    <div className="flex items-center justify-center gap-2 text-xs font-medium text-brand-indigo/60 dark:text-brand-cream/60">
-                      <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                      {top3[0].trustScore} Trust
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+          {/* Top 3 Podium: The High Guardians */}
+          <div className="flex flex-col md:flex-row items-end justify-center gap-8 md:gap-12 mb-32 relative">
+             <div className="absolute inset-x-0 bottom-0 h-px bg-brand-indigo/5 dark:bg-zinc-800 -z-10" />
 
-            {/* 3rd Place */}
-            {top3[2] && (
-              <div className="w-full md:w-64 bg-white border border-brand-indigo/10 shadow-lg rounded-[2rem] p-6 text-center transform hover:-translate-y-2 transition-transform relative dark:bg-zinc-900 dark:border-zinc-800">
-                <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-amber-100/50 flex items-center justify-center rounded-full border-4 border-white shadow-inner dark:bg-amber-900/30 dark:border-zinc-900">
-                   <Medal className="w-6 h-6 text-amber-700/60" />
-                </div>
-                <div className="mt-6 space-y-4">
-                  <div className="font-bold text-brand-indigo dark:text-brand-cream break-all px-2">{top3[2].email.split('@')[0]}</div>
-                  <div className={`text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full border inline-block ${parseRoleBg(top3[2].role)}`}>{top3[2].role}</div>
-                  <div className="pt-4 border-t border-brand-indigo/5 dark:border-zinc-800">
-                    <div className="text-3xl font-serif text-brand-accent">{top3[2].xp} <span className="text-sm font-sans tracking-widest uppercase opacity-50">XP</span></div>
-                  </div>
-                </div>
-              </div>
-            )}
+             {/* 2nd Place: Silver Guardian */}
+             {top3[1] && (
+               <GuardianCard 
+                 user={top3[1]} 
+                 rank={2} 
+                 icon={<Medal className="w-7 h-7 text-slate-400" />}
+                 className="md:w-72 h-[380px]"
+                 color="silver"
+               />
+             )}
+
+             {/* 1st Place: Gold Guardian */}
+             {top3[0] && (
+               <GuardianCard 
+                 user={top3[0]} 
+                 rank={1} 
+                 icon={<Trophy className="w-10 h-10 text-brand-gold" />}
+                 className="md:w-80 h-[440px] md:-translate-y-6"
+                 color="gold"
+               />
+             )}
+
+             {/* 3rd Place: Bronze Guardian */}
+             {top3[2] && (
+               <GuardianCard 
+                 user={top3[2]} 
+                 rank={3} 
+                 icon={<Medal className="w-7 h-7 text-brand-gold/40" />}
+                 className="md:w-72 h-[340px]"
+                 color="bronze"
+               />
+             )}
           </div>
 
-          {/* List Remaining */}
-          {rest.length > 0 && (
-            <div className="bg-white rounded-[2rem] border border-brand-indigo/10 shadow-sm overflow-hidden dark:bg-zinc-900 dark:border-zinc-800">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left">
-                  <thead>
-                    <tr className="bg-brand-indigo/5 dark:bg-zinc-800/50">
-                      <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-brand-indigo/60 dark:text-brand-cream/60">Rank</th>
-                      <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-brand-indigo/60 dark:text-brand-cream/60">Guardian</th>
-                      <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-brand-indigo/60 dark:text-brand-cream/60">Role & Level</th>
-                      <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-brand-indigo/60 dark:text-brand-cream/60 text-right">Metrics</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-brand-indigo/5 dark:divide-zinc-800/50">
-                    {rest.map((user, idx) => (
-                      <tr key={user.id} className="hover:bg-brand-indigo/5 dark:hover:bg-zinc-800/50 transition-colors">
-                        <td className="px-8 py-6">
-                           <span className="text-xl font-serif font-bold text-brand-indigo/30 dark:text-brand-cream/30">#{idx + 4}</span>
-                        </td>
-                        <td className="px-8 py-6 font-bold text-brand-indigo dark:text-brand-cream">
-                           {user.email.split('@')[0]}
-                        </td>
-                        <td className="px-8 py-6 space-y-1">
-                           <div className={`text-[9px] uppercase font-bold tracking-widest px-2 py-0.5 rounded border inline-block ${parseRoleBg(user.role)}`}>{user.role}</div>
-                           <div className="text-[10px] font-medium text-brand-earth dark:text-brand-gold ml-1">LVL {user.level}</div>
-                        </td>
-                        <td className="px-8 py-6 text-right space-y-1">
-                           <div className="text-lg font-bold text-brand-accent">{user.xp} <span className="text-[10px] tracking-widest uppercase opacity-60">XP</span></div>
-                           <div className="text-[11px] font-medium text-brand-indigo/60 dark:text-brand-cream/60">{user.trustScore} Trust Score</div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
+          {/* List Remaining: The Honor Roll */}
+          <div className="max-w-4xl mx-auto space-y-6">
+             <div className="flex items-center gap-3 px-8 mb-8">
+                <TrendingUp className="w-4 h-4 text-brand-indigo/40" />
+                <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-brand-indigo/30">The Honor Roll</h3>
+             </div>
+
+             <div className="space-y-4">
+                {rest.map((user, idx) => (
+                  <HonorRow key={user.id} user={user} rank={idx + 4} />
+                ))}
+
+                {rest.length === 0 && users.length > 0 && (
+                  <div className="py-20 text-center border-2 border-dashed border-brand-indigo/5 rounded-[3rem] bg-white/30">
+                     <p className="text-xs font-serif text-brand-earth/40 italic">More Guardians await verification.</p>
+                  </div>
+                )}
+             </div>
+          </div>
+        </PageContainer>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
+
+function GuardianCard({ user, rank, icon, className, color }: any) {
+  const colorBgs: any = {
+    gold: 'bg-brand-gold/[0.03] border-brand-gold/20 shadow-brand-gold/10',
+    silver: 'bg-slate-500/[0.03] border-slate-500/10 shadow-slate-500/10',
+    bronze: 'bg-brand-gold/[0.01] border-brand-gold/10 shadow-brand-gold/5'
+  };
+
+  return (
+    <div className={`w-full group bg-white dark:bg-zinc-900 border rounded-[3rem] p-8 text-center transition-all duration-700 hover:shadow-2xl flex flex-col justify-between ${colorBgs[color]} ${className}`}>
+       <div className="relative">
+          <div className="absolute -top-14 left-1/2 -translate-x-1/2 w-16 h-16 bg-white dark:bg-zinc-800 rounded-full shadow-2xl flex items-center justify-center ring-4 ring-white dark:ring-zinc-900 border border-brand-indigo/5 z-20">
+             {icon}
+          </div>
+          <div className="mt-10 space-y-3">
+             <p className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-indigo/30 leading-none mb-4">Rank {rank}</p>
+             <h3 className="text-2xl font-serif text-brand-primary tracking-tight group-hover:scale-105 transition-transform duration-500">{user.email.split('@')[0]}</h3>
+             <div className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest inline-flex items-center gap-2 border border-brand-indigo/5 ${
+               user.role === 'ADMIN' ? 'bg-brand-indigo text-white shadow-xl shadow-brand-indigo/20' : 'bg-brand-indigo/5 text-brand-indigo'
+             }`}>
+                {user.role}
+             </div>
+          </div>
+       </div>
+
+       <div className="space-y-6 pt-10 border-t border-brand-indigo/[0.03]">
+          <div className="space-y-1">
+             <p className="text-4xl font-serif text-brand-primary">{user.xp} <span className="text-xs font-sans font-black uppercase tracking-widest text-text-secondary/40">XP</span></p>
+          </div>
+          <div className="flex items-center justify-center gap-6">
+             <div className="text-center">
+                <p className="text-[8px] font-black uppercase tracking-widest text-brand-indigo/30 mb-0.5">Trust</p>
+                <div className="flex items-center gap-1 text-emerald-500 text-xs font-bold">
+                   <ShieldCheck className="w-3.5 h-3.5" />
+                   {user.trustScore}
+                </div>
+             </div>
+             <div className="w-px h-6 bg-brand-indigo/5" />
+             <div className="text-center">
+                <p className="text-[8px] font-black uppercase tracking-widest text-brand-indigo/30 mb-0.5">Level</p>
+                <p className="text-xs font-black text-brand-indigo/60">{user.level}</p>
+             </div>
+          </div>
+       </div>
+    </div>
+  );
+}
+
+function HonorRow({ user, rank }: { user: any, rank: number }) {
+  return (
+    <div className="group bg-white dark:bg-zinc-900 border border-brand-indigo/5 rounded-[2rem] p-6 hover:shadow-xl hover:scale-[1.01] transition-all duration-500 flex items-center justify-between gap-8 relative overflow-hidden">
+       <div className="absolute inset-0 bg-gradient-to-r from-brand-indigo/[0.01] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+       
+       <div className="flex items-center gap-8 relative z-10">
+          <span className="text-2xl font-serif text-brand-indigo/20 group-hover:text-brand-indigo transition-colors flex-shrink-0 w-12 text-center italic font-bold">#{rank}</span>
+          <div className="w-12 h-12 bg-brand-indigo/[0.03] rounded-2xl flex items-center justify-center group-hover:bg-brand-indigo/5 group-hover:scale-110 transition-all">
+             <User className="w-5 h-5 text-brand-indigo/20 group-hover:text-brand-indigo/60" />
+          </div>
+          <div>
+             <h4 className="text-lg font-serif text-brand-primary tracking-tight">{user.email.split('@')[0]}</h4>
+             <div className="flex items-center gap-3 mt-1 opacity-60">
+                <span className="text-[9px] font-black uppercase tracking-widest text-brand-indigo">LVL {user.level}</span>
+                <div className="w-1 h-1 rounded-full bg-brand-indigo/20" />
+                <span className="text-[9px] font-black uppercase tracking-widest text-emerald-600">{user.trustScore} Trust</span>
+             </div>
+          </div>
+       </div>
+
+       <div className="flex items-center gap-12 relative z-10 pr-4">
+          <div className={`px-4 py-1.5 rounded-xl text-[8px] font-black uppercase tracking-widest border border-brand-indigo/10 ${
+             user.role === 'ADMIN' ? 'bg-brand-indigo text-white shadow-xl shadow-brand-indigo/20 border-brand-indigo' : 'bg-brand-indigo/5 text-brand-indigo/60'
+          }`}>
+             {user.role}
+          </div>
+          <div className="text-right">
+             <p className="text-2xl font-serif text-brand-primary leading-none">{user.xp} <span className="text-[9px] font-sans font-black uppercase tracking-tighter text-text-secondary/40">XP</span></p>
+          </div>
+          <ChevronRight className="w-4 h-4 text-brand-indigo/20 group-hover:translate-x-1 transition-transform" />
+       </div>
     </div>
   );
 }
