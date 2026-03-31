@@ -13,6 +13,11 @@ export class UsersController {
     return this.usersService.findOne(req.user.id);
   }
 
+  @Get('leaderboard')
+  getLeaderboard() {
+    return this.usersService.getLeaderboard(100);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);

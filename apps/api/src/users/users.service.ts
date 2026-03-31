@@ -34,6 +34,26 @@ export class UsersService {
     return user;
   }
 
+  async getLeaderboard(limit: number = 100) {
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        role: true,
+        trustScore: true,
+        xp: true,
+        level: true,
+        badges: true,
+        approvedCount: true,
+      },
+      orderBy: [
+        { xp: 'desc' },
+        { trustScore: 'desc' },
+      ],
+      take: limit,
+    });
+  }
+
   async findByEmail(email: string) {
     return this.prisma.user.findUnique({ where: { email } });
   }
