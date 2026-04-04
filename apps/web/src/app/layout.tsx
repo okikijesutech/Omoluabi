@@ -1,5 +1,7 @@
 import { Inter, Lora } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
+import { CommunityChat } from "@/components/chat/CommunityChat";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,7 +23,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${lora.variable}`}>
       <body className="antialiased font-sans text-brand-indigo bg-brand-cream transition-colors">
-        {children}
+        <AuthProvider>
+          {children}
+          <CommunityChat />
+        </AuthProvider>
       </body>
     </html>
   );

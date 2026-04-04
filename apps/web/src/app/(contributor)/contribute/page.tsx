@@ -1,57 +1,64 @@
-"use client";
+'use client';
 
-import { PageTitle, BodyText } from "@/components/typography";
-import { PageContainer } from "@/components/layout";
-import { ContributionForm } from "@/components/contribution/ContributionForm";
-import { OmoluabiLogo } from "@/components/ui/Logo";
-import Link from "next/link";
+import React from 'react';
+import { PageContainer, Header, Footer } from '@/components/layout';
+import { ContributionStepper } from '@/components/contribute';
+import { Sparkles, History } from 'lucide-react';
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 
 export default function ContributePage() {
   return (
-    <div className="min-h-screen bg-bg-primary pb-32 selection:bg-brand-accent/20">
-      
-      {/* 🏛 INSTITUTIONAL HEADER */}
-      <nav className="border-b border-text-primary/10 bg-white/70 backdrop-blur-xl sticky top-0 z-50 py-5 transition-all outline-none">
-        <PageContainer size="lg" className="flex items-center justify-between">
-          <Link href="/" className="group outline-none">
-            <OmoluabiLogo horizontal className="group-hover:opacity-80 transition-opacity" />
-          </Link>
-          <div className="flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-text-secondary/50">
-            <Link href="/learn" className="hover:text-brand-primary transition-colors">Learn</Link>
-            <Link href="/contribute" className="text-brand-primary border-b border-brand-primary pb-1">Contribute</Link>
-            <Link href="/governance" className="hover:text-brand-primary transition-colors">Governance</Link>
+    <ProtectedRoute>
+      <div className="space-y-12 animate-in fade-in duration-700">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-8">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 bg-brand-gold/10 rounded-lg text-brand-gold ring-1 ring-brand-gold/20">
+                <Sparkles className="w-4 h-4" />
+              </div>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-gold">
+                The Linguistic Forge
+              </span>
+            </div>
+            <h1 className="text-5xl font-serif text-brand-primary tracking-tighter leading-tight">
+              Refine the Heritage
+            </h1>
+            <p className="text-lg text-brand-earth/60 font-serif italic max-w-xl">
+              Every word you contribute is a bridge built for future generations. 
+              Follow the multi-step journey to preserve a linguistic artifact.
+            </p>
           </div>
-        </PageContainer>
-      </nav>
 
-      <PageContainer size="md" className="pt-24">
-        
-        {/* 🧾 TITLE SECTION */}
-        <header className="space-y-8 mb-20 animate-in fade-in duration-1000">
-          <PageTitle className="text-5xl">Contribute to the Cultural Archive</PageTitle>
-          <div className="max-w-xl border-l border-brand-accent/30 pl-8">
-            <BodyText size="lg" className="italic !text-text-secondary/70 leading-relaxed">
-              Every submission becomes part of a preserved linguistic record for future generations.
-            </BodyText>
-          </div>
-        </header>
-        
-        {/* ✍🏾 FORM SECTION */}
-        <section className="animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-300">
-           <ContributionForm />
+          <Link 
+            href="/profile" 
+            className="group flex items-center gap-4 bg-white dark:bg-zinc-900 border border-brand-indigo/5 p-4 pr-6 rounded-3xl shadow-sm hover:shadow-md transition-all active:scale-95"
+          >
+            <div className="w-12 h-12 rounded-2xl bg-brand-indigo/5 flex items-center justify-center text-brand-indigo group-hover:bg-brand-indigo group-hover:text-white transition-colors">
+              <History className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-[8px] font-black uppercase tracking-widest text-text-secondary/30">Your Impact</p>
+              <p className="text-xs font-bold text-brand-primary">Contribution History</p>
+            </div>
+          </Link>
+        </div>
+
+        {/* The Modular Forge */}
+        <section className="relative px-4">
+           <div className="absolute inset-0 bg-brand-indigo/[0.01] rounded-[4rem] -m-6 pointer-events-none border border-brand-indigo/[0.05]" />
+           <ContributionStepper />
         </section>
 
-      </PageContainer>
-
-      {/* 🏛 ARCHIVE FOOTER */}
-      <footer className="mt-32 border-t border-text-primary/5 py-24 bg-bg-secondary/30">
-        <PageContainer size="md" className="text-center space-y-8">
-          <OmoluabiLogo className="opacity-10 grayscale scale-75" />
-          <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-text-secondary/10">
-            OMOLUABI DIGITAL MANUSCRIPT LIBRARY — MMXXVI
-          </p>
-        </PageContainer>
-      </footer>
-    </div>
+        {/* Protocol Notice */}
+        <div className="mt-24 max-w-2xl mx-auto p-10 rounded-[3rem] bg-brand-indigo/[0.02] border border-dashed border-brand-indigo/10 text-center space-y-4">
+           <p className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-indigo/30">Archives Integrity Protocol</p>
+           <p className="text-xs text-brand-earth/40 leading-relaxed font-serif italic">
+             All contributions undergo multi-stage community review. High-fidelity submissions (with accurate tone marks and rich context) 
+             earn significantly higher Trust Scores and XP. The Council reserves the right to revert artifacts that violate cultural guidelines.
+           </p>
+        </div>
+      </div>
+    </ProtectedRoute>
   );
 }

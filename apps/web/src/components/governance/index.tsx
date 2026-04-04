@@ -1,6 +1,9 @@
 import React from "react";
 import { ShieldCheck, CheckCircle2 } from "lucide-react";
 
+export { default as ReviewQueue } from "./ReviewQueue";
+export { default as ComparisonPane } from "./ComparisonPane";
+
 /**
  * GovernanceCard - Standardized card for metrics
  */

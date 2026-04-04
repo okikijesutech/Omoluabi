@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { ContentService } from "../contentService";
-import { communityLessons } from "../../../infrastructure/database/inMemoryStore";
+import { communityLessons } from "../infrastructure/database/inMemoryStore";
 
 describe("ContentService", () => {
   it("should submit content and add to communityLessons", () => {

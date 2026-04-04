@@ -5,6 +5,7 @@ import { ContributionStatus, ContributionType, Role } from '@prisma/client';
 import { KnowledgeService } from '../knowledge/knowledge.service';
 import { TrustService } from '../governance/trust.service';
 import { CouncilService } from '../governance/council.service';
+import { GovernanceExecutionService } from '../governance/governance-execution.service';
 
 @Injectable()
 export class ReviewsService {
@@ -13,7 +14,31 @@ export class ReviewsService {
     private knowledgeService: KnowledgeService,
     private trustService: TrustService,
     private councilService: CouncilService,
+    private executionService: GovernanceExecutionService,
   ) {}
+
+  async findAllPending() {
+    return this.prisma.contribution.findMany({
+      where: {
+        status: {
+          in: [ContributionStatus.PENDING, ContributionStatus.ESCALATED],
+        },
+      },
+      include: {
+        author: {
+          select: {
+            id: true,
+            email: true,
+            trustScore: true,
+          },
+        },
+        reviews: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
 
   async reviewContribution(reviewerId: string, contributionId: string, decision: 'APPROVE' | 'REJECT', comment?: string) {
     const reviewer = await this.prisma.user.findUnique({ where: { id: reviewerId } });
@@ -77,13 +102,13 @@ export class ReviewsService {
     
     // 1. Pure Consensus (2-0)
     if (approvals >= 2 && rejections === 0) {
-      await this.approveContribution(contributionId);
+      await this.executionService.approveContribution(contributionId);
       return;
     }
 
     // 2. Pure Rejection (0-2)
     if (rejections >= 2 && approvals === 0) {
-      await this.rejectContribution(contributionId);
+      await this.executionService.rejectContribution(contributionId);
       return;
     }
 
@@ -101,65 +126,6 @@ export class ReviewsService {
     }
   }
 
-  private async approveContribution(contributionId: string) {
-    // REFACTOR: Atomic transaction for Governance Integrity
-    return this.prisma.$transaction(async (tx) => {
-      const contribution = await tx.contribution.findUnique({
-        where: { id: contributionId },
-      });
-
-      if (!contribution) return;
-
-      const payload: any = contribution.content;
-
-      // 1. Apply changes (Preservation Logic)
-      switch (contribution.type) {
-        case ContributionType.CREATE:
-          await this.knowledgeService.createKnowledgeUnit(payload);
-          break;
-
-        case ContributionType.EDIT:
-          // Check if it's a variation edit or unit edit
-          if (contribution.knowledgeVariationId) {
-            await this.knowledgeService.applyVariationEdit(
-              { ...payload, targetVariationId: contribution.knowledgeVariationId },
-              contribution.authorId,
-              contribution.id
-            );
-          } else {
-            await this.knowledgeService.applyEdit(payload, contribution.authorId, contribution.id);
-          }
-          break;
-
-        case ContributionType.DIALECT_VARIATION:
-          await this.knowledgeService.addDialectVariation(payload);
-          break;
-      }
-
-      // 2. Resolve contribution status
-      await tx.contribution.update({
-        where: { id: contributionId },
-        data: { status: ContributionStatus.APPROVED },
-      });
-
-      // 3. Update Governance & Trust (In transaction)
-      await this.trustService.updateTrustAfterContribution(contribution.authorId, ContributionStatus.APPROVED, tx);
-      await this.trustService.updateReviewAccuracy(contributionId, tx);
-    });
-  }
-
-  private async rejectContribution(contributionId: string) {
-    return this.prisma.$transaction(async (tx) => {
-      const contribution = await tx.contribution.update({
-        where: { id: contributionId },
-        data: { status: ContributionStatus.REJECTED },
-      });
-
-      // Governance & Trust Logic (In transaction)
-      await this.trustService.updateTrustAfterContribution(contribution.authorId, ContributionStatus.REJECTED, tx);
-      await this.trustService.updateReviewAccuracy(contributionId, tx);
-    });
-  }
 
   private async escalateContribution(contributionId: string) {
     await this.prisma.contribution.update({

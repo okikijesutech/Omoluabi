@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, UseGuards, Request } from '@nestjs/common';
 import { ContributionsService } from './contributions.service';
 import { CreateContributionDto } from './dto/create-contribution.dto';
 import { AuthGuard } from '../auth/auth.guard';
@@ -13,7 +13,9 @@ export class ContributionsController {
 
   @Post('submit')
   @Roles(Role.CONTRIBUTOR, Role.REVIEWER, Role.ADMIN)
-  submitContribution(@Body() createContributionDto: CreateContributionDto) {
+  submitContribution(@Request() req: any, @Body() createContributionDto: CreateContributionDto) {
+    // Override authorId from the authenticated user
+    createContributionDto.authorId = req.user.id;
     return this.contributionsService.submitContribution(createContributionDto);
   }
 

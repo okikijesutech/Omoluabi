@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Request } from '@nestjs/common';
 import { ReviewsService } from './reviews.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { AuthGuard } from '../auth/auth.guard';
@@ -11,11 +11,17 @@ import { Role } from '@prisma/client';
 export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}
 
+  @Get('pending')
+  @Roles(Role.REVIEWER, Role.ADMIN)
+  findAllPending() {
+    return this.reviewsService.findAllPending();
+  }
+
   @Post('submit')
   @Roles(Role.REVIEWER, Role.ADMIN)
-  reviewContribution(@Body() createReviewDto: CreateReviewDto) {
+  reviewContribution(@Request() req: any, @Body() createReviewDto: CreateReviewDto) {
     return this.reviewsService.reviewContribution(
-      createReviewDto.reviewerId,
+      req.user.id,
       createReviewDto.contributionId,
       createReviewDto.approved ? 'APPROVE' : 'REJECT',
       createReviewDto.comment

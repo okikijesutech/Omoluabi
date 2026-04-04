@@ -1,127 +1,128 @@
-import { CheckCircle2, Circle, Lock } from "lucide-react";
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { PageContainer } from '@/components/layout';
+import { PageTitle, BodyText } from '@/components/typography';
+import { GraduationCap, Sparkles, Loader2, Award } from 'lucide-react';
+import { LearningPathCard } from '@/components/ui/LearningPathCard';
+import { apiRequest } from '@/lib/api';
+import { useAuth } from '@/context/AuthContext';
 
 export default function LearnPage() {
-  const learningPath = [
-    {
-      id: "beginner-1",
-      level: "Beginner",
-      title: "Foundational Vocabulary & Greetings",
-      description: "Master the essential words and respectful greetings that form the bedrock of Yorùbá culture.",
-      status: "completed",
-      lessons: 4
-    },
-    {
-      id: "beginner-2",
-      level: "Beginner",
-      title: "Family Structure & Pronouns",
-      description: "Understand the deep relational ties within the family unit and how to address elders properly.",
-      status: "active",
-      lessons: 5
-    },
-    {
-      id: "intermediate-1",
-      level: "Intermediate",
-      title: "Introduction to Òwe (Proverbs)",
-      description: "Begin exploring the horses of speech. Learn how to decode and apply foundational proverbs.",
-      status: "locked",
-      lessons: 6
-    },
-    {
-      id: "intermediate-2",
-      level: "Intermediate",
-      title: "Dialectical Variations",
-      description: "Move beyond Standard Yorùbá and explore the rich nuances of Ìjẹ̀bú, Ẹ̀gbá, and other regional dialects.",
-      status: "locked",
-      lessons: 8
+  const { user, isAuthenticated } = useAuth();
+  const [paths, setPaths] = useState<any[]>([]);
+  const [progressData, setProgressData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchData();
+  }, [isAuthenticated]);
+
+  const fetchData = async () => {
+    try {
+      const [pathsData, progress] = await Promise.all([
+        apiRequest('/learning-paths'),
+        isAuthenticated ? apiRequest('/progress') : Promise.resolve([])
+      ]);
+      setPaths(pathsData);
+      setProgressData(progress);
+    } catch (err) {
+      console.error('Failed to fetch learning data:', err);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  const calculateCompleted = (path: any) => {
+    if (!isAuthenticated) return 0;
+    const unitIds = path.units.map((u: any) => u.knowledgeUnitId);
+    return progressData.filter(p => p.completed && unitIds.includes(p.knowledgeUnitId)).length;
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-brand-cream/20">
+        <Loader2 className="w-10 h-10 text-brand-indigo animate-spin" />
+      </div>
+    );
+  }
 
   return (
-    <div className="flex flex-col items-center pt-12 pb-24 px-6 sm:px-12 bg-brand-cream dark:bg-zinc-950 font-sans min-h-screen">
-      <div className="w-full max-w-3xl space-y-12">
-        
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl font-serif tracking-tight text-brand-indigo dark:text-brand-cream font-bold">
-            The Learning Path
-          </h1>
-          <p className="text-lg text-brand-indigo/70 dark:text-brand-cream/70">
-            A structured progression through the Ọmọlúàbí Archive.
-          </p>
-        </div>
+    <div className="min-h-screen bg-brand-cream/30 dark:bg-zinc-950 pb-24">
+      <div className="bg-white dark:bg-zinc-900 border-b border-text-primary/5 pt-16 pb-12">
+        <PageContainer size="archive">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-500 ring-1 ring-emerald-500/20">
+                <GraduationCap className="w-5 h-5" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-500/60">
+                 Guardian Curriculum
+              </span>
+            </div>
+            <PageTitle>Heritage Mastery</PageTitle>
+            <BodyText className="mt-4 max-w-2xl text-lg">
+              Systematic paths designed to transform you from a Learner to a respected Contributor 
+              and Reviewer of the Yorùbá archive.
+            </BodyText>
 
-        <div className="space-y-6">
-          {learningPath.map((module, index) => {
-            const isCompleted = module.status === "completed";
-            const isActive = module.status === "active";
-            const isLocked = module.status === "locked";
-
-            return (
-              <div 
-                key={module.id} 
-                className={`relative flex gap-6 p-6 md:p-8 rounded-2xl border transition-all ${
-                  isActive 
-                    ? "bg-white border-brand-earth shadow-md ring-1 ring-brand-earth/20 dark:bg-zinc-900 dark:border-brand-gold/50" 
-                    : isCompleted
-                      ? "bg-brand-indigo/5 border-brand-earth/30 dark:bg-zinc-900/30 dark:border-brand-gold/30"
-                      : "bg-brand-indigo/5 border-zinc-200 opacity-70 dark:bg-zinc-900/30 dark:border-zinc-800"
-                }`}
-              >
-                {/* Connecting Line (except for last item) */}
-                {index < learningPath.length - 1 && (
-                  <div className={`absolute top-24 bottom-[-1.5rem] left-10 md:left-12 w-0.5 ${
-                      isCompleted ? "bg-brand-earth/40 dark:bg-brand-gold/40" : "bg-zinc-200 dark:bg-zinc-800"
-                    }`} 
-                  />
-                )}
-
-                <div className="relative z-10 flex-shrink-0 mt-1">
-                  {isCompleted ? (
-                    <div className="rounded-full bg-brand-earth/10 p-1 text-brand-earth dark:bg-brand-gold/20 dark:text-brand-gold">
-                      <CheckCircle2 className="w-6 h-6" />
-                    </div>
-                  ) : isActive ? (
-                    <div className="rounded-full bg-brand-earth/10 p-1 text-brand-earth dark:bg-brand-gold/20 dark:text-brand-gold ring-4 ring-brand-earth/5 dark:ring-brand-gold/10">
-                      <Circle className="w-6 h-6 fill-brand-earth stroke-brand-earth dark:fill-brand-gold dark:stroke-brand-gold" />
-                    </div>
-                  ) : (
-                    <div className="rounded-full bg-zinc-100 p-1 text-zinc-400 dark:bg-zinc-800 dark:text-zinc-500">
-                      <Lock className="w-6 h-6" />
-                    </div>
-                  )}
+            {isAuthenticated && (
+              <div className="mt-8 p-6 bg-brand-indigo rounded-3xl text-white shadow-2xl shadow-brand-indigo/20 flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none transition-transform group-hover:scale-110" />
+                
+                <div className="flex items-center gap-4 relative z-10">
+                   <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center border border-white/20">
+                      <Award className="w-6 h-6 text-brand-gold" />
+                   </div>
+                   <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-white/50">Current Standing</p>
+                      <p className="text-xl font-serif">Level {user?.level} Guardian</p>
+                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2 w-full">
-                  <div className="flex items-center justify-between">
-                    <span className={`text-xs font-semibold tracking-widest uppercase ${
-                      isActive || isCompleted ? "text-brand-earth dark:text-brand-gold" : "text-zinc-500 dark:text-zinc-400"
-                    }`}>
-                      {module.level} • {module.lessons} Lessons
-                    </span>
-                  </div>
-                  
-                  <h3 className={`text-2xl font-serif font-bold ${
-                    isLocked ? "text-zinc-500 dark:text-zinc-400" : "text-brand-indigo dark:text-brand-cream"
-                  }`}>
-                    {module.title}
-                  </h3>
-                  
-                  <p className={`text-base leading-relaxed ${
-                    isLocked ? "text-zinc-500 dark:text-zinc-500" : "text-brand-indigo/70 dark:text-brand-cream/70"
-                  }`}>
-                    {module.description}
-                  </p>
-
-                  {isActive && (
-                    <button className="mt-4 self-start rounded-lg bg-brand-indigo px-6 py-2.5 text-sm font-semibold text-brand-cream transition-all hover:bg-brand-indigo/90 dark:bg-brand-gold dark:text-zinc-900 dark:hover:bg-brand-gold/90">
-                      Continue Learning
-                    </button>
-                  )}
+                <div className="flex items-center gap-8 relative z-10">
+                   <div className="text-center sm:text-right border-l border-white/10 pl-8">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-white/50">Total Mastery</p>
+                      <p className="text-2xl font-serif">{progressData.filter(p => p.completed).length} <span className="text-sm font-sans uppercase font-bold text-white/40">Units</span></p>
+                   </div>
+                   <div className="text-center sm:text-right border-l border-white/10 pl-8">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-white/50">Experience</p>
+                      <p className="text-2xl font-serif">{user?.xp} <span className="text-sm font-sans uppercase font-bold text-white/40">XP</span></p>
+                   </div>
                 </div>
               </div>
-            );
-          })}
-        </div>
+            )}
+          </div>
+        </PageContainer>
       </div>
+
+      <PageContainer size="archive" className="mt-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {paths.map((path) => (
+            <LearningPathCard
+              key={path.id}
+              id={path.id}
+              title={path.title}
+              description={path.description}
+              level={path.level}
+              unitCount={path._count.units}
+              completedCount={calculateCompleted(path)}
+            />
+          ))}
+
+          {/* Coming Soon Card */}
+          <div className="bg-brand-indigo/[0.02] border-2 border-dashed border-brand-indigo/10 rounded-[2rem] p-8 flex flex-col items-center justify-center text-center opacity-60">
+             <div className="w-12 h-12 rounded-full bg-brand-indigo/5 mb-4 flex items-center justify-center text-brand-indigo/20">
+                <Sparkles className="w-6 h-6" />
+             </div>
+             <p className="text-[10px] font-black uppercase tracking-widest text-brand-indigo/40">Advanced Heritage</p>
+             <h3 className="text-xl font-serif text-brand-primary mt-2">More Paths Soon</h3>
+             <p className="mt-2 text-xs text-text-secondary/60 max-w-[200px]">
+               Our reviewers are validating more curricula. Contribute to unlock them faster!
+             </p>
+          </div>
+        </div>
+      </PageContainer>
     </div>
   );
 }

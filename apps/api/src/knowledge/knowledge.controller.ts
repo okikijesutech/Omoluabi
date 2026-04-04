@@ -9,6 +9,16 @@ import { Roles } from '../auth/roles.decorator';
 export class KnowledgeController {
   constructor(private readonly knowledgeService: KnowledgeService) {}
 
+  @Get('recent')
+  findRecent(@Query('limit') limit?: string) {
+    return this.knowledgeService.findRecent(limit ? parseInt(limit, 10) : undefined);
+  }
+
+  @Get('history')
+  findGlobalHistory(@Query('limit') limit?: string) {
+    return this.knowledgeService.findGlobalHistory(limit ? parseInt(limit, 10) : undefined);
+  }
+
   @Get()
   findAll(@Query('type') type?: KnowledgeType) {
     return this.knowledgeService.findAll(type);

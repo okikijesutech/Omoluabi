@@ -9,7 +9,8 @@ export class ContributionsService {
 
   async submitContribution(dto: CreateContributionDto) {
     // 1. Validate dialect presence
-    if (!dto.dialectTag) {
+    const dialectId = dto.dialectTag || dto.payload?.dialectId;
+    if (!dialectId) {
       throw new BadRequestException('Dialect must be specified');
     }
 
@@ -18,7 +19,11 @@ export class ContributionsService {
       this.ensureNoOverwrite(dto);
     }
 
-    // 3. Create contribution record
+    // 3. Create or Update KnowledgeUnit logic
+    // In a real archival flow, a contribution might propose a NEW unit or an EDIT to an existing one
+    const slug = dto.payload?.slug || this.slugify(dto.payload?.title || '');
+    
+    // 4. Create contribution record
     return this.prisma.contribution.create({
       data: {
         authorId: dto.authorId,
@@ -29,6 +34,13 @@ export class ContributionsService {
         ...(dto.payload?.targetVariationId && { knowledgeVariationId: dto.payload.targetVariationId }),
       },
     });
+  }
+
+  private slugify(text: string) {
+    return text.toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-');
   }
 
   private ensureNoOverwrite(dto: CreateContributionDto) {

@@ -12,13 +12,30 @@ export class UsersService {
         id: true,
         email: true,
         role: true,
+        trustScore: true,
+        xp: true,
+        level: true,
+        badges: true,
+        approvedCount: true,
+        rejectedCount: true,
+        reviewAccuracy: true,
+        totalReviews: true,
+        correctReviews: true,
         createdAt: true,
         contributions: {
-          take: 5,
+          take: 50,
           orderBy: { createdAt: 'desc' },
+          include: {
+            knowledgeUnit: true,
+            knowledgeVariation: {
+              include: {
+                dialect: true,
+              }
+            }
+          }
         },
         reviews: {
-          take: 5,
+          take: 50,
           orderBy: { createdAt: 'desc' },
         },
       },
@@ -26,6 +43,26 @@ export class UsersService {
 
     if (!user) throw new NotFoundException('User not found');
     return user;
+  }
+
+  async getLeaderboard(limit: number = 100) {
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        role: true,
+        trustScore: true,
+        xp: true,
+        level: true,
+        badges: true,
+        approvedCount: true,
+      },
+      orderBy: [
+        { xp: 'desc' },
+        { trustScore: 'desc' },
+      ],
+      take: limit,
+    });
   }
 
   async findByEmail(email: string) {

@@ -76,6 +76,14 @@ enum VoteDecision {
   REJECT
 }
 
+enum NotificationType {
+  CONTRIBUTION_APPROVED
+  CONTRIBUTION_REJECTED
+  LEVEL_UP
+  BADGE_EARNED
+  NEW_REVIEW_NEEDED
+}
+
 //////////////////////
 // USER & ROLES
 //////////////////////
@@ -94,11 +102,19 @@ model User {
   totalReviews      Int     @default(0)
   correctReviews    Int     @default(0)
 
+  // Gamification
+  xp                Int     @default(0)
+  level             Int     @default(1)
+  badges            Json    @default("[]")
+
   contributions     Contribution[]
   reviews           Review[]
   progress          UserProgress[]
   revisionHistories RevisionHistory[]
   councilVotes      CouncilVote[]
+
+  notifications     Notification[]
+  chatMessages      ChatMessage[]
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -164,6 +180,8 @@ model KnowledgeVariation {
   notes            String?
 
   audioUrl         String?
+  imageUrl         String?
+  videoUrl         String?
   isArchived       Boolean        @default(false)
 
   createdAt        DateTime       @default(now())
@@ -322,4 +340,31 @@ model UserProgress {
   createdAt       DateTime       @default(now())
 
   @@unique([userId, knowledgeUnitId], name: "user_knowledge_unique")
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  type      NotificationType
+  userId    String
+  user      User             @relation(fields: [userId], references: [id])
+  
+  title     String
+  message   String
+  read      Boolean          @default(false)
+  
+  metadata  Json?            // e.g. contributionId, badgeType
+  
+  createdAt DateTime         @default(now())
+
+  @@index([userId])
+}
+
+model ChatMessage {
+  id        String   @id @default(uuid())
+  content   String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
 }

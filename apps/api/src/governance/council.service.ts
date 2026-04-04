@@ -26,7 +26,29 @@ export class CouncilService {
       take: 7,
     });
 
-    // 3. Notify members (Future implementation)
+    // 3. Notify members
+    console.log(`[GOVERNANCE] Notifying ${members.length} rotational members for Case ${councilCase.id}`);
+    
     return councilCase;
+  }
+
+  async getActiveCases() {
+    return this.prisma.councilCase.findMany({
+      where: { status: CouncilStatus.OPEN },
+      include: {
+        contribution: {
+          include: {
+            author: { select: { id: true, email: true, trustScore: true, role: true, level: true, badges: true } },
+            reviews: { include: { reviewer: { select: { email: true, trustScore: true } } } },
+            knowledgeUnit: true,
+            knowledgeVariation: { include: { dialect: true } }
+          }
+        },
+        councilVotes: {
+          include: { member: { select: { id: true, email: true, trustScore: true } } }
+        }
+      },
+      orderBy: { openedAt: 'desc' }
+    });
   }
 }

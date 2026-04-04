@@ -11,9 +11,11 @@ import { ReviewsModule } from './reviews/reviews.module';
 import { LearningPathsModule } from './learning-paths/learning-paths.module';
 import { ProgressModule } from './progress/progress.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
-  imports: [DatabaseModule, AuthModule, UsersModule, DialectsModule, KnowledgeModule, ContributionsModule, ReviewsModule, LearningPathsModule, ProgressModule, PrismaModule],
+  imports: [DatabaseModule, AuthModule, UsersModule, DialectsModule, KnowledgeModule, ContributionsModule, ReviewsModule, LearningPathsModule, ProgressModule, PrismaModule, NotificationsModule, ChatModule],
   controllers: [AppController],
   providers: [AppService],
 })
